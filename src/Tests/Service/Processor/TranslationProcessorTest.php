@@ -3,6 +3,7 @@
 namespace MothershipSimpleApi\Tests\Service\Processor;
 
 use MothershipSimpleApi\Service\Exception\InvalidCurrencyCodeException;
+use MothershipSimpleApi\Service\Exception\InvalidSalesChannelNameException;
 use MothershipSimpleApi\Service\Exception\InvalidTaxValueException;
 
 class TranslationProcessorTest extends AbstractTranslationTestcase
@@ -18,8 +19,9 @@ class TranslationProcessorTest extends AbstractTranslationTestcase
      * @group SimpleApi_Product_Processor_Translation
      * @group SimpleApi_Product_Processor_Translation_1
      *
-     * @throws InvalidTaxValueException
      * @throws InvalidCurrencyCodeException
+     * @throws InvalidSalesChannelNameException
+     * @throws InvalidTaxValueException
      */
     public function nameWillBeAdded(): void
     {
@@ -51,9 +53,9 @@ class TranslationProcessorTest extends AbstractTranslationTestcase
      * @group SimpleApi_Product_Processor_Translation
      * @group SimpleApi_Product_Processor_Translation_2
      *
+     * @throws InvalidCurrencyCodeException
+     * @throws InvalidSalesChannelNameException
      * @throws InvalidTaxValueException
-     * @throws InvalidCurrencyCodeException
-     * @throws InvalidCurrencyCodeException
      */
     public function nameWillBeUpdated(): void
     {
@@ -97,8 +99,9 @@ class TranslationProcessorTest extends AbstractTranslationTestcase
      * @group SimpleApi_Product_Processor_Translation
      * @group SimpleApi_Product_Processor_Translation_3
      *
-     * @throws InvalidTaxValueException
      * @throws InvalidCurrencyCodeException
+     * @throws InvalidSalesChannelNameException
+     * @throws InvalidTaxValueException
      */
     public function descriptionWillBeAdded(): void
     {
@@ -130,8 +133,9 @@ class TranslationProcessorTest extends AbstractTranslationTestcase
      * @group SimpleApi_Product_Processor_Translation
      * @group SimpleApi_Product_Processor_Translation_4
      *
-     * @throws InvalidTaxValueException
      * @throws InvalidCurrencyCodeException
+     * @throws InvalidSalesChannelNameException
+     * @throws InvalidTaxValueException
      */
     public function keywordWillBeUpdated(): void
     {
@@ -163,8 +167,9 @@ class TranslationProcessorTest extends AbstractTranslationTestcase
      * @group SimpleApi_Product_Processor_Translation
      * @group SimpleApi_Product_Processor_Translation_5
      *
-     * @throws InvalidTaxValueException
      * @throws InvalidCurrencyCodeException
+     * @throws InvalidSalesChannelNameException
+     * @throws InvalidTaxValueException
      */
     public function metaTitleWillBeAdded(): void
     {
@@ -196,8 +201,9 @@ class TranslationProcessorTest extends AbstractTranslationTestcase
      * @group SimpleApi_Product_Processor_Translation
      * @group SimpleApi_Product_Processor_Translation_6
      *
-     * @throws InvalidTaxValueException
      * @throws InvalidCurrencyCodeException
+     * @throws InvalidSalesChannelNameException
+     * @throws InvalidTaxValueException
      */
     public function metaDescriptionWillBeAdded(): void
     {

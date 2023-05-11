@@ -3,6 +3,7 @@
 namespace MothershipSimpleApi\Tests\Service;
 
 use MothershipSimpleApi\Service\Exception\InvalidCurrencyCodeException;
+use MothershipSimpleApi\Service\Exception\InvalidSalesChannelNameException;
 use MothershipSimpleApi\Service\Exception\InvalidTaxValueException;
 use MothershipSimpleApi\Service\SimpleProductCreator;
 use Shopware\Core\Content\Product\ProductEntity;
@@ -21,6 +22,7 @@ class ProductCreatorTest extends AbstractTestCase
      * @group SimpleApi_Product_Entity
      * @group SimpleApi_Product_Entity_1
      * @throws InvalidCurrencyCodeException
+     * @throws InvalidSalesChannelNameException
      * @throws InvalidTaxValueException
      */
     public function createBasicProduct(): void
@@ -49,8 +51,9 @@ class ProductCreatorTest extends AbstractTestCase
      * @group SimpleApi_Product
      * @group SimpleApi_Product_Entity
      * @group SimpleApi_Product_Entity_2
-     * @throws InvalidTaxValueException
      * @throws InvalidCurrencyCodeException
+     * @throws InvalidSalesChannelNameException
+     * @throws InvalidTaxValueException
      */
     public function invalidTaxWillThrowException(): void
     {
@@ -70,6 +73,8 @@ class ProductCreatorTest extends AbstractTestCase
      * @group SimpleApi_Product
      * @group SimpleApi_Product_Entity
      * @group SimpleApi_Product_Entity_3
+     * @throws InvalidCurrencyCodeException
+     * @throws InvalidSalesChannelNameException
      * @throws InvalidTaxValueException
      */
     public function invalidCurrencyWillThrowException(): void
@@ -93,8 +98,9 @@ class ProductCreatorTest extends AbstractTestCase
      * @group SimpleApi_Product
      * @group SimpleApi_Product_Entity
      * @group SimpleApi_Product_Entity_4
-     * @throws InvalidTaxValueException
      * @throws InvalidCurrencyCodeException
+     * @throws InvalidSalesChannelNameException
+     * @throws InvalidTaxValueException
      */
     public function productHasMultipleCurrencies(): void
     {
@@ -122,6 +128,7 @@ class ProductCreatorTest extends AbstractTestCase
      * @group SimpleApi_Product_Entity
      * @group SimpleApi_Product_Entity_5
      * @throws InvalidCurrencyCodeException
+     * @throws InvalidSalesChannelNameException
      * @throws InvalidTaxValueException
      */
     public function addSalesChannel(): void

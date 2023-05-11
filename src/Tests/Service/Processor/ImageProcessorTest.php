@@ -3,6 +3,7 @@
 namespace MothershipSimpleApi\Tests\Service\Processor;
 
 use MothershipSimpleApi\Service\Exception\InvalidCurrencyCodeException;
+use MothershipSimpleApi\Service\Exception\InvalidSalesChannelNameException;
 use MothershipSimpleApi\Service\Exception\InvalidTaxValueException;
 use MothershipSimpleApi\Service\SimpleProductCreator;
 use MothershipSimpleApi\Tests\Service\AbstractTestCase;
@@ -26,8 +27,9 @@ class ImageProcessorTest extends AbstractTestCase
      * @group SimpleApi_Product_Processor_Image
      * @group SimpleApi_Product_Processor_Image_1
      *
-     * @throws InvalidTaxValueException
      * @throws InvalidCurrencyCodeException
+     * @throws InvalidSalesChannelNameException
+     * @throws InvalidTaxValueException
      */
     public function singleImage(): void
     {
@@ -59,8 +61,9 @@ class ImageProcessorTest extends AbstractTestCase
      * @group SimpleApi_Product_Processor_Image
      * @group SimpleApi_Product_Processor_Image_2
      *
-     * @throws InvalidTaxValueException
      * @throws InvalidCurrencyCodeException
+     * @throws InvalidSalesChannelNameException
+     * @throws InvalidTaxValueException
      */
     public function multipleImages(): void
     {
@@ -95,8 +98,9 @@ class ImageProcessorTest extends AbstractTestCase
      * @group SimpleApi_Product_Processor_Image
      * @group SimpleApi_Product_Processor_Image_3
      *
-     * @throws InvalidTaxValueException
      * @throws InvalidCurrencyCodeException
+     * @throws InvalidSalesChannelNameException
+     * @throws InvalidTaxValueException
      */
     public function addCoverImage(): void
     {
@@ -151,8 +155,9 @@ class ImageProcessorTest extends AbstractTestCase
      * @group SimpleApi_Product_Processor_Image
      * @group SimpleApi_Product_Processor_Image_4
      *
-     * @throws InvalidTaxValueException
      * @throws InvalidCurrencyCodeException
+     * @throws InvalidSalesChannelNameException
+     * @throws InvalidTaxValueException
      */
     public function addCoverImageInBetween(): void
     {
@@ -186,9 +191,9 @@ class ImageProcessorTest extends AbstractTestCase
      * @group SimpleApi_Product_Processor_Image
      * @group SimpleApi_Product_Processor_Image_5
      *
+     * @throws InvalidCurrencyCodeException
+     * @throws InvalidSalesChannelNameException
      * @throws InvalidTaxValueException
-     * @throws InvalidCurrencyCodeException
-     * @throws InvalidCurrencyCodeException
      */
     public function swapCoverImage(): void
     {
@@ -242,9 +247,9 @@ class ImageProcessorTest extends AbstractTestCase
      * @group SimpleApi_Product_Processor_Image
      * @group SimpleApi_Product_Processor_Image_6
      *
+     * @throws InvalidCurrencyCodeException
+     * @throws InvalidSalesChannelNameException
      * @throws InvalidTaxValueException
-     * @throws InvalidCurrencyCodeException
-     * @throws InvalidCurrencyCodeException
      */
     public function replaceImage(): void
     {

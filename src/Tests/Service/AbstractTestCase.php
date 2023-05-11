@@ -52,6 +52,7 @@ abstract class AbstractTestCase extends TestCase
 
         $criteria = new Criteria();
         foreach ($productRepository->search($criteria, $this->getContext())->getElements() as $element) {
+            /** @var ProductEntity $element */
             try {
                 $productRepository->delete([['id' => $element->getId()]], $this->getContext());
             } catch (Exception) {

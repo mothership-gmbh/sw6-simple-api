@@ -3,6 +3,7 @@
 namespace MothershipSimpleApi\Tests\Service\Processor;
 
 use MothershipSimpleApi\Service\Exception\InvalidCurrencyCodeException;
+use MothershipSimpleApi\Service\Exception\InvalidSalesChannelNameException;
 use MothershipSimpleApi\Service\Exception\InvalidTaxValueException;
 
 class CategoryProcessorTest extends AbstractProcessorTest
@@ -18,8 +19,9 @@ class CategoryProcessorTest extends AbstractProcessorTest
      * @group SimpleApi_Product_Processor_Category
      * @group SimpleApi_Product_Processor_Category_1
      *
-     * @throws InvalidTaxValueException
      * @throws InvalidCurrencyCodeException
+     * @throws InvalidSalesChannelNameException
+     * @throws InvalidTaxValueException
      */
     public function assignProductToCategory(): void
     {
@@ -58,8 +60,9 @@ class CategoryProcessorTest extends AbstractProcessorTest
      * @group SimpleApi_Product_Processor_Category
      * @group SimpleApi_Product_Processor_Category_2
      *
-     * @throws InvalidTaxValueException
      * @throws InvalidCurrencyCodeException
+     * @throws InvalidSalesChannelNameException
+     * @throws InvalidTaxValueException
      */
     public function assignProductToMultipleCategories(): void
     {
@@ -84,9 +87,9 @@ class CategoryProcessorTest extends AbstractProcessorTest
      * @group SimpleApi_Product_Processor_Category
      * @group SimpleApi_Product_Processor_Category_3
      *
+     * @throws InvalidCurrencyCodeException
+     * @throws InvalidSalesChannelNameException
      * @throws InvalidTaxValueException
-     * @throws InvalidCurrencyCodeException
-     * @throws InvalidCurrencyCodeException
      */
     public function assigendCategoryWillBeRemoved(): void
     {

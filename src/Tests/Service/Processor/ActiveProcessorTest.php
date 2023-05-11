@@ -3,6 +3,7 @@
 namespace MothershipSimpleApi\Tests\Service\Processor;
 
 use MothershipSimpleApi\Service\Exception\InvalidCurrencyCodeException;
+use MothershipSimpleApi\Service\Exception\InvalidSalesChannelNameException;
 use MothershipSimpleApi\Service\Exception\InvalidTaxValueException;
 
 class ActiveProcessorTest extends AbstractProcessorTest
@@ -18,8 +19,9 @@ class ActiveProcessorTest extends AbstractProcessorTest
      * @group SimpleApi_Product_Processor_Active
      * @group SimpleApi_Product_Processor_Active_1
      *
-     * @throws InvalidTaxValueException
      * @throws InvalidCurrencyCodeException
+     * @throws InvalidSalesChannelNameException
+     * @throws InvalidTaxValueException
      */
     public function productIsActive(): void
     {
@@ -43,8 +45,9 @@ class ActiveProcessorTest extends AbstractProcessorTest
      * @group SimpleApi_Product_Processor_Active
      * @group SimpleApi_Product_Processor_Active_2
      *
-     * @throws InvalidTaxValueException
      * @throws InvalidCurrencyCodeException
+     * @throws InvalidSalesChannelNameException
+     * @throws InvalidTaxValueException
      */
     public function productIsDesActivated(): void
     {

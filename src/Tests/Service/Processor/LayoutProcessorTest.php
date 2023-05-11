@@ -3,6 +3,7 @@
 namespace MothershipSimpleApi\Tests\Service\Processor;
 
 use MothershipSimpleApi\Service\Exception\InvalidCurrencyCodeException;
+use MothershipSimpleApi\Service\Exception\InvalidSalesChannelNameException;
 use MothershipSimpleApi\Service\Exception\InvalidTaxValueException;
 
 class LayoutProcessorTest extends AbstractProcessorTest
@@ -18,8 +19,9 @@ class LayoutProcessorTest extends AbstractProcessorTest
      * @group SimpleApi_Product_Processor_Layout
      * @group SimpleApi_Product_Processor_Layout_1
      *
-     * @throws InvalidTaxValueException
      * @throws InvalidCurrencyCodeException
+     * @throws InvalidSalesChannelNameException
+     * @throws InvalidTaxValueException
      */
     public function assignedToHeadlessChannel(): void
     {

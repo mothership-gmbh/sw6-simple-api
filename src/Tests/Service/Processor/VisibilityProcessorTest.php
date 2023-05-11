@@ -3,6 +3,7 @@
 namespace MothershipSimpleApi\Tests\Service\Processor;
 
 use MothershipSimpleApi\Service\Exception\InvalidCurrencyCodeException;
+use MothershipSimpleApi\Service\Exception\InvalidSalesChannelNameException;
 use MothershipSimpleApi\Service\Exception\InvalidTaxValueException;
 use Shopware\Core\Content\Product\Aggregate\ProductVisibility\ProductVisibilityDefinition;
 
@@ -21,8 +22,9 @@ class VisibilityProcessorTest extends AbstractProcessorTest
      * @group SimpleApi_Product_Processor_Visibility
      * @group SimpleApi_Product_Processor_Visibility_1
      *
-     * @throws InvalidTaxValueException
      * @throws InvalidCurrencyCodeException
+     * @throws InvalidSalesChannelNameException
+     * @throws InvalidTaxValueException
      */
     public function assignedToHeadlessChannel(): void
     {
@@ -49,8 +51,9 @@ class VisibilityProcessorTest extends AbstractProcessorTest
      * @group SimpleApi_Product_Processor_Visibility
      * @group SimpleApi_Product_Processor_Visibility_2
      *
-     * @throws InvalidTaxValueException
      * @throws InvalidCurrencyCodeException
+     * @throws InvalidSalesChannelNameException
+     * @throws InvalidTaxValueException
      */
     public function assignedToHeadlessAndStoreFrontChannel(): void
     {
@@ -79,9 +82,9 @@ class VisibilityProcessorTest extends AbstractProcessorTest
      * @group SimpleApi_Product_Processor_Visibility
      * @group SimpleApi_Product_Processor_Visibility_3
      *
+     * @throws InvalidCurrencyCodeException
+     * @throws InvalidSalesChannelNameException
      * @throws InvalidTaxValueException
-     * @throws InvalidCurrencyCodeException
-     * @throws InvalidCurrencyCodeException
      */
     public function assignedToHeadlessChannelAndRemovedAfterwards(): void
     {

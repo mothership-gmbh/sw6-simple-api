@@ -3,6 +3,7 @@
 namespace MothershipSimpleApi\Tests\Service\Processor;
 
 use MothershipSimpleApi\Service\Exception\InvalidCurrencyCodeException;
+use MothershipSimpleApi\Service\Exception\InvalidSalesChannelNameException;
 use MothershipSimpleApi\Service\Exception\InvalidTaxValueException;
 use Shopware\Core\Content\Product\ProductEntity;
 
@@ -19,8 +20,9 @@ class CustomFieldProcessorTest extends AbstractTranslationTestcase
      * @group SimpleApi_Product_Processor_CustomField
      * @group SimpleApi_Product_Processor_CustomField_1
      *
-     * @throws InvalidTaxValueException
      * @throws InvalidCurrencyCodeException
+     * @throws InvalidSalesChannelNameException
+     * @throws InvalidTaxValueException
      */
     public function oneCustomFieldWillBeAdded(): void
     {
@@ -82,8 +84,9 @@ class CustomFieldProcessorTest extends AbstractTranslationTestcase
      * @group SimpleApi_Product_Processor_CustomField
      * @group SimpleApi_Product_Processor_CustomField_2
      *
-     * @throws InvalidTaxValueException
      * @throws InvalidCurrencyCodeException
+     * @throws InvalidSalesChannelNameException
+     * @throws InvalidTaxValueException
      */
     public function twoCustomFieldsWillBeAdded(): void
     {
@@ -128,8 +131,9 @@ class CustomFieldProcessorTest extends AbstractTranslationTestcase
      * @group SimpleApi_Product_Processor_CustomField
      * @group SimpleApi_Product_Processor_CustomField_3
      *
-     * @throws InvalidTaxValueException
      * @throws InvalidCurrencyCodeException
+     * @throws InvalidSalesChannelNameException
+     * @throws InvalidTaxValueException
      */
     public function twoCustomFieldsForEveryLanguage(): void
     {
@@ -175,9 +179,9 @@ class CustomFieldProcessorTest extends AbstractTranslationTestcase
      * @group SimpleApi_Product_Processor_CustomField
      * @group SimpleApi_Product_Processor_CustomField_4
      *
+     * @throws InvalidCurrencyCodeException
+     * @throws InvalidSalesChannelNameException
      * @throws InvalidTaxValueException
-     * @throws InvalidCurrencyCodeException
-     * @throws InvalidCurrencyCodeException
      */
     public function nameWillBeUpdated(): void
     {

@@ -3,6 +3,7 @@
 namespace MothershipSimpleApi\Tests\Service\Processor;
 
 use MothershipSimpleApi\Service\Exception\InvalidCurrencyCodeException;
+use MothershipSimpleApi\Service\Exception\InvalidSalesChannelNameException;
 use MothershipSimpleApi\Service\Exception\InvalidTaxValueException;
 use MothershipSimpleApi\Service\Helper\BitwiseOperations;
 use MothershipSimpleApi\Service\Processor\PropertyGroupProcessor;
@@ -22,8 +23,9 @@ class VariantProcessorTest extends AbstractProcessorTest
      * @group SimpleApi_Product_Processor_Variant
      * @group SimpleApi_Product_Processor_Variant_1
      *
-     * @throws InvalidTaxValueException
      * @throws InvalidCurrencyCodeException
+     * @throws InvalidSalesChannelNameException
+     * @throws InvalidTaxValueException
      */
     public function productWithOneVariantAndOption(): void
     {
@@ -112,8 +114,9 @@ class VariantProcessorTest extends AbstractProcessorTest
      * @group SimpleApi_Product_Processor_Variant
      * @group SimpleApi_Product_Processor_Variant_2
      *
-     * @throws InvalidTaxValueException
      * @throws InvalidCurrencyCodeException
+     * @throws InvalidSalesChannelNameException
+     * @throws InvalidTaxValueException
      */
     public function productWithTwoVariants(): void
     {
@@ -182,8 +185,9 @@ class VariantProcessorTest extends AbstractProcessorTest
      * @group SimpleApi_Product_Processor_Variant
      * @group SimpleApi_Product_Processor_Variant_3
      *
-     * @throws InvalidTaxValueException
      * @throws InvalidCurrencyCodeException
+     * @throws InvalidSalesChannelNameException
+     * @throws InvalidTaxValueException
      */
     public function productWitOneVariantAndMultipleOptions(): void
     {
@@ -232,9 +236,9 @@ class VariantProcessorTest extends AbstractProcessorTest
      * @group SimpleApi_Product_Processor_Variant
      * @group SimpleApi_Product_Processor_Variant_4
      *
+     * @throws InvalidCurrencyCodeException
+     * @throws InvalidSalesChannelNameException
      * @throws InvalidTaxValueException
-     * @throws InvalidCurrencyCodeException
-     * @throws InvalidCurrencyCodeException
      */
     public function productWithTwoVariantsAndOneWillBeDeleted(): void
     {

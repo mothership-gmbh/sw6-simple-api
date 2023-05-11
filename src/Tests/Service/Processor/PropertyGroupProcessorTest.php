@@ -3,6 +3,7 @@
 namespace MothershipSimpleApi\Tests\Service\Processor;
 
 use MothershipSimpleApi\Service\Exception\InvalidCurrencyCodeException;
+use MothershipSimpleApi\Service\Exception\InvalidSalesChannelNameException;
 use MothershipSimpleApi\Service\Exception\InvalidTaxValueException;
 use MothershipSimpleApi\Service\Processor\PropertyGroupProcessor;
 use Shopware\Core\Content\Product\ProductEntity;
@@ -21,8 +22,9 @@ class PropertyGroupProcessorTest extends AbstractProcessorTest
      * @group SimpleApi_Product_Processor_PropertyGroup
      * @group SimpleApi_Product_Processor_PropertyGroup_1
      *
-     * @throws InvalidTaxValueException
      * @throws InvalidCurrencyCodeException
+     * @throws InvalidSalesChannelNameException
+     * @throws InvalidTaxValueException
      */
     public function productWithOneOption(): void
     {
@@ -83,8 +85,9 @@ class PropertyGroupProcessorTest extends AbstractProcessorTest
      * @group SimpleApi_Product_Processor_PropertyGroup
      * @group SimpleApi_Product_Processor_PropertyGroup_2
      *
-     * @throws InvalidTaxValueException
      * @throws InvalidCurrencyCodeException
+     * @throws InvalidSalesChannelNameException
+     * @throws InvalidTaxValueException
      */
     public function productWithTwoOptions(): void
     {
@@ -113,9 +116,9 @@ class PropertyGroupProcessorTest extends AbstractProcessorTest
      * @group SimpleApi_Product_Processor_PropertyGroup
      * @group SimpleApi_Product_Processor_PropertyGroup_3
      *
+     * @throws InvalidCurrencyCodeException
+     * @throws InvalidSalesChannelNameException
      * @throws InvalidTaxValueException
-     * @throws InvalidCurrencyCodeException
-     * @throws InvalidCurrencyCodeException
      */
     public function productPropertiesWillBeRemoved(): void
     {

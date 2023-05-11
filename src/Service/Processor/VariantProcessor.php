@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace MothershipSimpleApi\Service\Processor;
 
-use MothershipSimpleApi\Service\Definition\Request;
+use MothershipSimpleApi\Service\Definition\Product\Request;
 use MothershipSimpleApi\Service\Helper\BitwiseOperations;
 use Shopware\Core\Content\Product\ProductEntity;
 use Shopware\Core\Framework\Context;

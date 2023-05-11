@@ -3,6 +3,7 @@
 namespace MothershipSimpleApi\Tests\Service\Processor;
 
 use MothershipSimpleApi\Service\Exception\InvalidCurrencyCodeException;
+use MothershipSimpleApi\Service\Exception\InvalidSalesChannelNameException;
 use MothershipSimpleApi\Service\Exception\InvalidTaxValueException;
 
 class ManufacturerProcessorTest extends AbstractProcessorTest
@@ -18,8 +19,9 @@ class ManufacturerProcessorTest extends AbstractProcessorTest
      * @group SimpleApi_Product_Processor_Manufacturer
      * @group SimpleApi_Product_Processor_Manufacturer_1
      *
-     * @throws InvalidTaxValueException
      * @throws InvalidCurrencyCodeException
+     * @throws InvalidSalesChannelNameException
+     * @throws InvalidTaxValueException
      */
     public function createProductWithManufacturer(): void
     {
@@ -43,9 +45,9 @@ class ManufacturerProcessorTest extends AbstractProcessorTest
      * @group SimpleApi_Product_Processor_Manufacturer
      * @group SimpleApi_Product_Processor_Manufacturer_2
      *
+     * @throws InvalidCurrencyCodeException
+     * @throws InvalidSalesChannelNameException
      * @throws InvalidTaxValueException
-     * @throws InvalidCurrencyCodeException
-     * @throws InvalidCurrencyCodeException
      */
     public function manufacturerWillBeUnassigned(): void
     {

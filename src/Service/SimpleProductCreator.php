@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MothershipSimpleApi\Service;
 
 use MothershipSimpleApi\Service\Definition\Product;
-use MothershipSimpleApi\Service\Definition\Request;
+use MothershipSimpleApi\Service\Definition\Product\Request;
 use MothershipSimpleApi\Service\Exception\InvalidCurrencyCodeException;
 use MothershipSimpleApi\Service\Exception\InvalidSalesChannelNameException;
 use MothershipSimpleApi\Service\Exception\InvalidTaxValueException;
@@ -18,7 +18,7 @@ use MothershipSimpleApi\Service\Processor\ManufacturerProcessor;
 use MothershipSimpleApi\Service\Processor\PropertyGroupProcessor;
 use MothershipSimpleApi\Service\Processor\TranslationProcessor;
 use MothershipSimpleApi\Service\Processor\VariantProcessor;
-use MothershipSimpleApi\Service\Processor\VisbilityProcessor;
+use MothershipSimpleApi\Service\Processor\VisibilityProcessor;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
@@ -32,7 +32,7 @@ class SimpleProductCreator
         protected EntityRepository       $taxRepository,
         protected EntityRepository       $currencyRepository,
         protected TranslationProcessor   $translationProcessor,
-        protected VisbilityProcessor     $visbilityProcessor,
+        protected VisibilityProcessor    $visbilityProcessor,
         protected ImageProcessor         $imageProcessor,
         protected PropertyGroupProcessor $propertyGroupProcessor,
         protected CustomFieldProcessor   $customFieldProcessor,

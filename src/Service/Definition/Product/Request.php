@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace MothershipSimpleApi\Service\Definition;
+namespace MothershipSimpleApi\Service\Definition\Product;
 
+use MothershipSimpleApi\Service\Definition\Product;
 use MothershipSimpleApi\Service\Validator\ActiveValidator;
 use MothershipSimpleApi\Service\Validator\CategoryValidator;
 use MothershipSimpleApi\Service\Validator\CmsPageIdValidator;

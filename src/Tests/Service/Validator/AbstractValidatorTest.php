@@ -3,7 +3,7 @@
 namespace MothershipSimpleApi\Tests\Service\Validator;
 
 
-use MothershipSimpleApi\Service\Definition\Request;
+use MothershipSimpleApi\Service\Definition\Product\Request;
 use MothershipSimpleApi\Tests\Service\AbstractTestCase;
 use Shopware\Core\Framework\Test\TestCaseBase\KernelTestBehaviour;
 
