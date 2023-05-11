@@ -46,7 +46,7 @@
             <argument type="service" id="MothershipSimpleApi\Service\Processor\CategoryProcessor"/>
             <argument type="service" id="MothershipSimpleApi\Service\Processor\ManufacturerProcessor"/>
 
-            <argument type="service" id="MothershipSimpleApi\Service\Definition\Request"/>
+            <argument type="service" id="MothershipSimpleApi\Service\Definition\Product\Request"/>
         </service>
 
         <service id="MothershipSimpleApi\Service\Definition\Product\Request" public="true">
