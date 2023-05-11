@@ -1,0 +1,42 @@
+{
+  "name": "mothership/sw6-simple-api",
+  "version": "1.0.0",
+  "description": "Add a simple API",
+  "type": "shopware-platform-plugin",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Mothership GmbH",
+      "email": "office@mothership.de"
+    }
+  ],
+  "config": {
+    "allow-plugins": {
+      "symfony/runtime": true
+    }
+  },
+  "autoload": {
+    "psr-4": {
+      "MothershipSimpleApi\\": "src/"
+    }
+  },
+  "require": {
+    "php": "^8.0",
+    "shopware/core": "~6.4.0"
+  },
+  "require-dev": {
+    "ext-dom": "*",
+    "phpunit/phpunit": "^9.5",
+    "symfony/browser-kit": "^5.4",
+    "squizlabs/php_codesniffer": "^3.7",
+    "phpmd/phpmd": "^2.13"
+  },
+  "extra": {
+    "shopware-plugin-class": "MothershipSimpleApi\\MothershipSimpleApi",
+    "plugin-icon": "src/Resources/config/plugin.png",
+    "label": {
+      "de-DE": "Simple API",
+      "en-GB": "Simple API"
+    }
+  }
+}

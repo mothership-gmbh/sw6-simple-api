@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  shop:
+    container_name: sw6-simple-api
+    image: dockware/dev:latest
+    ports:
+#      - "22:22"     # ssh
+      - "80:80"     # apache2
+      - "3306:3306" # mysql
+    volumes:
+      - ".:/var/www/html/custom/plugins/sw6"
+      - .coverage:/opt/phpstorm-coverage:rw
+    networks:
+      - sw6-simple-api
+    environment:
+      - XDEBUG_ENABLED=1
+      - XDEBUG_MODE=debug,coverage
+
+networks:
+  sw6-simple-api:
+    external: false

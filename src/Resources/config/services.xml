@@ -1,0 +1,134 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <!--
+        Basiert auf den Eintrag für Shopware\Core\Framework\Api\Controller\ApiController in
+        www/vendor/shopware/core/Framework/DependencyInjection/api.xml
+        -->
+        <service id="MothershipSimpleApi\Api\OrderActionController" public="true">
+            <argument type="service" id="Shopware\Core\Framework\DataAbstractionLayer\DefinitionInstanceRegistry"/>
+            <argument type="service" id="serializer"/>
+            <argument type="service" id="api.request_criteria_builder"/>
+            <argument type="service" id="Shopware\Core\Framework\DataAbstractionLayer\Search\CompositeEntitySearcher"/>
+            <argument type="service" id="Shopware\Core\Framework\Api\Converter\ApiVersionConverter"/>
+            <argument type="service" id="Shopware\Core\Framework\DataAbstractionLayer\EntityProtection\EntityProtectionValidator"/>
+            <argument type="service" id="Shopware\Core\Framework\Api\Acl\AclCriteriaValidator"/>
+            <call method="setContainer">
+                <argument type="service" id="service_container"/>
+            </call>
+        </service>
+
+        <service id="MothershipSimpleApi\Api\ProductActionController" public="true">
+            <argument type="service" id="MothershipSimpleApi\Service\SimpleProductCreator"/>
+            <call method="setContainer">
+                <argument type="service" id="service_container"/>
+            </call>
+        </service>
+
+        <service id="MothershipSimpleApi\Service\SimpleProductCreator" public="true">
+            <argument type="service" id="product.repository"/>
+            <argument type="service" id="tax.repository"/>
+            <argument type="service" id="currency.repository"/>
+
+            <!-- Alle Prozessoren -->
+            <argument type="service" id="MothershipSimpleApi\Service\Processor\TranslationProcessor"/>
+            <argument type="service" id="MothershipSimpleApi\Service\Processor\VisbilityProcessor"/>
+            <argument type="service" id="MothershipSimpleApi\Service\Processor\ImageProcessor"/>
+            <argument type="service" id="MothershipSimpleApi\Service\Processor\PropertyGroupProcessor"/>
+            <argument type="service" id="MothershipSimpleApi\Service\Processor\CustomFieldProcessor"/>
+            <argument type="service" id="MothershipSimpleApi\Service\Processor\VariantProcessor"/>
+            <argument type="service" id="MothershipSimpleApi\Service\Processor\LayoutProcessor"/>
+            <argument type="service" id="MothershipSimpleApi\Service\Processor\ActiveProcessor"/>
+            <argument type="service" id="MothershipSimpleApi\Service\Processor\CategoryProcessor"/>
+            <argument type="service" id="MothershipSimpleApi\Service\Processor\ManufacturerProcessor"/>
+
+            <argument type="service" id="MothershipSimpleApi\Service\Definition\Request"/>
+        </service>
+
+        <service id="MothershipSimpleApi\Service\Definition\Request" public="true">
+            <argument type="service" id="MothershipSimpleApi\Service\Validator\PriceValidator"/>
+            <argument type="service" id="MothershipSimpleApi\Service\Validator\SkuValidator"/>
+            <argument type="service" id="MothershipSimpleApi\Service\Validator\TaxValidator"/>
+            <argument type="service" id="MothershipSimpleApi\Service\Validator\StockValidator"/>
+            <argument type="service" id="MothershipSimpleApi\Service\Validator\SalesChannelValidator"/>
+            <argument type="service" id="MothershipSimpleApi\Service\Validator\ImageValidator"/>
+            <argument type="service" id="MothershipSimpleApi\Service\Validator\PropertyValidator"/>
+            <argument type="service" id="MothershipSimpleApi\Service\Validator\CustomFieldValidator"/>
+            <argument type="service" id="MothershipSimpleApi\Service\Validator\TranslationValidator"/>
+            <argument type="service" id="MothershipSimpleApi\Service\Validator\CmsPageIdValidator"/>
+            <argument type="service" id="MothershipSimpleApi\Service\Validator\ActiveValidator"/>
+            <argument type="service" id="MothershipSimpleApi\Service\Validator\CategoryValidator"/>
+            <argument type="service" id="MothershipSimpleApi\Service\Validator\ManufacturerValidator"/>
+        </service>
+
+        <service id="MothershipSimpleApi\Service\Media\ImageImport" public="true">
+            <argument type="service" id="media.repository"/>
+            <argument type="service" id="media_folder.repository"/>
+            <argument type="service" id="Shopware\Core\Content\Media\MediaService"/>
+            <argument type="service" id="Shopware\Core\Content\Media\File\FileSaver"/>
+        </service>
+
+        <!-- Processor -->
+        <service id="MothershipSimpleApi\Service\Processor\TranslationProcessor" public="true" />
+        <service id="MothershipSimpleApi\Service\Processor\LayoutProcessor" public="true" />
+        <service id="MothershipSimpleApi\Service\Processor\ActiveProcessor" public="true" />
+
+        <service id="MothershipSimpleApi\Service\Processor\ManufacturerProcessor" public="true" >
+            <argument type="service" id="product_manufacturer.repository"/>
+        </service>
+
+        <service id="MothershipSimpleApi\Service\Processor\CategoryProcessor" public="true" >
+            <argument type="service" id="category.repository"/>
+            <argument type="service" id="product.repository"/>
+            <argument type="service" id="product_category.repository"/>
+        </service>
+
+
+        <service id="MothershipSimpleApi\Service\Processor\VisbilityProcessor" public="true">
+            <argument type="service" id="sales_channel.repository"/>
+            <argument type="service" id="product_visibility.repository"/>
+        </service>
+
+        <service id="MothershipSimpleApi\Service\Processor\ImageProcessor" public="true">
+            <argument type="service" id="MothershipSimpleApi\Service\Media\ImageImport"/>
+            <argument type="service" id="product_media.repository"/>
+        </service>
+
+        <service id="MothershipSimpleApi\Service\Processor\PropertyGroupProcessor" public="true">
+            <argument type="service" id="property_group.repository"/>
+            <argument type="service" id="property_group_option.repository"/>
+            <argument type="service" id="product_property.repository"/>
+            <argument type="service" id="product.repository"/>
+        </service>
+
+        <service id="MothershipSimpleApi\Service\Processor\CustomFieldProcessor" public="true">
+            <argument type="service" id="custom_field.repository"/>
+        </service>
+
+        <service id="MothershipSimpleApi\Service\Processor\VariantProcessor" public="true">
+            <argument type="service" id="product.repository"/>
+            <argument type="service" id="product_configurator_setting.repository"/>
+        </service>
+
+        <!-- Validator -->
+        <service id="MothershipSimpleApi\Service\Validator\PriceValidator" public="true" />
+        <service id="MothershipSimpleApi\Service\Validator\SkuValidator" public="true" />
+        <service id="MothershipSimpleApi\Service\Validator\TaxValidator" public="true" />
+        <service id="MothershipSimpleApi\Service\Validator\StockValidator" public="true" />
+        <service id="MothershipSimpleApi\Service\Validator\NameValidator" public="true" />
+        <service id="MothershipSimpleApi\Service\Validator\SalesChannelValidator" public="true" />
+        <service id="MothershipSimpleApi\Service\Validator\ImageValidator" public="true" />
+        <service id="MothershipSimpleApi\Service\Validator\PropertyValidator" public="true" />
+        <service id="MothershipSimpleApi\Service\Validator\CustomFieldValidator" public="true" />
+        <service id="MothershipSimpleApi\Service\Validator\TranslationValidator" public="true" />
+        <service id="MothershipSimpleApi\Service\Validator\CmsPageIdValidator" public="true" />
+        <service id="MothershipSimpleApi\Service\Validator\ActiveValidator" public="true" />
+        <service id="MothershipSimpleApi\Service\Validator\CategoryValidator" public="true" />
+        <service id="MothershipSimpleApi\Service\Validator\ManufacturerValidator" public="true" />
+
+    </services>
+</container>

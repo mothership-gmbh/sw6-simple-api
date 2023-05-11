@@ -1,0 +1,3479 @@
+{
+  "data": [
+    {
+      "id": "2de7093092a740288cd501c5fc8f3768",
+      "type": "order",
+      "attributes": {
+        "versionId": "0fa91ce3e96a4bc2be4bd9ce752c3425",
+        "autoIncrement": 52,
+        "orderNumber": "10051",
+        "billingAddressId": "976d1da03a7443d5b36c7b2308fb8191",
+        "billingAddressVersionId": "0fa91ce3e96a4bc2be4bd9ce752c3425",
+        "currencyId": "b7d2554b0ce847cd82f3ac9bd1c0dfca",
+        "languageId": "2fbb5fe2e29a4d70aa5854ce7ce3e20b",
+        "salesChannelId": "98432def39fc4624b33213a56b8c944d",
+        "orderDateTime": "2021-10-06T14:10:30.764+00:00",
+        "orderDate": "2021-10-06T00:00:00.000+00:00",
+        "price": {
+          "netPrice": 180.8,
+          "totalPrice": 218.01,
+          "calculatedTaxes": [
+            {
+              "tax": 37.21,
+              "taxRate": 19.0,
+              "price": 233.01,
+              "extensions": []
+            },
+            {
+              "tax": -0.0,
+              "taxRate": 0.0,
+              "price": -15.0,
+              "extensions": []
+            }
+          ],
+          "taxRules": [
+            {
+              "taxRate": 19.0,
+              "percentage": 100.0,
+              "extensions": []
+            },
+            {
+              "taxRate": 0.0,
+              "percentage": 100.0,
+              "extensions": []
+            }
+          ],
+          "positionPrice": 218.01,
+          "taxStatus": "gross",
+          "rawTotal": 218.01,
+          "extensions": []
+        },
+        "amountTotal": 218.01,
+        "amountNet": 180.8,
+        "positionPrice": 218.01,
+        "taxStatus": "gross",
+        "shippingCosts": {
+          "unitPrice": 0.0,
+          "quantity": 1,
+          "totalPrice": 0.0,
+          "calculatedTaxes": [
+            {
+              "tax": 0.0,
+              "taxRate": 19.0,
+              "price": 0.0,
+              "extensions": []
+            }
+          ],
+          "taxRules": [
+            {
+              "taxRate": 19.0,
+              "percentage": 100.0,
+              "extensions": []
+            }
+          ],
+          "referencePrice": null,
+          "listPrice": null,
+          "extensions": []
+        },
+        "shippingTotal": 0.0,
+        "currencyFactor": 1.0,
+        "deepLinkCode": "JUIHL5P0widditebdkCOvNbbldTu9T1P",
+        "affiliateCode": null,
+        "campaignCode": null,
+        "customerComment": null,
+        "stateId": "7e4b04acf465442f9bbde2cc6c7335fd",
+        "ruleIds": [
+          "1f7773dddab14555a4e57ea4d635c66f",
+          "266de07eb3804b3a80ac128ec5e9c15a",
+          "97d6b184f3034d4e8c94f6aadbeb84dc",
+          "9bdab09ad05941f7b2dd45e48f3eee3c",
+          "3baeb5f8e1f04e5a8d57118b4ff55ce2",
+          "bf54529febf323ec7d27256b178207f5",
+          "e44e6782c64247b796b891cf25ae38f7",
+          "ecebdcb76c4841658eb3cfbe3466e10e"
+        ],
+        "customFields": null,
+        "createdById": null,
+        "updatedById": null,
+        "itemRounding": {
+          "decimals": 2,
+          "interval": 0.01,
+          "roundForNet": true,
+          "extensions": []
+        },
+        "totalRounding": {
+          "decimals": 2,
+          "interval": 0.01,
+          "roundForNet": true,
+          "extensions": []
+        },
+        "createdAt": "2021-10-06T14:10:30.814+00:00",
+        "updatedAt": "2021-10-06T14:11:43.961+00:00",
+        "apiAlias": null
+      },
+      "links": {
+        "self": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/order\/2de7093092a740288cd501c5fc8f3768"
+      },
+      "relationships": {
+        "stateMachineState": {
+          "data": {
+            "type": "state_machine_state",
+            "id": "7e4b04acf465442f9bbde2cc6c7335fd"
+          },
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/order\/2de7093092a740288cd501c5fc8f3768\/state-machine-state"
+          }
+        },
+        "orderCustomer": {
+          "data": {
+            "type": "order_customer",
+            "id": "f26afe750f9040388a8ac2c5c9f3377f"
+          },
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/order\/2de7093092a740288cd501c5fc8f3768\/order-customer"
+          }
+        },
+        "currency": {
+          "data": {
+            "type": "currency",
+            "id": "b7d2554b0ce847cd82f3ac9bd1c0dfca"
+          },
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/order\/2de7093092a740288cd501c5fc8f3768\/currency"
+          }
+        },
+        "language": {
+          "data": {
+            "type": "language",
+            "id": "2fbb5fe2e29a4d70aa5854ce7ce3e20b"
+          },
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/order\/2de7093092a740288cd501c5fc8f3768\/language"
+          }
+        },
+        "salesChannel": {
+          "data": {
+            "type": "sales_channel",
+            "id": "98432def39fc4624b33213a56b8c944d"
+          },
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/order\/2de7093092a740288cd501c5fc8f3768\/sales-channel"
+          }
+        },
+        "addresses": {
+          "data": [
+            {
+              "type": "order_address",
+              "id": "976d1da03a7443d5b36c7b2308fb8191"
+            }
+          ],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/order\/2de7093092a740288cd501c5fc8f3768\/addresses"
+          }
+        },
+        "billingAddress": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/order\/2de7093092a740288cd501c5fc8f3768\/billing-address"
+          }
+        },
+        "deliveries": {
+          "data": [
+            {
+              "type": "order_delivery",
+              "id": "dde65d1fae4d4705b2154a6c063f72e0"
+            }
+          ],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/order\/2de7093092a740288cd501c5fc8f3768\/deliveries"
+          }
+        },
+        "lineItems": {
+          "data": [
+            {
+              "type": "order_line_item",
+              "id": "0699fb9404ff472dac5adabed51ac8f3"
+            },
+            {
+              "type": "order_line_item",
+              "id": "72a3c5333f214eaea6ac255e28139d45"
+            },
+            {
+              "type": "order_line_item",
+              "id": "a92fb88134a0444285797650e4fc9ef5"
+            },
+            {
+              "type": "order_line_item",
+              "id": "f155bce3ae6b4eb0a37ba3963db6f52d"
+            }
+          ],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/order\/2de7093092a740288cd501c5fc8f3768\/line-items"
+          }
+        },
+        "transactions": {
+          "data": [
+            {
+              "type": "order_transaction",
+              "id": "e4552a2e7e6d4054bb1ba158c69b0d9b"
+            }
+          ],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/order\/2de7093092a740288cd501c5fc8f3768\/transactions"
+          }
+        },
+        "documents": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/order\/2de7093092a740288cd501c5fc8f3768\/documents"
+          }
+        },
+        "tags": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/order\/2de7093092a740288cd501c5fc8f3768\/tags"
+          }
+        },
+        "createdBy": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/order\/2de7093092a740288cd501c5fc8f3768\/created-by"
+          }
+        },
+        "updatedBy": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/order\/2de7093092a740288cd501c5fc8f3768\/updated-by"
+          }
+        },
+        "extensions": {
+          "data": {
+            "type": "extension",
+            "id": "2de7093092a740288cd501c5fc8f3768"
+          }
+        }
+      },
+      "meta": null
+    }
+  ],
+  "included": [
+    {
+      "id": "7e4b04acf465442f9bbde2cc6c7335fd",
+      "type": "state_machine_state",
+      "attributes": {
+        "technicalName": "in_progress",
+        "name": "In progress",
+        "stateMachineId": "bf67f669789642a9ab5f9864767e35ca",
+        "customFields": null,
+        "createdAt": "2020-05-29T10:06:01.121+00:00",
+        "updatedAt": null,
+        "translated": {
+          "name": "In progress",
+          "customFields": []
+        },
+        "apiAlias": null
+      },
+      "links": {
+        "self": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/state-machine-state\/7e4b04acf465442f9bbde2cc6c7335fd"
+      },
+      "relationships": {
+        "stateMachine": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/state-machine-state\/7e4b04acf465442f9bbde2cc6c7335fd\/state-machine"
+          }
+        },
+        "fromStateMachineTransitions": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/state-machine-state\/7e4b04acf465442f9bbde2cc6c7335fd\/from-state-machine-transitions"
+          }
+        },
+        "toStateMachineTransitions": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/state-machine-state\/7e4b04acf465442f9bbde2cc6c7335fd\/to-state-machine-transitions"
+          }
+        },
+        "translations": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/state-machine-state\/7e4b04acf465442f9bbde2cc6c7335fd\/translations"
+          }
+        },
+        "orderTransactions": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/state-machine-state\/7e4b04acf465442f9bbde2cc6c7335fd\/order-transactions"
+          }
+        },
+        "orderDeliveries": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/state-machine-state\/7e4b04acf465442f9bbde2cc6c7335fd\/order-deliveries"
+          }
+        },
+        "orders": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/state-machine-state\/7e4b04acf465442f9bbde2cc6c7335fd\/orders"
+          }
+        },
+        "toStateMachineHistoryEntries": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/state-machine-state\/7e4b04acf465442f9bbde2cc6c7335fd\/to-state-machine-history-entries"
+          }
+        },
+        "fromStateMachineHistoryEntries": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/state-machine-state\/7e4b04acf465442f9bbde2cc6c7335fd\/from-state-machine-history-entries"
+          }
+        }
+      },
+      "meta": null
+    },
+    {
+      "id": "f26afe750f9040388a8ac2c5c9f3377f",
+      "type": "order_customer",
+      "attributes": {
+        "versionId": "0fa91ce3e96a4bc2be4bd9ce752c3425",
+        "customerId": "779c57002abb4a8888ea595f37e945a6",
+        "orderId": "2de7093092a740288cd501c5fc8f3768",
+        "orderVersionId": "0fa91ce3e96a4bc2be4bd9ce752c3425",
+        "email": "vanhoi@mothership.de",
+        "salutationId": "ea01b8335f7b49cdbac41f8cb753a434",
+        "firstName": "Don Bosco",
+        "lastName": "van Hoi",
+        "company": null,
+        "title": null,
+        "vatIds": null,
+        "customerNumber": "10091",
+        "customFields": null,
+        "remoteAddress": "62.113.230.0",
+        "createdAt": "2021-10-06T14:10:30.807+00:00",
+        "updatedAt": null,
+        "apiAlias": null
+      },
+      "links": {
+        "self": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/order-customer\/f26afe750f9040388a8ac2c5c9f3377f"
+      },
+      "relationships": {
+        "order": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/order-customer\/f26afe750f9040388a8ac2c5c9f3377f\/order"
+          }
+        },
+        "customer": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/order-customer\/f26afe750f9040388a8ac2c5c9f3377f\/customer"
+          }
+        },
+        "salutation": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/order-customer\/f26afe750f9040388a8ac2c5c9f3377f\/salutation"
+          }
+        }
+      },
+      "meta": null
+    },
+    {
+      "id": "b7d2554b0ce847cd82f3ac9bd1c0dfca",
+      "type": "extension",
+      "attributes": {},
+      "links": {},
+      "relationships": {
+        "customizedProductsTemplateOptionPrices": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/currency\/b7d2554b0ce847cd82f3ac9bd1c0dfca\/extensions\/customizedProductsTemplateOptionPrices"
+          }
+        },
+        "customizedProductsTemplateOptionValuePrices": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/currency\/b7d2554b0ce847cd82f3ac9bd1c0dfca\/extensions\/customizedProductsTemplateOptionValuePrices"
+          }
+        },
+        "socialShoppingSalesChannels": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/currency\/b7d2554b0ce847cd82f3ac9bd1c0dfca\/extensions\/socialShoppingSalesChannels"
+          }
+        }
+      },
+      "meta": null
+    },
+    {
+      "id": "b7d2554b0ce847cd82f3ac9bd1c0dfca",
+      "type": "currency",
+      "attributes": {
+        "factor": 1.0,
+        "symbol": "\u20ac",
+        "isoCode": "EUR",
+        "shortName": "EUR",
+        "name": "Euro",
+        "position": 1,
+        "isSystemDefault": true,
+        "customFields": null,
+        "itemRounding": {
+          "decimals": 2,
+          "interval": 0.01,
+          "roundForNet": true,
+          "extensions": []
+        },
+        "totalRounding": {
+          "decimals": 2,
+          "interval": 0.01,
+          "roundForNet": true,
+          "extensions": []
+        },
+        "taxFreeFrom": 0.0,
+        "createdAt": "2020-05-29T10:06:00.605+00:00",
+        "updatedAt": null,
+        "translated": {
+          "shortName": "EUR",
+          "name": "Euro",
+          "customFields": []
+        },
+        "apiAlias": null
+      },
+      "links": {
+        "self": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/currency\/b7d2554b0ce847cd82f3ac9bd1c0dfca"
+      },
+      "relationships": {
+        "translations": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/currency\/b7d2554b0ce847cd82f3ac9bd1c0dfca\/translations"
+          }
+        },
+        "salesChannelDefaultAssignments": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/currency\/b7d2554b0ce847cd82f3ac9bd1c0dfca\/sales-channel-default-assignments"
+          }
+        },
+        "orders": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/currency\/b7d2554b0ce847cd82f3ac9bd1c0dfca\/orders"
+          }
+        },
+        "salesChannels": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/currency\/b7d2554b0ce847cd82f3ac9bd1c0dfca\/sales-channels"
+          }
+        },
+        "salesChannelDomains": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/currency\/b7d2554b0ce847cd82f3ac9bd1c0dfca\/sales-channel-domains"
+          }
+        },
+        "promotionDiscountPrices": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/currency\/b7d2554b0ce847cd82f3ac9bd1c0dfca\/promotion-discount-prices"
+          }
+        },
+        "productExports": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/currency\/b7d2554b0ce847cd82f3ac9bd1c0dfca\/product-exports"
+          }
+        },
+        "countryRoundings": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/currency\/b7d2554b0ce847cd82f3ac9bd1c0dfca\/country-roundings"
+          }
+        },
+        "extensions": {
+          "data": {
+            "type": "extension",
+            "id": "b7d2554b0ce847cd82f3ac9bd1c0dfca"
+          }
+        }
+      },
+      "meta": null
+    },
+    {
+      "id": "2fbb5fe2e29a4d70aa5854ce7ce3e20b",
+      "type": "extension",
+      "attributes": {},
+      "links": {},
+      "relationships": {
+        "themeTranslations": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/language\/2fbb5fe2e29a4d70aa5854ce7ce3e20b\/extensions\/themeTranslations"
+          }
+        },
+        "customizedProductsTemplateTranslations": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/language\/2fbb5fe2e29a4d70aa5854ce7ce3e20b\/extensions\/customizedProductsTemplateTranslations"
+          }
+        },
+        "customizedProductsTemplateOptionTranslations": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/language\/2fbb5fe2e29a4d70aa5854ce7ce3e20b\/extensions\/customizedProductsTemplateOptionTranslations"
+          }
+        },
+        "customizedProductsTemplateOptionValueTranslations": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/language\/2fbb5fe2e29a4d70aa5854ce7ce3e20b\/extensions\/customizedProductsTemplateOptionValueTranslations"
+          }
+        },
+        "customizedProductsTemplateExclusionOperatorTranslations": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/language\/2fbb5fe2e29a4d70aa5854ce7ce3e20b\/extensions\/customizedProductsTemplateExclusionOperatorTranslations"
+          }
+        },
+        "cmsExtensionsFormTranslations": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/language\/2fbb5fe2e29a4d70aa5854ce7ce3e20b\/extensions\/cmsExtensionsFormTranslations"
+          }
+        },
+        "cmsExtensionsFormGroupTranslations": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/language\/2fbb5fe2e29a4d70aa5854ce7ce3e20b\/extensions\/cmsExtensionsFormGroupTranslations"
+          }
+        },
+        "cmsExtensionsFormGroupFieldTranslations": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/language\/2fbb5fe2e29a4d70aa5854ce7ce3e20b\/extensions\/cmsExtensionsFormGroupFieldTranslations"
+          }
+        },
+        "cmsExtensionsScrollNavigationTranslations": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/language\/2fbb5fe2e29a4d70aa5854ce7ce3e20b\/extensions\/cmsExtensionsScrollNavigationTranslations"
+          }
+        }
+      },
+      "meta": null
+    },
+    {
+      "id": "2fbb5fe2e29a4d70aa5854ce7ce3e20b",
+      "type": "language",
+      "attributes": {
+        "parentId": null,
+        "localeId": "8f23f49bcdb14f39a3eac5ceb9ed0288",
+        "translationCodeId": "8f23f49bcdb14f39a3eac5ceb9ed0288",
+        "name": "English",
+        "customFields": null,
+        "createdAt": "2020-05-29T10:05:59.368+00:00",
+        "updatedAt": null,
+        "apiAlias": null
+      },
+      "links": {
+        "self": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/language\/2fbb5fe2e29a4d70aa5854ce7ce3e20b"
+      },
+      "relationships": {
+        "parent": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/language\/2fbb5fe2e29a4d70aa5854ce7ce3e20b\/parent"
+          }
+        },
+        "locale": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/language\/2fbb5fe2e29a4d70aa5854ce7ce3e20b\/locale"
+          }
+        },
+        "translationCode": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/language\/2fbb5fe2e29a4d70aa5854ce7ce3e20b\/translation-code"
+          }
+        },
+        "children": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/language\/2fbb5fe2e29a4d70aa5854ce7ce3e20b\/children"
+          }
+        },
+        "salesChannels": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/language\/2fbb5fe2e29a4d70aa5854ce7ce3e20b\/sales-channels"
+          }
+        },
+        "salesChannelDefaultAssignments": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/language\/2fbb5fe2e29a4d70aa5854ce7ce3e20b\/sales-channel-default-assignments"
+          }
+        },
+        "salesChannelDomains": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/language\/2fbb5fe2e29a4d70aa5854ce7ce3e20b\/sales-channel-domains"
+          }
+        },
+        "customers": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/language\/2fbb5fe2e29a4d70aa5854ce7ce3e20b\/customers"
+          }
+        },
+        "newsletterRecipients": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/language\/2fbb5fe2e29a4d70aa5854ce7ce3e20b\/newsletter-recipients"
+          }
+        },
+        "orders": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/language\/2fbb5fe2e29a4d70aa5854ce7ce3e20b\/orders"
+          }
+        },
+        "categoryTranslations": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/language\/2fbb5fe2e29a4d70aa5854ce7ce3e20b\/category-translations"
+          }
+        },
+        "countryStateTranslations": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/language\/2fbb5fe2e29a4d70aa5854ce7ce3e20b\/country-state-translations"
+          }
+        },
+        "countryTranslations": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/language\/2fbb5fe2e29a4d70aa5854ce7ce3e20b\/country-translations"
+          }
+        },
+        "currencyTranslations": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/language\/2fbb5fe2e29a4d70aa5854ce7ce3e20b\/currency-translations"
+          }
+        },
+        "customerGroupTranslations": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/language\/2fbb5fe2e29a4d70aa5854ce7ce3e20b\/customer-group-translations"
+          }
+        },
+        "localeTranslations": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/language\/2fbb5fe2e29a4d70aa5854ce7ce3e20b\/locale-translations"
+          }
+        },
+        "mediaTranslations": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/language\/2fbb5fe2e29a4d70aa5854ce7ce3e20b\/media-translations"
+          }
+        },
+        "paymentMethodTranslations": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/language\/2fbb5fe2e29a4d70aa5854ce7ce3e20b\/payment-method-translations"
+          }
+        },
+        "productManufacturerTranslations": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/language\/2fbb5fe2e29a4d70aa5854ce7ce3e20b\/product-manufacturer-translations"
+          }
+        },
+        "productTranslations": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/language\/2fbb5fe2e29a4d70aa5854ce7ce3e20b\/product-translations"
+          }
+        },
+        "shippingMethodTranslations": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/language\/2fbb5fe2e29a4d70aa5854ce7ce3e20b\/shipping-method-translations"
+          }
+        },
+        "unitTranslations": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/language\/2fbb5fe2e29a4d70aa5854ce7ce3e20b\/unit-translations"
+          }
+        },
+        "propertyGroupTranslations": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/language\/2fbb5fe2e29a4d70aa5854ce7ce3e20b\/property-group-translations"
+          }
+        },
+        "propertyGroupOptionTranslations": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/language\/2fbb5fe2e29a4d70aa5854ce7ce3e20b\/property-group-option-translations"
+          }
+        },
+        "salesChannelTranslations": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/language\/2fbb5fe2e29a4d70aa5854ce7ce3e20b\/sales-channel-translations"
+          }
+        },
+        "salesChannelTypeTranslations": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/language\/2fbb5fe2e29a4d70aa5854ce7ce3e20b\/sales-channel-type-translations"
+          }
+        },
+        "salutationTranslations": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/language\/2fbb5fe2e29a4d70aa5854ce7ce3e20b\/salutation-translations"
+          }
+        },
+        "pluginTranslations": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/language\/2fbb5fe2e29a4d70aa5854ce7ce3e20b\/plugin-translations"
+          }
+        },
+        "productStreamTranslations": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/language\/2fbb5fe2e29a4d70aa5854ce7ce3e20b\/product-stream-translations"
+          }
+        },
+        "stateMachineTranslations": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/language\/2fbb5fe2e29a4d70aa5854ce7ce3e20b\/state-machine-translations"
+          }
+        },
+        "stateMachineStateTranslations": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/language\/2fbb5fe2e29a4d70aa5854ce7ce3e20b\/state-machine-state-translations"
+          }
+        },
+        "cmsPageTranslations": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/language\/2fbb5fe2e29a4d70aa5854ce7ce3e20b\/cms-page-translations"
+          }
+        },
+        "cmsSlotTranslations": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/language\/2fbb5fe2e29a4d70aa5854ce7ce3e20b\/cms-slot-translations"
+          }
+        },
+        "mailTemplateTranslations": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/language\/2fbb5fe2e29a4d70aa5854ce7ce3e20b\/mail-template-translations"
+          }
+        },
+        "mailHeaderFooterTranslations": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/language\/2fbb5fe2e29a4d70aa5854ce7ce3e20b\/mail-header-footer-translations"
+          }
+        },
+        "documentTypeTranslations": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/language\/2fbb5fe2e29a4d70aa5854ce7ce3e20b\/document-type-translations"
+          }
+        },
+        "numberRangeTypeTranslations": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/language\/2fbb5fe2e29a4d70aa5854ce7ce3e20b\/number-range-type-translations"
+          }
+        },
+        "deliveryTimeTranslations": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/language\/2fbb5fe2e29a4d70aa5854ce7ce3e20b\/delivery-time-translations"
+          }
+        },
+        "productSearchKeywords": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/language\/2fbb5fe2e29a4d70aa5854ce7ce3e20b\/product-search-keywords"
+          }
+        },
+        "productKeywordDictionaries": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/language\/2fbb5fe2e29a4d70aa5854ce7ce3e20b\/product-keyword-dictionaries"
+          }
+        },
+        "mailTemplateTypeTranslations": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/language\/2fbb5fe2e29a4d70aa5854ce7ce3e20b\/mail-template-type-translations"
+          }
+        },
+        "promotionTranslations": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/language\/2fbb5fe2e29a4d70aa5854ce7ce3e20b\/promotion-translations"
+          }
+        },
+        "numberRangeTranslations": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/language\/2fbb5fe2e29a4d70aa5854ce7ce3e20b\/number-range-translations"
+          }
+        },
+        "productReviews": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/language\/2fbb5fe2e29a4d70aa5854ce7ce3e20b\/product-reviews"
+          }
+        },
+        "seoUrlTranslations": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/language\/2fbb5fe2e29a4d70aa5854ce7ce3e20b\/seo-url-translations"
+          }
+        },
+        "taxRuleTypeTranslations": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/language\/2fbb5fe2e29a4d70aa5854ce7ce3e20b\/tax-rule-type-translations"
+          }
+        },
+        "productCrossSellingTranslations": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/language\/2fbb5fe2e29a4d70aa5854ce7ce3e20b\/product-cross-selling-translations"
+          }
+        },
+        "importExportProfileTranslations": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/language\/2fbb5fe2e29a4d70aa5854ce7ce3e20b\/import-export-profile-translations"
+          }
+        },
+        "productSortingTranslations": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/language\/2fbb5fe2e29a4d70aa5854ce7ce3e20b\/product-sorting-translations"
+          }
+        },
+        "productFeatureSetTranslations": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/language\/2fbb5fe2e29a4d70aa5854ce7ce3e20b\/product-feature-set-translations"
+          }
+        },
+        "appTranslations": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/language\/2fbb5fe2e29a4d70aa5854ce7ce3e20b\/app-translations"
+          }
+        },
+        "actionButtonTranslations": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/language\/2fbb5fe2e29a4d70aa5854ce7ce3e20b\/action-button-translations"
+          }
+        },
+        "landingPageTranslations": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/language\/2fbb5fe2e29a4d70aa5854ce7ce3e20b\/landing-page-translations"
+          }
+        },
+        "appCmsBlockTranslations": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/language\/2fbb5fe2e29a4d70aa5854ce7ce3e20b\/app-cms-block-translations"
+          }
+        },
+        "productSearchConfig": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/language\/2fbb5fe2e29a4d70aa5854ce7ce3e20b\/product-search-config"
+          }
+        },
+        "extensions": {
+          "data": {
+            "type": "extension",
+            "id": "2fbb5fe2e29a4d70aa5854ce7ce3e20b"
+          }
+        }
+      },
+      "meta": null
+    },
+    {
+      "id": "98432def39fc4624b33213a56b8c944d",
+      "type": "extension",
+      "attributes": {},
+      "links": {},
+      "relationships": {
+        "themes": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/sales-channel\/98432def39fc4624b33213a56b8c944d\/extensions\/themes"
+          }
+        },
+        "paypalPosSalesChannel": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/sales-channel\/98432def39fc4624b33213a56b8c944d\/extensions\/paypalPosSalesChannel"
+          }
+        },
+        "socialShoppingSalesChannel": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/sales-channel\/98432def39fc4624b33213a56b8c944d\/extensions\/socialShoppingSalesChannel"
+          }
+        },
+        "socialShoppingProductErrors": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/sales-channel\/98432def39fc4624b33213a56b8c944d\/extensions\/socialShoppingProductErrors"
+          }
+        }
+      },
+      "meta": null
+    },
+    {
+      "id": "98432def39fc4624b33213a56b8c944d",
+      "type": "sales_channel",
+      "attributes": {
+        "typeId": "f183ee5650cf4bdb8a774337575067a6",
+        "languageId": "628e5e758d6745129f02e77ae65c959b",
+        "customerGroupId": "cfbd5018d38d41d8adca10d94fc8bdd6",
+        "currencyId": "b7d2554b0ce847cd82f3ac9bd1c0dfca",
+        "paymentMethodId": "efbe359bf90e487484d14138995cb8cd",
+        "shippingMethodId": "694e719df2e84a518476801e1c7a880b",
+        "countryId": "c92536c3c37c437a8c12562b43631ab7",
+        "analyticsId": null,
+        "navigationCategoryId": "de9ce17e207c40dca7982843ddb25136",
+        "navigationCategoryVersionId": "0fa91ce3e96a4bc2be4bd9ce752c3425",
+        "navigationCategoryDepth": 2,
+        "footerCategoryId": "0b36d2f738f143cfa876ff389025b7f3",
+        "footerCategoryVersionId": "0fa91ce3e96a4bc2be4bd9ce752c3425",
+        "serviceCategoryId": "1df5ffdacd1d471292983a0b60dafeb7",
+        "serviceCategoryVersionId": "0fa91ce3e96a4bc2be4bd9ce752c3425",
+        "mailHeaderFooterId": null,
+        "hreflangDefaultDomainId": null,
+        "name": "Aignermunich  PWA",
+        "shortName": null,
+        "taxCalculationType": "horizontal",
+        "accessKey": "SWSCTEZRMURFCGDXODDUWMY4OA",
+        "configuration": null,
+        "active": true,
+        "hreflangActive": false,
+        "maintenance": false,
+        "maintenanceIpWhitelist": [],
+        "customFields": null,
+        "paymentMethodIds": [
+          "031750c73f9341ebb4238700cb63cf1c",
+          "0407fd0a5c4b4d2bafc88379efe8cf8d",
+          "1b017bef157b4222b734659361d996fd",
+          "21e157163fdb4aa4862a2109abcd7522",
+          "267699739afd4cdd9663cac0bd269da6",
+          "37f90a48d9194762977c9e6db36334e0",
+          "3f567ad46f1947e3960b66ed3af537aa",
+          "4e8a9d3d3c6e428887573856b38c9003",
+          "569b46970ad2458ca8f17f1ebb754137",
+          "5ddf648859a84396a98c97a1a92c107f",
+          "6004c8b082234ba5b2834da9874c5ec7",
+          "700954775fad4a8f92463b3d629c8ad5",
+          "741f1deec67d4012bd3ccce265b2e15e",
+          "9022c4733d14411e84a78707088487aa",
+          "9d229c0717034a52b480dee0c7179eef",
+          "b5b52a27e6b14a37bbb4087ec821b0f4",
+          "bcf2636aac814f6891c1d0c218465e16",
+          "e4c9e5a9b6a244e982f42256a6fc1f3d",
+          "efbe359bf90e487484d14138995cb8cd",
+          "f7b88fc9c0104702a96f664dabfe2656"
+        ],
+        "homeCmsPageId": null,
+        "homeCmsPageVersionId": "0fa91ce3e96a4bc2be4bd9ce752c3425",
+        "homeSlotConfig": null,
+        "homeEnabled": true,
+        "homeName": null,
+        "homeMetaTitle": null,
+        "homeMetaDescription": null,
+        "homeKeywords": null,
+        "createdAt": "2020-05-29T10:06:00.755+00:00",
+        "updatedAt": "2021-09-07T07:18:55.509+00:00",
+        "translated": {
+          "name": "Aignermunich  PWA",
+          "customFields": [],
+          "homeSlotConfig": null,
+          "homeEnabled": true,
+          "homeName": null,
+          "homeMetaTitle": null,
+          "homeMetaDescription": null,
+          "homeKeywords": null
+        },
+        "apiAlias": null
+      },
+      "links": {
+        "self": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/sales-channel\/98432def39fc4624b33213a56b8c944d"
+      },
+      "relationships": {
+        "translations": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/sales-channel\/98432def39fc4624b33213a56b8c944d\/translations"
+          }
+        },
+        "currencies": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/sales-channel\/98432def39fc4624b33213a56b8c944d\/currencies"
+          }
+        },
+        "languages": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/sales-channel\/98432def39fc4624b33213a56b8c944d\/languages"
+          }
+        },
+        "countries": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/sales-channel\/98432def39fc4624b33213a56b8c944d\/countries"
+          }
+        },
+        "paymentMethods": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/sales-channel\/98432def39fc4624b33213a56b8c944d\/payment-methods"
+          }
+        },
+        "shippingMethods": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/sales-channel\/98432def39fc4624b33213a56b8c944d\/shipping-methods"
+          }
+        },
+        "type": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/sales-channel\/98432def39fc4624b33213a56b8c944d\/type"
+          }
+        },
+        "language": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/sales-channel\/98432def39fc4624b33213a56b8c944d\/language"
+          }
+        },
+        "customerGroup": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/sales-channel\/98432def39fc4624b33213a56b8c944d\/customer-group"
+          }
+        },
+        "currency": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/sales-channel\/98432def39fc4624b33213a56b8c944d\/currency"
+          }
+        },
+        "paymentMethod": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/sales-channel\/98432def39fc4624b33213a56b8c944d\/payment-method"
+          }
+        },
+        "shippingMethod": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/sales-channel\/98432def39fc4624b33213a56b8c944d\/shipping-method"
+          }
+        },
+        "country": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/sales-channel\/98432def39fc4624b33213a56b8c944d\/country"
+          }
+        },
+        "orders": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/sales-channel\/98432def39fc4624b33213a56b8c944d\/orders"
+          }
+        },
+        "customers": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/sales-channel\/98432def39fc4624b33213a56b8c944d\/customers"
+          }
+        },
+        "homeCmsPage": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/sales-channel\/98432def39fc4624b33213a56b8c944d\/home-cms-page"
+          }
+        },
+        "domains": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/sales-channel\/98432def39fc4624b33213a56b8c944d\/domains"
+          }
+        },
+        "systemConfigs": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/sales-channel\/98432def39fc4624b33213a56b8c944d\/system-configs"
+          }
+        },
+        "navigationCategory": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/sales-channel\/98432def39fc4624b33213a56b8c944d\/navigation-category"
+          }
+        },
+        "footerCategory": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/sales-channel\/98432def39fc4624b33213a56b8c944d\/footer-category"
+          }
+        },
+        "serviceCategory": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/sales-channel\/98432def39fc4624b33213a56b8c944d\/service-category"
+          }
+        },
+        "productVisibilities": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/sales-channel\/98432def39fc4624b33213a56b8c944d\/product-visibilities"
+          }
+        },
+        "hreflangDefaultDomain": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/sales-channel\/98432def39fc4624b33213a56b8c944d\/hreflang-default-domain"
+          }
+        },
+        "mailHeaderFooter": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/sales-channel\/98432def39fc4624b33213a56b8c944d\/mail-header-footer"
+          }
+        },
+        "newsletterRecipients": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/sales-channel\/98432def39fc4624b33213a56b8c944d\/newsletter-recipients"
+          }
+        },
+        "numberRangeSalesChannels": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/sales-channel\/98432def39fc4624b33213a56b8c944d\/number-range-sales-channels"
+          }
+        },
+        "promotionSalesChannels": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/sales-channel\/98432def39fc4624b33213a56b8c944d\/promotion-sales-channels"
+          }
+        },
+        "documentBaseConfigSalesChannels": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/sales-channel\/98432def39fc4624b33213a56b8c944d\/document-base-config-sales-channels"
+          }
+        },
+        "productReviews": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/sales-channel\/98432def39fc4624b33213a56b8c944d\/product-reviews"
+          }
+        },
+        "seoUrls": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/sales-channel\/98432def39fc4624b33213a56b8c944d\/seo-urls"
+          }
+        },
+        "seoUrlTemplates": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/sales-channel\/98432def39fc4624b33213a56b8c944d\/seo-url-templates"
+          }
+        },
+        "mainCategories": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/sales-channel\/98432def39fc4624b33213a56b8c944d\/main-categories"
+          }
+        },
+        "productExports": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/sales-channel\/98432def39fc4624b33213a56b8c944d\/product-exports"
+          }
+        },
+        "analytics": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/sales-channel\/98432def39fc4624b33213a56b8c944d\/analytics"
+          }
+        },
+        "customerGroupsRegistrations": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/sales-channel\/98432def39fc4624b33213a56b8c944d\/customer-groups-registrations"
+          }
+        },
+        "eventActions": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/sales-channel\/98432def39fc4624b33213a56b8c944d\/event-actions"
+          }
+        },
+        "landingPages": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/sales-channel\/98432def39fc4624b33213a56b8c944d\/landing-pages"
+          }
+        },
+        "boundCustomers": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/sales-channel\/98432def39fc4624b33213a56b8c944d\/bound-customers"
+          }
+        },
+        "wishlists": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/sales-channel\/98432def39fc4624b33213a56b8c944d\/wishlists"
+          }
+        },
+        "extensions": {
+          "data": {
+            "type": "extension",
+            "id": "98432def39fc4624b33213a56b8c944d"
+          }
+        }
+      },
+      "meta": null
+    },
+    {
+      "id": "c92536c3c37c437a8c12562b43631ab7",
+      "type": "country",
+      "attributes": {
+        "name": "Germany",
+        "iso": "DE",
+        "position": 1,
+        "taxFree": false,
+        "active": true,
+        "shippingAvailable": true,
+        "iso3": "DEU",
+        "displayStateInRegistration": false,
+        "forceStateInRegistration": false,
+        "companyTaxFree": false,
+        "checkVatIdPattern": false,
+        "vatIdRequired": false,
+        "vatIdPattern": "(DE)?[0-9]{9}",
+        "customFields": null,
+        "customerTax": {
+          "enabled": false,
+          "currencyId": "b7d2554b0ce847cd82f3ac9bd1c0dfca",
+          "amount": 0.0,
+          "extensions": []
+        },
+        "companyTax": {
+          "enabled": false,
+          "currencyId": "b7d2554b0ce847cd82f3ac9bd1c0dfca",
+          "amount": 0.0,
+          "extensions": []
+        },
+        "createdAt": "2020-05-29T10:05:59.453+00:00",
+        "updatedAt": null,
+        "translated": {
+          "name": "Germany",
+          "customFields": []
+        },
+        "apiAlias": null
+      },
+      "links": {
+        "self": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/country\/c92536c3c37c437a8c12562b43631ab7"
+      },
+      "relationships": {
+        "states": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/country\/c92536c3c37c437a8c12562b43631ab7\/states"
+          }
+        },
+        "translations": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/country\/c92536c3c37c437a8c12562b43631ab7\/translations"
+          }
+        },
+        "customerAddresses": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/country\/c92536c3c37c437a8c12562b43631ab7\/customer-addresses"
+          }
+        },
+        "orderAddresses": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/country\/c92536c3c37c437a8c12562b43631ab7\/order-addresses"
+          }
+        },
+        "salesChannelDefaultAssignments": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/country\/c92536c3c37c437a8c12562b43631ab7\/sales-channel-default-assignments"
+          }
+        },
+        "salesChannels": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/country\/c92536c3c37c437a8c12562b43631ab7\/sales-channels"
+          }
+        },
+        "taxRules": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/country\/c92536c3c37c437a8c12562b43631ab7\/tax-rules"
+          }
+        },
+        "currencyCountryRoundings": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/country\/c92536c3c37c437a8c12562b43631ab7\/currency-country-roundings"
+          }
+        }
+      },
+      "meta": null
+    },
+    {
+      "id": "ed643807c9f84cc8b50132ea3ccb1c3b",
+      "type": "salutation",
+      "attributes": {
+        "salutationKey": "undefined",
+        "displayName": "",
+        "letterName": "",
+        "customFields": null,
+        "createdAt": "2021-09-20T13:48:20.606+00:00",
+        "updatedAt": null,
+        "translated": {
+          "displayName": "",
+          "letterName": "",
+          "customFields": []
+        },
+        "apiAlias": null
+      },
+      "links": {
+        "self": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/salutation\/ed643807c9f84cc8b50132ea3ccb1c3b"
+      },
+      "relationships": {
+        "translations": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/salutation\/ed643807c9f84cc8b50132ea3ccb1c3b\/translations"
+          }
+        },
+        "customers": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/salutation\/ed643807c9f84cc8b50132ea3ccb1c3b\/customers"
+          }
+        },
+        "customerAddresses": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/salutation\/ed643807c9f84cc8b50132ea3ccb1c3b\/customer-addresses"
+          }
+        },
+        "orderCustomers": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/salutation\/ed643807c9f84cc8b50132ea3ccb1c3b\/order-customers"
+          }
+        },
+        "orderAddresses": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/salutation\/ed643807c9f84cc8b50132ea3ccb1c3b\/order-addresses"
+          }
+        },
+        "newsletterRecipients": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/salutation\/ed643807c9f84cc8b50132ea3ccb1c3b\/newsletter-recipients"
+          }
+        }
+      },
+      "meta": null
+    },
+    {
+      "id": "976d1da03a7443d5b36c7b2308fb8191",
+      "type": "order_address",
+      "attributes": {
+        "versionId": "0fa91ce3e96a4bc2be4bd9ce752c3425",
+        "countryId": "c92536c3c37c437a8c12562b43631ab7",
+        "countryStateId": null,
+        "orderId": "2de7093092a740288cd501c5fc8f3768",
+        "orderVersionId": "0fa91ce3e96a4bc2be4bd9ce752c3425",
+        "salutationId": "ea01b8335f7b49cdbac41f8cb753a434",
+        "firstName": "Don Bosco",
+        "lastName": "van Hoi",
+        "street": "Treffauerstra\u00dfe 16",
+        "zipcode": "81373",
+        "city": "M\u00fcnchen",
+        "company": null,
+        "department": null,
+        "title": null,
+        "vatId": null,
+        "phoneNumber": null,
+        "additionalAddressLine1": null,
+        "additionalAddressLine2": null,
+        "customFields": null,
+        "createdAt": "2021-10-06T14:10:30.809+00:00",
+        "updatedAt": null,
+        "apiAlias": null
+      },
+      "links": {
+        "self": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/order-address\/976d1da03a7443d5b36c7b2308fb8191"
+      },
+      "relationships": {
+        "country": {
+          "data": {
+            "type": "country",
+            "id": "c92536c3c37c437a8c12562b43631ab7"
+          },
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/order-address\/976d1da03a7443d5b36c7b2308fb8191\/country"
+          }
+        },
+        "countryState": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/order-address\/976d1da03a7443d5b36c7b2308fb8191\/country-state"
+          }
+        },
+        "order": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/order-address\/976d1da03a7443d5b36c7b2308fb8191\/order"
+          }
+        },
+        "orderDeliveries": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/order-address\/976d1da03a7443d5b36c7b2308fb8191\/order-deliveries"
+          }
+        },
+        "salutation": {
+          "data": {
+            "type": "salutation",
+            "id": "ed643807c9f84cc8b50132ea3ccb1c3b"
+          },
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/order-address\/976d1da03a7443d5b36c7b2308fb8191\/salutation"
+          }
+        }
+      },
+      "meta": null
+    },
+    {
+      "id": "d3ef05210c084f74b18ebc2eae40f3bc",
+      "type": "state_machine_state",
+      "attributes": {
+        "technicalName": "open",
+        "name": "Open",
+        "stateMachineId": "73eeb49df27d4f388a32f087044c86b9",
+        "customFields": null,
+        "createdAt": "2020-05-29T10:06:01.153+00:00",
+        "updatedAt": null,
+        "translated": {
+          "name": "Open",
+          "customFields": []
+        },
+        "apiAlias": null
+      },
+      "links": {
+        "self": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/state-machine-state\/d3ef05210c084f74b18ebc2eae40f3bc"
+      },
+      "relationships": {
+        "stateMachine": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/state-machine-state\/d3ef05210c084f74b18ebc2eae40f3bc\/state-machine"
+          }
+        },
+        "fromStateMachineTransitions": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/state-machine-state\/d3ef05210c084f74b18ebc2eae40f3bc\/from-state-machine-transitions"
+          }
+        },
+        "toStateMachineTransitions": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/state-machine-state\/d3ef05210c084f74b18ebc2eae40f3bc\/to-state-machine-transitions"
+          }
+        },
+        "translations": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/state-machine-state\/d3ef05210c084f74b18ebc2eae40f3bc\/translations"
+          }
+        },
+        "orderTransactions": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/state-machine-state\/d3ef05210c084f74b18ebc2eae40f3bc\/order-transactions"
+          }
+        },
+        "orderDeliveries": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/state-machine-state\/d3ef05210c084f74b18ebc2eae40f3bc\/order-deliveries"
+          }
+        },
+        "orders": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/state-machine-state\/d3ef05210c084f74b18ebc2eae40f3bc\/orders"
+          }
+        },
+        "toStateMachineHistoryEntries": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/state-machine-state\/d3ef05210c084f74b18ebc2eae40f3bc\/to-state-machine-history-entries"
+          }
+        },
+        "fromStateMachineHistoryEntries": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/state-machine-state\/d3ef05210c084f74b18ebc2eae40f3bc\/from-state-machine-history-entries"
+          }
+        }
+      },
+      "meta": null
+    },
+    {
+      "id": "21e28bd7e1ac4c24844ec5c752007289",
+      "type": "delivery_time",
+      "attributes": {
+        "name": "1-3 days",
+        "min": 1,
+        "max": 3,
+        "unit": "day",
+        "customFields": null,
+        "createdAt": "2020-05-29T10:06:00.000+00:00",
+        "updatedAt": null,
+        "translated": {
+          "name": "1-3 days",
+          "customFields": []
+        },
+        "apiAlias": null
+      },
+      "links": {
+        "self": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/delivery-time\/21e28bd7e1ac4c24844ec5c752007289"
+      },
+      "relationships": {
+        "shippingMethods": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/delivery-time\/21e28bd7e1ac4c24844ec5c752007289\/shipping-methods"
+          }
+        },
+        "products": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/delivery-time\/21e28bd7e1ac4c24844ec5c752007289\/products"
+          }
+        },
+        "translations": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/delivery-time\/21e28bd7e1ac4c24844ec5c752007289\/translations"
+          }
+        }
+      },
+      "meta": null
+    },
+    {
+      "id": "694e719df2e84a518476801e1c7a880b",
+      "type": "shipping_method",
+      "attributes": {
+        "name": "Standard",
+        "active": true,
+        "customFields": null,
+        "availabilityRuleId": "1f7773dddab14555a4e57ea4d635c66f",
+        "mediaId": null,
+        "deliveryTimeId": "21e28bd7e1ac4c24844ec5c752007289",
+        "taxType": "auto",
+        "taxId": null,
+        "description": null,
+        "trackingUrl": null,
+        "createdAt": "2020-05-29T10:06:00.708+00:00",
+        "updatedAt": "2021-09-17T12:50:38.595+00:00",
+        "translated": {
+          "name": "Standard",
+          "customFields": [],
+          "description": null,
+          "trackingUrl": null
+        },
+        "apiAlias": null
+      },
+      "links": {
+        "self": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/shipping-method\/694e719df2e84a518476801e1c7a880b"
+      },
+      "relationships": {
+        "deliveryTime": {
+          "data": {
+            "type": "delivery_time",
+            "id": "21e28bd7e1ac4c24844ec5c752007289"
+          },
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/shipping-method\/694e719df2e84a518476801e1c7a880b\/delivery-time"
+          }
+        },
+        "translations": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/shipping-method\/694e719df2e84a518476801e1c7a880b\/translations"
+          }
+        },
+        "availabilityRule": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/shipping-method\/694e719df2e84a518476801e1c7a880b\/availability-rule"
+          }
+        },
+        "prices": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/shipping-method\/694e719df2e84a518476801e1c7a880b\/prices"
+          }
+        },
+        "media": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/shipping-method\/694e719df2e84a518476801e1c7a880b\/media"
+          }
+        },
+        "tags": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/shipping-method\/694e719df2e84a518476801e1c7a880b\/tags"
+          }
+        },
+        "orderDeliveries": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/shipping-method\/694e719df2e84a518476801e1c7a880b\/order-deliveries"
+          }
+        },
+        "salesChannels": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/shipping-method\/694e719df2e84a518476801e1c7a880b\/sales-channels"
+          }
+        },
+        "salesChannelDefaultAssignments": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/shipping-method\/694e719df2e84a518476801e1c7a880b\/sales-channel-default-assignments"
+          }
+        },
+        "tax": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/shipping-method\/694e719df2e84a518476801e1c7a880b\/tax"
+          }
+        }
+      },
+      "meta": null
+    },
+    {
+      "id": "dde65d1fae4d4705b2154a6c063f72e0",
+      "type": "order_delivery",
+      "attributes": {
+        "versionId": "0fa91ce3e96a4bc2be4bd9ce752c3425",
+        "orderId": "2de7093092a740288cd501c5fc8f3768",
+        "orderVersionId": "0fa91ce3e96a4bc2be4bd9ce752c3425",
+        "shippingOrderAddressId": "976d1da03a7443d5b36c7b2308fb8191",
+        "shippingOrderAddressVersionId": "0fa91ce3e96a4bc2be4bd9ce752c3425",
+        "shippingMethodId": "694e719df2e84a518476801e1c7a880b",
+        "stateId": "d3ef05210c084f74b18ebc2eae40f3bc",
+        "trackingCodes": [],
+        "shippingDateEarliest": "2021-10-07T00:00:00.000+00:00",
+        "shippingDateLatest": "2021-10-09T00:00:00.000+00:00",
+        "shippingCosts": {
+          "unitPrice": 0.0,
+          "quantity": 1,
+          "totalPrice": 0.0,
+          "calculatedTaxes": [
+            {
+              "tax": 0.0,
+              "taxRate": 19.0,
+              "price": 0.0,
+              "extensions": []
+            }
+          ],
+          "taxRules": [
+            {
+              "taxRate": 19.0,
+              "percentage": 100.0,
+              "extensions": []
+            }
+          ],
+          "referencePrice": null,
+          "listPrice": null,
+          "extensions": []
+        },
+        "customFields": null,
+        "createdAt": "2021-10-06T14:10:30.810+00:00",
+        "updatedAt": null,
+        "apiAlias": null
+      },
+      "links": {
+        "self": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/order-delivery\/dde65d1fae4d4705b2154a6c063f72e0"
+      },
+      "relationships": {
+        "stateMachineState": {
+          "data": {
+            "type": "state_machine_state",
+            "id": "d3ef05210c084f74b18ebc2eae40f3bc"
+          },
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/order-delivery\/dde65d1fae4d4705b2154a6c063f72e0\/state-machine-state"
+          }
+        },
+        "order": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/order-delivery\/dde65d1fae4d4705b2154a6c063f72e0\/order"
+          }
+        },
+        "shippingOrderAddress": {
+          "data": {
+            "type": "order_address",
+            "id": "976d1da03a7443d5b36c7b2308fb8191"
+          },
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/order-delivery\/dde65d1fae4d4705b2154a6c063f72e0\/shipping-order-address"
+          }
+        },
+        "shippingMethod": {
+          "data": {
+            "type": "shipping_method",
+            "id": "694e719df2e84a518476801e1c7a880b"
+          },
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/order-delivery\/dde65d1fae4d4705b2154a6c063f72e0\/shipping-method"
+          }
+        },
+        "positions": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/order-delivery\/dde65d1fae4d4705b2154a6c063f72e0\/positions"
+          }
+        }
+      },
+      "meta": null
+    },
+    {
+      "id": "e27750a099d34cf5b94b1e74e119b658",
+      "type": "extension",
+      "attributes": {},
+      "links": {},
+      "relationships": {
+        "customizedProductsOptions": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/tax\/e27750a099d34cf5b94b1e74e119b658\/extensions\/customizedProductsOptions"
+          }
+        },
+        "customizedProductsOptionValues": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/tax\/e27750a099d34cf5b94b1e74e119b658\/extensions\/customizedProductsOptionValues"
+          }
+        }
+      },
+      "meta": null
+    },
+    {
+      "id": "e27750a099d34cf5b94b1e74e119b658",
+      "type": "tax",
+      "attributes": {
+        "taxRate": 19.0,
+        "name": "Standard rate",
+        "position": 1,
+        "customFields": null,
+        "createdAt": "2020-05-29T10:06:00.727+00:00",
+        "updatedAt": null,
+        "apiAlias": null
+      },
+      "links": {
+        "self": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/tax\/e27750a099d34cf5b94b1e74e119b658"
+      },
+      "relationships": {
+        "products": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/tax\/e27750a099d34cf5b94b1e74e119b658\/products"
+          }
+        },
+        "rules": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/tax\/e27750a099d34cf5b94b1e74e119b658\/rules"
+          }
+        },
+        "shippingMethods": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/tax\/e27750a099d34cf5b94b1e74e119b658\/shipping-methods"
+          }
+        },
+        "extensions": {
+          "data": {
+            "type": "extension",
+            "id": "e27750a099d34cf5b94b1e74e119b658"
+          }
+        }
+      },
+      "meta": null
+    },
+    {
+      "id": "bd3429288948471b96ea7f3f87c4bfed",
+      "type": "extension",
+      "attributes": {
+        "swagCustomizedProductsTemplateId": null,
+        "swagCustomizedProductsTemplateVersionId": null
+      },
+      "links": {},
+      "relationships": {
+        "swagCustomizedProductsTemplate": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/product\/bd3429288948471b96ea7f3f87c4bfed\/extensions\/swagCustomizedProductsTemplate"
+          }
+        },
+        "netiEasyCouponProduct": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/product\/bd3429288948471b96ea7f3f87c4bfed\/extensions\/netiEasyCouponProduct"
+          }
+        },
+        "paypalPosLog": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/product\/bd3429288948471b96ea7f3f87c4bfed\/extensions\/paypalPosLog"
+          }
+        },
+        "paypalPosSync": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/product\/bd3429288948471b96ea7f3f87c4bfed\/extensions\/paypalPosSync"
+          }
+        },
+        "socialShoppingProductErrors": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/product\/bd3429288948471b96ea7f3f87c4bfed\/extensions\/socialShoppingProductErrors"
+          }
+        }
+      },
+      "meta": null
+    },
+    {
+      "id": "bd3429288948471b96ea7f3f87c4bfed",
+      "type": "product",
+      "attributes": {
+        "versionId": "0fa91ce3e96a4bc2be4bd9ce752c3425",
+        "parentId": "0370e7f3e1fb421da9404770a99f9da4",
+        "parentVersionId": null,
+        "manufacturerId": null,
+        "productManufacturerVersionId": null,
+        "unitId": null,
+        "taxId": "e27750a099d34cf5b94b1e74e119b658",
+        "coverId": null,
+        "productMediaVersionId": null,
+        "deliveryTimeId": "21e28bd7e1ac4c24844ec5c752007289",
+        "featureSetId": "f96e46058e9a436da55dd5014ccf8ea0",
+        "canonicalProductId": null,
+        "cmsPageId": "70978ef4e9a340bb860d7a751e1dcc41",
+        "cmsPageVersionId": null,
+        "price": [
+          {
+            "currencyId": "b7d2554b0ce847cd82f3ac9bd1c0dfca",
+            "net": 80.91900000000001,
+            "gross": 99.9,
+            "linked": true,
+            "listPrice": null,
+            "percentage": null,
+            "extensions": []
+          }
+        ],
+        "productNumber": "125554 01-0001-115",
+        "stock": 10,
+        "restockTime": null,
+        "autoIncrement": 1125,
+        "active": true,
+        "availableStock": 9,
+        "available": true,
+        "isCloseout": true,
+        "variation": [],
+        "displayGroup": null,
+        "configuratorGroupConfig": null,
+        "mainVariantId": null,
+        "variantRestrictions": null,
+        "manufacturerNumber": null,
+        "ean": "4055539034756",
+        "purchaseSteps": null,
+        "maxPurchase": null,
+        "minPurchase": null,
+        "purchaseUnit": null,
+        "referenceUnit": null,
+        "shippingFree": null,
+        "purchasePrices": null,
+        "markAsTopseller": null,
+        "weight": null,
+        "width": null,
+        "height": null,
+        "length": null,
+        "releaseDate": null,
+        "ratingAverage": null,
+        "categoryTree": [
+          "de9ce17e207c40dca7982843ddb25136",
+          "8869dd77ad44481abbb9a5396ad0f7bb",
+          "0099be666ebc407986d15d9061e90f4c"
+        ],
+        "propertyIds": [
+          "2ec15c8854164ff3b73263b42fba6e25",
+          "32d90708faae4d0ca1a27d298bbecd83",
+          "3b23caea2ed14572a08229d084afd741",
+          "3c0179683f2542a8b46fcc1edca0ab79",
+          "4481aedda1254ea98d200b036f5bf71f",
+          "55d3c960c71a4dd19f4521158dcfc4eb",
+          "88609a342691487c9dbeec9ce2cfdb5d",
+          "ae4c9fc5b95e42f48b99f16f44565eaf",
+          "f319ada3174b44eba20658c8f9060268"
+        ],
+        "optionIds": [
+          "3b23caea2ed14572a08229d084afd741"
+        ],
+        "tagIds": null,
+        "categoryIds": [
+          "0099be666ebc407986d15d9061e90f4c",
+          "8869dd77ad44481abbb9a5396ad0f7bb"
+        ],
+        "childCount": null,
+        "customFieldSetSelectionActive": null,
+        "sales": 0,
+        "metaDescription": null,
+        "name": "Business Belt 3 cm",
+        "keywords": null,
+        "description": "This men's belt made of exquisite cowhide leather perfectly rounds off your business outfit. Order this and other leather belts from Aigner in our online store!",
+        "metaTitle": null,
+        "packUnit": null,
+        "packUnitPlural": null,
+        "customFields": {
+          "articleDesc": "This men's belt made of exquisite cowhide leather perfectly rounds off your business outfit. Order this and other leather belts from Aigner in our online store!",
+          "articleText": "It impresses with its quality, functionality and resolutely elegant design. Your colleagues will appreciate the premium craftsmanship of this cowhide leather belt with its traditional, masculine buckle - after all, nobody can turn a blind eye to outstanding quality and a professional, stylish appearance. (Note: colour 0006: dark blue; colour 0002: black)",
+          "articleTitle": "Business Belt 3 cm",
+          "orgColorDesc": "antic red",
+          "specialPrice": null,
+          "item_group_id": "125554 01-0001",
+          "articleDetails": "Width: 3 cm|Aigner logo on the loop|Silver-coloured buckle|",
+          "changedDate_ERP": "2021-08-06T14:20:00+02:00",
+          "specialPrice_EUR": 0.0,
+          "specialPrice_JPY": 0.0,
+          "specialPrice_from": "2021-01-01T01:00:00+01:00"
+        },
+        "slotConfig": null,
+        "customSearchKeywords": null,
+        "cheapestPrice": null,
+        "createdAt": "2021-08-03T15:39:28.982+00:00",
+        "updatedAt": "2021-10-06T14:10:30.950+00:00",
+        "translated": {
+          "metaDescription": null,
+          "name": "Business Belt 3 cm",
+          "keywords": null,
+          "description": "This men's belt made of exquisite cowhide leather perfectly rounds off your business outfit. Order this and other leather belts from Aigner in our online store!",
+          "metaTitle": null,
+          "packUnit": null,
+          "packUnitPlural": null,
+          "customFields": {
+            "articleDesc": "This men's belt made of exquisite cowhide leather perfectly rounds off your business outfit. Order this and other leather belts from Aigner in our online store!",
+            "articleText": "It impresses with its quality, functionality and resolutely elegant design. Your colleagues will appreciate the premium craftsmanship of this cowhide leather belt with its traditional, masculine buckle - after all, nobody can turn a blind eye to outstanding quality and a professional, stylish appearance. (Note: colour 0006: dark blue; colour 0002: black)",
+            "articleTitle": "Business Belt 3 cm",
+            "orgColorDesc": "antic red",
+            "item_group_id": "125554 01-0001",
+            "articleDetails": "Width: 3 cm|Aigner logo on the loop|Silver-coloured buckle|",
+            "changedDate_ERP": "2021-08-06T14:20:00+02:00",
+            "specialPrice_EUR": 0.0,
+            "specialPrice_JPY": 0.0,
+            "specialPrice_from": "2021-01-01T01:00:00+01:00"
+          },
+          "slotConfig": null,
+          "customSearchKeywords": null
+        },
+        "apiAlias": null,
+        "swagCustomizedProductsTemplateId": null,
+        "swagCustomizedProductsTemplateVersionId": "0fa91ce3e96a4bc2be4bd9ce752c3425"
+      },
+      "links": {
+        "self": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/product\/bd3429288948471b96ea7f3f87c4bfed"
+      },
+      "relationships": {
+        "parent": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/product\/bd3429288948471b96ea7f3f87c4bfed\/parent"
+          }
+        },
+        "children": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/product\/bd3429288948471b96ea7f3f87c4bfed\/children"
+          }
+        },
+        "deliveryTime": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/product\/bd3429288948471b96ea7f3f87c4bfed\/delivery-time"
+          }
+        },
+        "tax": {
+          "data": {
+            "type": "tax",
+            "id": "e27750a099d34cf5b94b1e74e119b658"
+          },
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/product\/bd3429288948471b96ea7f3f87c4bfed\/tax"
+          }
+        },
+        "manufacturer": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/product\/bd3429288948471b96ea7f3f87c4bfed\/manufacturer"
+          }
+        },
+        "unit": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/product\/bd3429288948471b96ea7f3f87c4bfed\/unit"
+          }
+        },
+        "cover": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/product\/bd3429288948471b96ea7f3f87c4bfed\/cover"
+          }
+        },
+        "featureSet": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/product\/bd3429288948471b96ea7f3f87c4bfed\/feature-set"
+          }
+        },
+        "cmsPage": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/product\/bd3429288948471b96ea7f3f87c4bfed\/cms-page"
+          }
+        },
+        "canonicalProduct": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/product\/bd3429288948471b96ea7f3f87c4bfed\/canonical-product"
+          }
+        },
+        "prices": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/product\/bd3429288948471b96ea7f3f87c4bfed\/prices"
+          }
+        },
+        "media": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/product\/bd3429288948471b96ea7f3f87c4bfed\/media"
+          }
+        },
+        "crossSellings": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/product\/bd3429288948471b96ea7f3f87c4bfed\/cross-sellings"
+          }
+        },
+        "crossSellingAssignedProducts": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/product\/bd3429288948471b96ea7f3f87c4bfed\/cross-selling-assigned-products"
+          }
+        },
+        "configuratorSettings": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/product\/bd3429288948471b96ea7f3f87c4bfed\/configurator-settings"
+          }
+        },
+        "visibilities": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/product\/bd3429288948471b96ea7f3f87c4bfed\/visibilities"
+          }
+        },
+        "searchKeywords": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/product\/bd3429288948471b96ea7f3f87c4bfed\/search-keywords"
+          }
+        },
+        "productReviews": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/product\/bd3429288948471b96ea7f3f87c4bfed\/product-reviews"
+          }
+        },
+        "mainCategories": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/product\/bd3429288948471b96ea7f3f87c4bfed\/main-categories"
+          }
+        },
+        "seoUrls": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/product\/bd3429288948471b96ea7f3f87c4bfed\/seo-urls"
+          }
+        },
+        "orderLineItems": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/product\/bd3429288948471b96ea7f3f87c4bfed\/order-line-items"
+          }
+        },
+        "wishlists": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/product\/bd3429288948471b96ea7f3f87c4bfed\/wishlists"
+          }
+        },
+        "options": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/product\/bd3429288948471b96ea7f3f87c4bfed\/options"
+          }
+        },
+        "properties": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/product\/bd3429288948471b96ea7f3f87c4bfed\/properties"
+          }
+        },
+        "categories": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/product\/bd3429288948471b96ea7f3f87c4bfed\/categories"
+          }
+        },
+        "streams": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/product\/bd3429288948471b96ea7f3f87c4bfed\/streams"
+          }
+        },
+        "categoriesRo": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/product\/bd3429288948471b96ea7f3f87c4bfed\/categories-ro"
+          }
+        },
+        "tags": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/product\/bd3429288948471b96ea7f3f87c4bfed\/tags"
+          }
+        },
+        "customFieldSets": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/product\/bd3429288948471b96ea7f3f87c4bfed\/custom-field-sets"
+          }
+        },
+        "translations": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/product\/bd3429288948471b96ea7f3f87c4bfed\/translations"
+          }
+        },
+        "extensions": {
+          "data": {
+            "type": "extension",
+            "id": "bd3429288948471b96ea7f3f87c4bfed"
+          }
+        }
+      },
+      "meta": null
+    },
+    {
+      "id": "0699fb9404ff472dac5adabed51ac8f3",
+      "type": "order_line_item",
+      "attributes": {
+        "versionId": "0fa91ce3e96a4bc2be4bd9ce752c3425",
+        "orderId": "2de7093092a740288cd501c5fc8f3768",
+        "orderVersionId": "0fa91ce3e96a4bc2be4bd9ce752c3425",
+        "productId": "bd3429288948471b96ea7f3f87c4bfed",
+        "productVersionId": "0fa91ce3e96a4bc2be4bd9ce752c3425",
+        "parentId": null,
+        "parentVersionId": "0fa91ce3e96a4bc2be4bd9ce752c3425",
+        "coverId": "067e761ad97f4eb5a955287d32390905",
+        "identifier": "bd3429288948471b96ea7f3f87c4bfed",
+        "referencedId": "bd3429288948471b96ea7f3f87c4bfed",
+        "quantity": 1,
+        "label": "Business Belt 3 cm",
+        "payload": {
+          "isNew": false,
+          "taxId": "e27750a099d34cf5b94b1e74e119b658",
+          "tagIds": null,
+          "options": [
+            {
+              "group": "Size",
+              "option": "115"
+            }
+          ],
+          "features": [],
+          "createdAt": "2021-08-03 15:39:28.982",
+          "optionIds": [
+            "3b23caea2ed14572a08229d084afd741"
+          ],
+          "isCloseout": true,
+          "categoryIds": [
+            "de9ce17e207c40dca7982843ddb25136",
+            "8869dd77ad44481abbb9a5396ad0f7bb",
+            "0099be666ebc407986d15d9061e90f4c"
+          ],
+          "propertyIds": [
+            "2ec15c8854164ff3b73263b42fba6e25",
+            "32d90708faae4d0ca1a27d298bbecd83",
+            "3b23caea2ed14572a08229d084afd741",
+            "3c0179683f2542a8b46fcc1edca0ab79",
+            "4481aedda1254ea98d200b036f5bf71f",
+            "55d3c960c71a4dd19f4521158dcfc4eb",
+            "88609a342691487c9dbeec9ce2cfdb5d",
+            "ae4c9fc5b95e42f48b99f16f44565eaf",
+            "f319ada3174b44eba20658c8f9060268"
+          ],
+          "releaseDate": null,
+          "customFields": {
+            "articleDesc": "This men's belt made of exquisite cowhide leather perfectly rounds off your business outfit. Order this and other leather belts from Aigner in our online store!",
+            "articleText": "It impresses with its quality, functionality and resolutely elegant design. Your colleagues will appreciate the premium craftsmanship of this cowhide leather belt with its traditional, masculine buckle - after all, nobody can turn a blind eye to outstanding quality and a professional, stylish appearance. (Note: colour 0006: dark blue; colour 0002: black)",
+            "articleTitle": "Business Belt 3 cm",
+            "orgColorDesc": "antic red",
+            "item_group_id": "125554 01-0001",
+            "articleDetails": "Width: 3 cm|Aigner logo on the loop|Silver-coloured buckle|",
+            "changedDate_ERP": "2021-08-06T14:20:00+02:00",
+            "specialPrice_EUR": 0.0,
+            "specialPrice_JPY": 0.0,
+            "specialPrice_from": "2021-01-01T01:00:00+01:00"
+          },
+          "productNumber": "125554 01-0001-115",
+          "manufacturerId": null,
+          "purchasePrices": null,
+          "markAsTopseller": null
+        },
+        "good": true,
+        "removable": true,
+        "stackable": true,
+        "position": 2,
+        "price": {
+          "unitPrice": 99.9,
+          "quantity": 1,
+          "totalPrice": 99.9,
+          "calculatedTaxes": [
+            {
+              "tax": 15.95,
+              "taxRate": 19.0,
+              "price": 99.9,
+              "extensions": []
+            }
+          ],
+          "taxRules": [
+            {
+              "taxRate": 19.0,
+              "percentage": 100.0,
+              "extensions": []
+            }
+          ],
+          "referencePrice": null,
+          "listPrice": null,
+          "extensions": []
+        },
+        "priceDefinition": {
+          "price": 99.9,
+          "taxRules": [
+            {
+              "taxRate": 19.0,
+              "percentage": 100.0,
+              "extensions": []
+            }
+          ],
+          "quantity": 1,
+          "isCalculated": true,
+          "referencePriceDefinition": null,
+          "listPrice": null,
+          "extensions": [],
+          "type": "quantity"
+        },
+        "unitPrice": 99.9,
+        "totalPrice": 99.9,
+        "description": null,
+        "type": "product",
+        "customFields": null,
+        "createdAt": "2021-10-06T14:10:30.812+00:00",
+        "updatedAt": null,
+        "apiAlias": null
+      },
+      "links": {
+        "self": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/order-line-item\/0699fb9404ff472dac5adabed51ac8f3"
+      },
+      "relationships": {
+        "cover": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/order-line-item\/0699fb9404ff472dac5adabed51ac8f3\/cover"
+          }
+        },
+        "order": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/order-line-item\/0699fb9404ff472dac5adabed51ac8f3\/order"
+          }
+        },
+        "product": {
+          "data": {
+            "type": "product",
+            "id": "bd3429288948471b96ea7f3f87c4bfed"
+          },
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/order-line-item\/0699fb9404ff472dac5adabed51ac8f3\/product"
+          }
+        },
+        "orderDeliveryPositions": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/order-line-item\/0699fb9404ff472dac5adabed51ac8f3\/order-delivery-positions"
+          }
+        },
+        "parent": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/order-line-item\/0699fb9404ff472dac5adabed51ac8f3\/parent"
+          }
+        },
+        "children": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/order-line-item\/0699fb9404ff472dac5adabed51ac8f3\/children"
+          }
+        }
+      },
+      "meta": null
+    },
+    {
+      "id": "72a3c5333f214eaea6ac255e28139d45",
+      "type": "order_line_item",
+      "attributes": {
+        "versionId": "0fa91ce3e96a4bc2be4bd9ce752c3425",
+        "orderId": "2de7093092a740288cd501c5fc8f3768",
+        "orderVersionId": "0fa91ce3e96a4bc2be4bd9ce752c3425",
+        "productId": null,
+        "productVersionId": "0fa91ce3e96a4bc2be4bd9ce752c3425",
+        "parentId": null,
+        "parentVersionId": "0fa91ce3e96a4bc2be4bd9ce752c3425",
+        "coverId": null,
+        "identifier": "435de7798aa146d69a994d05d7ac1f55",
+        "referencedId": "R2I9Y2J3",
+        "quantity": 1,
+        "label": "Test Promotion",
+        "payload": {
+          "code": "R2I9Y2J3",
+          "value": "10",
+          "filter": {
+            "usageKey": null,
+            "pickerKey": null,
+            "sorterKey": null,
+            "applierKey": null
+          },
+          "groupId": "",
+          "maxValue": "",
+          "setGroups": [],
+          "discountId": "435de7798aa146d69a994d05d7ac1f55",
+          "exclusions": [],
+          "composition": [
+            {
+              "id": "5363bbad4aee431fbb4c9d22f26d2da9",
+              "discount": 15.9,
+              "quantity": 1
+            },
+            {
+              "id": "bd3429288948471b96ea7f3f87c4bfed",
+              "discount": 9.990000000000002,
+              "quantity": 1
+            }
+          ],
+          "promotionId": "f0e571a4813d4086bc04757b289d8e37",
+          "discountType": "percentage",
+          "discountScope": "cart",
+          "preventCombination": false
+        },
+        "good": false,
+        "removable": true,
+        "stackable": false,
+        "position": 4,
+        "price": {
+          "unitPrice": -25.89,
+          "quantity": 1,
+          "totalPrice": -25.89,
+          "calculatedTaxes": [
+            {
+              "tax": -4.13,
+              "taxRate": 19.0,
+              "price": -25.89,
+              "extensions": []
+            }
+          ],
+          "taxRules": [
+            {
+              "taxRate": 19.0,
+              "percentage": 100.0,
+              "extensions": []
+            }
+          ],
+          "referencePrice": null,
+          "listPrice": null,
+          "extensions": []
+        },
+        "priceDefinition": {
+          "percentage": -10.0,
+          "filter": null,
+          "extensions": [],
+          "type": "percentage"
+        },
+        "unitPrice": -25.89,
+        "totalPrice": -25.89,
+        "description": "Test Promotion",
+        "type": "promotion",
+        "customFields": null,
+        "createdAt": "2021-10-06T14:10:30.813+00:00",
+        "updatedAt": null,
+        "apiAlias": null
+      },
+      "links": {
+        "self": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/order-line-item\/72a3c5333f214eaea6ac255e28139d45"
+      },
+      "relationships": {
+        "cover": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/order-line-item\/72a3c5333f214eaea6ac255e28139d45\/cover"
+          }
+        },
+        "order": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/order-line-item\/72a3c5333f214eaea6ac255e28139d45\/order"
+          }
+        },
+        "product": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/order-line-item\/72a3c5333f214eaea6ac255e28139d45\/product"
+          }
+        },
+        "orderDeliveryPositions": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/order-line-item\/72a3c5333f214eaea6ac255e28139d45\/order-delivery-positions"
+          }
+        },
+        "parent": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/order-line-item\/72a3c5333f214eaea6ac255e28139d45\/parent"
+          }
+        },
+        "children": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/order-line-item\/72a3c5333f214eaea6ac255e28139d45\/children"
+          }
+        }
+      },
+      "meta": null
+    },
+    {
+      "id": "a92fb88134a0444285797650e4fc9ef5",
+      "type": "order_line_item",
+      "attributes": {
+        "versionId": "0fa91ce3e96a4bc2be4bd9ce752c3425",
+        "orderId": "2de7093092a740288cd501c5fc8f3768",
+        "orderVersionId": "0fa91ce3e96a4bc2be4bd9ce752c3425",
+        "productId": null,
+        "productVersionId": "0fa91ce3e96a4bc2be4bd9ce752c3425",
+        "parentId": null,
+        "parentVersionId": "0fa91ce3e96a4bc2be4bd9ce752c3425",
+        "coverId": null,
+        "identifier": "029f5eb9bd804fb38d5fda400e03372f",
+        "referencedId": "lsgi-nglr-31",
+        "quantity": 1,
+        "label": "Kaufgutschein 50 \u20ac",
+        "payload": {
+          "code": "lsgi-nglr-31",
+          "value": "15",
+          "productId": "0132291ae17e4219897c5ddd3877165e",
+          "discountId": "029f5eb9bd804fb38d5fda400e03372f",
+          "customFields": [],
+          "discountType": 10010,
+          "discountScope": "netiEasyCoupon",
+          "productNumber": "voucher_50",
+          "easyCouponTransactionId": "98d93250ff4d489dab8029626a554616"
+        },
+        "good": false,
+        "removable": true,
+        "stackable": false,
+        "position": 3,
+        "price": {
+          "unitPrice": -15.0,
+          "quantity": 1,
+          "totalPrice": -15.0,
+          "calculatedTaxes": [
+            {
+              "tax": -0.0,
+              "taxRate": 0.0,
+              "price": -15.0,
+              "extensions": []
+            }
+          ],
+          "taxRules": [
+            {
+              "taxRate": 0.0,
+              "percentage": 100.0,
+              "extensions": []
+            }
+          ],
+          "referencePrice": null,
+          "listPrice": null,
+          "extensions": []
+        },
+        "priceDefinition": {
+          "price": -15.0,
+          "filter": null,
+          "extensions": [],
+          "type": "absolute"
+        },
+        "unitPrice": -15.0,
+        "totalPrice": -15.0,
+        "description": null,
+        "type": "easy-coupon",
+        "customFields": null,
+        "createdAt": "2021-10-06T14:10:30.813+00:00",
+        "updatedAt": "2021-10-06T14:10:30.912+00:00",
+        "apiAlias": null
+      },
+      "links": {
+        "self": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/order-line-item\/a92fb88134a0444285797650e4fc9ef5"
+      },
+      "relationships": {
+        "cover": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/order-line-item\/a92fb88134a0444285797650e4fc9ef5\/cover"
+          }
+        },
+        "order": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/order-line-item\/a92fb88134a0444285797650e4fc9ef5\/order"
+          }
+        },
+        "product": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/order-line-item\/a92fb88134a0444285797650e4fc9ef5\/product"
+          }
+        },
+        "orderDeliveryPositions": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/order-line-item\/a92fb88134a0444285797650e4fc9ef5\/order-delivery-positions"
+          }
+        },
+        "parent": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/order-line-item\/a92fb88134a0444285797650e4fc9ef5\/parent"
+          }
+        },
+        "children": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/order-line-item\/a92fb88134a0444285797650e4fc9ef5\/children"
+          }
+        }
+      },
+      "meta": null
+    },
+    {
+      "id": "5363bbad4aee431fbb4c9d22f26d2da9",
+      "type": "extension",
+      "attributes": {
+        "swagCustomizedProductsTemplateId": null,
+        "swagCustomizedProductsTemplateVersionId": null
+      },
+      "links": {},
+      "relationships": {
+        "swagCustomizedProductsTemplate": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/product\/5363bbad4aee431fbb4c9d22f26d2da9\/extensions\/swagCustomizedProductsTemplate"
+          }
+        },
+        "netiEasyCouponProduct": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/product\/5363bbad4aee431fbb4c9d22f26d2da9\/extensions\/netiEasyCouponProduct"
+          }
+        },
+        "paypalPosLog": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/product\/5363bbad4aee431fbb4c9d22f26d2da9\/extensions\/paypalPosLog"
+          }
+        },
+        "paypalPosSync": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/product\/5363bbad4aee431fbb4c9d22f26d2da9\/extensions\/paypalPosSync"
+          }
+        },
+        "socialShoppingProductErrors": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/product\/5363bbad4aee431fbb4c9d22f26d2da9\/extensions\/socialShoppingProductErrors"
+          }
+        }
+      },
+      "meta": null
+    },
+    {
+      "id": "5363bbad4aee431fbb4c9d22f26d2da9",
+      "type": "product",
+      "attributes": {
+        "versionId": "0fa91ce3e96a4bc2be4bd9ce752c3425",
+        "parentId": null,
+        "parentVersionId": null,
+        "manufacturerId": null,
+        "productManufacturerVersionId": null,
+        "unitId": null,
+        "taxId": "e27750a099d34cf5b94b1e74e119b658",
+        "coverId": "af2b41be01730f0c058fb90c71f2929c",
+        "productMediaVersionId": null,
+        "deliveryTimeId": "21e28bd7e1ac4c24844ec5c752007289",
+        "featureSetId": "f96e46058e9a436da55dd5014ccf8ea0",
+        "canonicalProductId": null,
+        "cmsPageId": "70978ef4e9a340bb860d7a751e1dcc41",
+        "cmsPageVersionId": null,
+        "price": [
+          {
+            "currencyId": "b7d2554b0ce847cd82f3ac9bd1c0dfca",
+            "net": 128.79,
+            "gross": 159.0,
+            "linked": true,
+            "listPrice": null,
+            "percentage": null,
+            "extensions": []
+          }
+        ],
+        "productNumber": "K90353~99-0007-OG",
+        "stock": 100,
+        "restockTime": null,
+        "autoIncrement": 4710,
+        "active": true,
+        "availableStock": 98,
+        "available": true,
+        "isCloseout": true,
+        "variation": [],
+        "displayGroup": "1e5b658885436a1e0b5af495474fb129",
+        "configuratorGroupConfig": null,
+        "mainVariantId": null,
+        "variantRestrictions": null,
+        "manufacturerNumber": null,
+        "ean": "4055539406881",
+        "purchaseSteps": 1,
+        "maxPurchase": null,
+        "minPurchase": 1,
+        "purchaseUnit": null,
+        "referenceUnit": null,
+        "shippingFree": false,
+        "purchasePrices": null,
+        "markAsTopseller": null,
+        "weight": null,
+        "width": null,
+        "height": null,
+        "length": null,
+        "releaseDate": null,
+        "ratingAverage": null,
+        "categoryTree": [
+          "de9ce17e207c40dca7982843ddb25136",
+          "8869dd77ad44481abbb9a5396ad0f7bb",
+          "86c58521844749719a5a2d15ac5f3ee1"
+        ],
+        "propertyIds": [
+          "74e635b1acc34e58884f97026723305b",
+          "c306f5c22e9e4ba09f4203f7e265e3a7",
+          "d89b01be0e0d44089b435981551d9459",
+          "ecb7596f8d3e407e993739e3ebb62010",
+          "f319ada3174b44eba20658c8f9060268"
+        ],
+        "optionIds": null,
+        "tagIds": null,
+        "categoryIds": [
+          "86c58521844749719a5a2d15ac5f3ee1",
+          "8869dd77ad44481abbb9a5396ad0f7bb"
+        ],
+        "childCount": 0,
+        "customFieldSetSelectionActive": null,
+        "sales": 0,
+        "metaDescription": null,
+        "name": "Pen Black",
+        "keywords": null,
+        "description": null,
+        "metaTitle": null,
+        "packUnit": null,
+        "packUnitPlural": null,
+        "customFields": {
+          "articleDesc": null,
+          "articleTitle": "Pen Black",
+          "orgColorDesc": "black",
+          "specialPrice": null,
+          "item_group_id": "K90353 99-0007",
+          "articleDetails": "pen's case made of brass and stainless steel| Silver rhodium-plated, black plated| Weight: 35 gram| Length: 13.5 cm",
+          "changedDate_ERP": "2021-04-27T16:57:10+02:00",
+          "specialPrice_EUR": 0.0,
+          "specialPrice_JPY": 0.0,
+          "specialPrice_from": "2021-01-01T01:00:00+01:00"
+        },
+        "slotConfig": null,
+        "customSearchKeywords": null,
+        "cheapestPrice": {
+          "hasRange": false,
+          "variantId": "5363bbad4aee431fbb4c9d22f26d2da9",
+          "parentId": "5363bbad4aee431fbb4c9d22f26d2da9",
+          "ruleId": null,
+          "purchase": null,
+          "reference": null,
+          "unitId": null,
+          "price": [
+            {
+              "currencyId": "b7d2554b0ce847cd82f3ac9bd1c0dfca",
+              "net": 128.79,
+              "gross": 159.0,
+              "linked": true,
+              "listPrice": null,
+              "percentage": null,
+              "extensions": []
+            }
+          ],
+          "extensions": []
+        },
+        "createdAt": "2021-08-03T17:34:29.511+00:00",
+        "updatedAt": "2021-10-06T14:10:30.947+00:00",
+        "translated": {
+          "metaDescription": null,
+          "name": "Pen Black",
+          "keywords": null,
+          "description": null,
+          "metaTitle": null,
+          "packUnit": null,
+          "packUnitPlural": null,
+          "customFields": {
+            "articleTitle": "Pen Black",
+            "orgColorDesc": "black",
+            "item_group_id": "K90353 99-0007",
+            "articleDetails": "pen's case made of brass and stainless steel| Silver rhodium-plated, black plated| Weight: 35 gram| Length: 13.5 cm",
+            "changedDate_ERP": "2021-04-27T16:57:10+02:00",
+            "specialPrice_EUR": 0.0,
+            "specialPrice_JPY": 0.0,
+            "specialPrice_from": "2021-01-01T01:00:00+01:00"
+          },
+          "slotConfig": null,
+          "customSearchKeywords": null
+        },
+        "apiAlias": null,
+        "swagCustomizedProductsTemplateId": null,
+        "swagCustomizedProductsTemplateVersionId": "0fa91ce3e96a4bc2be4bd9ce752c3425"
+      },
+      "links": {
+        "self": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/product\/5363bbad4aee431fbb4c9d22f26d2da9"
+      },
+      "relationships": {
+        "parent": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/product\/5363bbad4aee431fbb4c9d22f26d2da9\/parent"
+          }
+        },
+        "children": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/product\/5363bbad4aee431fbb4c9d22f26d2da9\/children"
+          }
+        },
+        "deliveryTime": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/product\/5363bbad4aee431fbb4c9d22f26d2da9\/delivery-time"
+          }
+        },
+        "tax": {
+          "data": {
+            "type": "tax",
+            "id": "e27750a099d34cf5b94b1e74e119b658"
+          },
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/product\/5363bbad4aee431fbb4c9d22f26d2da9\/tax"
+          }
+        },
+        "manufacturer": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/product\/5363bbad4aee431fbb4c9d22f26d2da9\/manufacturer"
+          }
+        },
+        "unit": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/product\/5363bbad4aee431fbb4c9d22f26d2da9\/unit"
+          }
+        },
+        "cover": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/product\/5363bbad4aee431fbb4c9d22f26d2da9\/cover"
+          }
+        },
+        "featureSet": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/product\/5363bbad4aee431fbb4c9d22f26d2da9\/feature-set"
+          }
+        },
+        "cmsPage": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/product\/5363bbad4aee431fbb4c9d22f26d2da9\/cms-page"
+          }
+        },
+        "canonicalProduct": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/product\/5363bbad4aee431fbb4c9d22f26d2da9\/canonical-product"
+          }
+        },
+        "prices": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/product\/5363bbad4aee431fbb4c9d22f26d2da9\/prices"
+          }
+        },
+        "media": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/product\/5363bbad4aee431fbb4c9d22f26d2da9\/media"
+          }
+        },
+        "crossSellings": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/product\/5363bbad4aee431fbb4c9d22f26d2da9\/cross-sellings"
+          }
+        },
+        "crossSellingAssignedProducts": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/product\/5363bbad4aee431fbb4c9d22f26d2da9\/cross-selling-assigned-products"
+          }
+        },
+        "configuratorSettings": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/product\/5363bbad4aee431fbb4c9d22f26d2da9\/configurator-settings"
+          }
+        },
+        "visibilities": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/product\/5363bbad4aee431fbb4c9d22f26d2da9\/visibilities"
+          }
+        },
+        "searchKeywords": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/product\/5363bbad4aee431fbb4c9d22f26d2da9\/search-keywords"
+          }
+        },
+        "productReviews": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/product\/5363bbad4aee431fbb4c9d22f26d2da9\/product-reviews"
+          }
+        },
+        "mainCategories": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/product\/5363bbad4aee431fbb4c9d22f26d2da9\/main-categories"
+          }
+        },
+        "seoUrls": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/product\/5363bbad4aee431fbb4c9d22f26d2da9\/seo-urls"
+          }
+        },
+        "orderLineItems": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/product\/5363bbad4aee431fbb4c9d22f26d2da9\/order-line-items"
+          }
+        },
+        "wishlists": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/product\/5363bbad4aee431fbb4c9d22f26d2da9\/wishlists"
+          }
+        },
+        "options": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/product\/5363bbad4aee431fbb4c9d22f26d2da9\/options"
+          }
+        },
+        "properties": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/product\/5363bbad4aee431fbb4c9d22f26d2da9\/properties"
+          }
+        },
+        "categories": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/product\/5363bbad4aee431fbb4c9d22f26d2da9\/categories"
+          }
+        },
+        "streams": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/product\/5363bbad4aee431fbb4c9d22f26d2da9\/streams"
+          }
+        },
+        "categoriesRo": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/product\/5363bbad4aee431fbb4c9d22f26d2da9\/categories-ro"
+          }
+        },
+        "tags": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/product\/5363bbad4aee431fbb4c9d22f26d2da9\/tags"
+          }
+        },
+        "customFieldSets": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/product\/5363bbad4aee431fbb4c9d22f26d2da9\/custom-field-sets"
+          }
+        },
+        "translations": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/product\/5363bbad4aee431fbb4c9d22f26d2da9\/translations"
+          }
+        },
+        "extensions": {
+          "data": {
+            "type": "extension",
+            "id": "5363bbad4aee431fbb4c9d22f26d2da9"
+          }
+        }
+      },
+      "meta": null
+    },
+    {
+      "id": "f155bce3ae6b4eb0a37ba3963db6f52d",
+      "type": "order_line_item",
+      "attributes": {
+        "versionId": "0fa91ce3e96a4bc2be4bd9ce752c3425",
+        "orderId": "2de7093092a740288cd501c5fc8f3768",
+        "orderVersionId": "0fa91ce3e96a4bc2be4bd9ce752c3425",
+        "productId": "5363bbad4aee431fbb4c9d22f26d2da9",
+        "productVersionId": "0fa91ce3e96a4bc2be4bd9ce752c3425",
+        "parentId": null,
+        "parentVersionId": "0fa91ce3e96a4bc2be4bd9ce752c3425",
+        "coverId": "fc48fa134b9d4c13bec3242e839fbf35",
+        "identifier": "5363bbad4aee431fbb4c9d22f26d2da9",
+        "referencedId": "5363bbad4aee431fbb4c9d22f26d2da9",
+        "quantity": 1,
+        "label": "Pen Black",
+        "payload": {
+          "isNew": false,
+          "taxId": "e27750a099d34cf5b94b1e74e119b658",
+          "tagIds": null,
+          "options": [],
+          "features": [],
+          "createdAt": "2021-08-03 17:34:29.511",
+          "optionIds": null,
+          "isCloseout": true,
+          "categoryIds": [
+            "de9ce17e207c40dca7982843ddb25136",
+            "8869dd77ad44481abbb9a5396ad0f7bb",
+            "86c58521844749719a5a2d15ac5f3ee1"
+          ],
+          "propertyIds": [
+            "74e635b1acc34e58884f97026723305b",
+            "c306f5c22e9e4ba09f4203f7e265e3a7",
+            "d89b01be0e0d44089b435981551d9459",
+            "ecb7596f8d3e407e993739e3ebb62010",
+            "f319ada3174b44eba20658c8f9060268"
+          ],
+          "releaseDate": null,
+          "customFields": {
+            "articleTitle": "Pen Black",
+            "orgColorDesc": "black",
+            "item_group_id": "K90353 99-0007",
+            "articleDetails": "pen's case made of brass and stainless steel| Silver rhodium-plated, black plated| Weight: 35 gram| Length: 13.5 cm",
+            "changedDate_ERP": "2021-04-27T16:57:10+02:00",
+            "specialPrice_EUR": 0.0,
+            "specialPrice_JPY": 0.0,
+            "specialPrice_from": "2021-01-01T01:00:00+01:00"
+          },
+          "productNumber": "K90353~99-0007-OG",
+          "manufacturerId": null,
+          "purchasePrices": null,
+          "markAsTopseller": null
+        },
+        "good": true,
+        "removable": true,
+        "stackable": true,
+        "position": 1,
+        "price": {
+          "unitPrice": 159.0,
+          "quantity": 1,
+          "totalPrice": 159.0,
+          "calculatedTaxes": [
+            {
+              "tax": 25.39,
+              "taxRate": 19.0,
+              "price": 159.0,
+              "extensions": []
+            }
+          ],
+          "taxRules": [
+            {
+              "taxRate": 19.0,
+              "percentage": 100.0,
+              "extensions": []
+            }
+          ],
+          "referencePrice": null,
+          "listPrice": null,
+          "extensions": []
+        },
+        "priceDefinition": {
+          "price": 159.0,
+          "taxRules": [
+            {
+              "taxRate": 19.0,
+              "percentage": 100.0,
+              "extensions": []
+            }
+          ],
+          "quantity": 1,
+          "isCalculated": true,
+          "referencePriceDefinition": null,
+          "listPrice": null,
+          "extensions": [],
+          "type": "quantity"
+        },
+        "unitPrice": 159.0,
+        "totalPrice": 159.0,
+        "description": null,
+        "type": "product",
+        "customFields": null,
+        "createdAt": "2021-10-06T14:10:30.811+00:00",
+        "updatedAt": null,
+        "apiAlias": null
+      },
+      "links": {
+        "self": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/order-line-item\/f155bce3ae6b4eb0a37ba3963db6f52d"
+      },
+      "relationships": {
+        "cover": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/order-line-item\/f155bce3ae6b4eb0a37ba3963db6f52d\/cover"
+          }
+        },
+        "order": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/order-line-item\/f155bce3ae6b4eb0a37ba3963db6f52d\/order"
+          }
+        },
+        "product": {
+          "data": {
+            "type": "product",
+            "id": "5363bbad4aee431fbb4c9d22f26d2da9"
+          },
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/order-line-item\/f155bce3ae6b4eb0a37ba3963db6f52d\/product"
+          }
+        },
+        "orderDeliveryPositions": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/order-line-item\/f155bce3ae6b4eb0a37ba3963db6f52d\/order-delivery-positions"
+          }
+        },
+        "parent": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/order-line-item\/f155bce3ae6b4eb0a37ba3963db6f52d\/parent"
+          }
+        },
+        "children": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/order-line-item\/f155bce3ae6b4eb0a37ba3963db6f52d\/children"
+          }
+        }
+      },
+      "meta": null
+    },
+    {
+      "id": "e6a605368c404d7e8b4003e311548c37",
+      "type": "state_machine_state",
+      "attributes": {
+        "technicalName": "paid",
+        "name": "Paid",
+        "stateMachineId": "f7041d4efb1a474db924509d1ae4e1e8",
+        "customFields": null,
+        "createdAt": "2020-05-29T10:06:01.203+00:00",
+        "updatedAt": null,
+        "translated": {
+          "name": "Paid",
+          "customFields": []
+        },
+        "apiAlias": null
+      },
+      "links": {
+        "self": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/state-machine-state\/e6a605368c404d7e8b4003e311548c37"
+      },
+      "relationships": {
+        "stateMachine": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/state-machine-state\/e6a605368c404d7e8b4003e311548c37\/state-machine"
+          }
+        },
+        "fromStateMachineTransitions": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/state-machine-state\/e6a605368c404d7e8b4003e311548c37\/from-state-machine-transitions"
+          }
+        },
+        "toStateMachineTransitions": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/state-machine-state\/e6a605368c404d7e8b4003e311548c37\/to-state-machine-transitions"
+          }
+        },
+        "translations": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/state-machine-state\/e6a605368c404d7e8b4003e311548c37\/translations"
+          }
+        },
+        "orderTransactions": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/state-machine-state\/e6a605368c404d7e8b4003e311548c37\/order-transactions"
+          }
+        },
+        "orderDeliveries": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/state-machine-state\/e6a605368c404d7e8b4003e311548c37\/order-deliveries"
+          }
+        },
+        "orders": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/state-machine-state\/e6a605368c404d7e8b4003e311548c37\/orders"
+          }
+        },
+        "toStateMachineHistoryEntries": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/state-machine-state\/e6a605368c404d7e8b4003e311548c37\/to-state-machine-history-entries"
+          }
+        },
+        "fromStateMachineHistoryEntries": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/state-machine-state\/e6a605368c404d7e8b4003e311548c37\/from-state-machine-history-entries"
+          }
+        }
+      },
+      "meta": null
+    },
+    {
+      "id": "efbe359bf90e487484d14138995cb8cd",
+      "type": "payment_method",
+      "attributes": {
+        "pluginId": "1784eb7e1f6b49ff93094e1627b24381",
+        "name": "PayPal",
+        "distinguishableName": "PayPal | PayPal Products for Shopware 6",
+        "description": "Payment via PayPal - easy, fast and secure.",
+        "position": -100,
+        "active": true,
+        "afterOrderEnabled": false,
+        "customFields": null,
+        "availabilityRuleId": null,
+        "mediaId": null,
+        "formattedHandlerIdentifier": "handler_swag_paypalpaymenthandler",
+        "createdAt": "2020-06-01T16:05:10.054+00:00",
+        "updatedAt": "2021-10-06T13:48:19.442+00:00",
+        "translated": {
+          "name": "PayPal",
+          "distinguishableName": "PayPal | PayPal Products for Shopware 6",
+          "description": "Payment via PayPal - easy, fast and secure.",
+          "customFields": []
+        },
+        "apiAlias": null
+      },
+      "links": {
+        "self": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/payment-method\/efbe359bf90e487484d14138995cb8cd"
+      },
+      "relationships": {
+        "translations": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/payment-method\/efbe359bf90e487484d14138995cb8cd\/translations"
+          }
+        },
+        "media": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/payment-method\/efbe359bf90e487484d14138995cb8cd\/media"
+          }
+        },
+        "availabilityRule": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/payment-method\/efbe359bf90e487484d14138995cb8cd\/availability-rule"
+          }
+        },
+        "salesChannelDefaultAssignments": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/payment-method\/efbe359bf90e487484d14138995cb8cd\/sales-channel-default-assignments"
+          }
+        },
+        "plugin": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/payment-method\/efbe359bf90e487484d14138995cb8cd\/plugin"
+          }
+        },
+        "customers": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/payment-method\/efbe359bf90e487484d14138995cb8cd\/customers"
+          }
+        },
+        "orderTransactions": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/payment-method\/efbe359bf90e487484d14138995cb8cd\/order-transactions"
+          }
+        },
+        "salesChannels": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/payment-method\/efbe359bf90e487484d14138995cb8cd\/sales-channels"
+          }
+        },
+        "appPaymentMethod": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/payment-method\/efbe359bf90e487484d14138995cb8cd\/app-payment-method"
+          }
+        }
+      },
+      "meta": null
+    },
+    {
+      "id": "e4552a2e7e6d4054bb1ba158c69b0d9b",
+      "type": "extension",
+      "attributes": {},
+      "links": {},
+      "relationships": {
+        "paymentNotifications": {
+          "data": [],
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/order-transaction\/e4552a2e7e6d4054bb1ba158c69b0d9b\/extensions\/paymentNotifications"
+          }
+        }
+      },
+      "meta": null
+    },
+    {
+      "id": "e4552a2e7e6d4054bb1ba158c69b0d9b",
+      "type": "order_transaction",
+      "attributes": {
+        "versionId": "0fa91ce3e96a4bc2be4bd9ce752c3425",
+        "orderId": "2de7093092a740288cd501c5fc8f3768",
+        "orderVersionId": "0fa91ce3e96a4bc2be4bd9ce752c3425",
+        "paymentMethodId": "efbe359bf90e487484d14138995cb8cd",
+        "amount": {
+          "unitPrice": 218.01,
+          "quantity": 1,
+          "totalPrice": 218.01,
+          "calculatedTaxes": [
+            {
+              "tax": 37.21,
+              "taxRate": 19.0,
+              "price": 233.01,
+              "extensions": []
+            },
+            {
+              "tax": -0.0,
+              "taxRate": 0.0,
+              "price": -15.0,
+              "extensions": []
+            }
+          ],
+          "taxRules": [
+            {
+              "taxRate": 19.0,
+              "percentage": 100.0,
+              "extensions": []
+            },
+            {
+              "taxRate": 0.0,
+              "percentage": 100.0,
+              "extensions": []
+            }
+          ],
+          "referencePrice": null,
+          "listPrice": null,
+          "extensions": []
+        },
+        "stateId": "e6a605368c404d7e8b4003e311548c37",
+        "customFields": {
+          "swag_paypal_order_id": "6AP37975GM619611X",
+          "swag_paypal_resource_id": "6UD068217J591474C",
+          "swag_paypal_partner_attribution_id": "Shopware_Cart_EC_6native"
+        },
+        "createdAt": "2021-10-06T14:10:30.814+00:00",
+        "updatedAt": "2021-10-06T14:11:05.475+00:00",
+        "apiAlias": null
+      },
+      "links": {
+        "self": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/order-transaction\/e4552a2e7e6d4054bb1ba158c69b0d9b"
+      },
+      "relationships": {
+        "stateMachineState": {
+          "data": {
+            "type": "state_machine_state",
+            "id": "e6a605368c404d7e8b4003e311548c37"
+          },
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/order-transaction\/e4552a2e7e6d4054bb1ba158c69b0d9b\/state-machine-state"
+          }
+        },
+        "order": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/order-transaction\/e4552a2e7e6d4054bb1ba158c69b0d9b\/order"
+          }
+        },
+        "paymentMethod": {
+          "data": {
+            "type": "payment_method",
+            "id": "efbe359bf90e487484d14138995cb8cd"
+          },
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/order-transaction\/e4552a2e7e6d4054bb1ba158c69b0d9b\/payment-method"
+          }
+        },
+        "extensions": {
+          "data": {
+            "type": "extension",
+            "id": "e4552a2e7e6d4054bb1ba158c69b0d9b"
+          }
+        }
+      },
+      "meta": null
+    },
+    {
+      "id": "2de7093092a740288cd501c5fc8f3768",
+      "type": "extension",
+      "attributes": {},
+      "links": {},
+      "relationships": {
+        "adcellExtension": {
+          "data": null,
+          "links": {
+            "related": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/order\/2de7093092a740288cd501c5fc8f3768\/extensions\/adcellExtension"
+          }
+        }
+      },
+      "meta": null
+    }
+  ],
+  "links": {
+    "self": "https:\/\/aig-2037.feature-backend.aignermunich.de\/api\/search\/order"
+  },
+  "meta": {
+    "totalCountMode": 0,
+    "total": 1
+  },
+  "aggregations": []
+}
