@@ -26,9 +26,10 @@ class ImageProcessor
     // https://shopwarian.com/how-to-add-images-to-products-programmatically-in-shopware-6/
 
     public function __construct(
-        ImageImport $imageImport,
+        ImageImport      $imageImport,
         EntityRepository $productMediaRepository
-    ) {
+    )
+    {
         $this->imageImport = $imageImport;
         $this->productMediaRepository = $productMediaRepository;
     }
@@ -37,7 +38,9 @@ class ImageProcessor
     {
         $mediaUuids = [];
         $images = [];
-        if (empty($request->getImages())) return [];
+        if (empty($request->getImages())) {
+            return [];
+        }
         foreach ($request->getImages() as $image) {
             $url = $image['url'];
             $mediaUuid = $this->imageImport->addImageToMediaFromResource($url, $context);
@@ -79,31 +82,20 @@ class ImageProcessor
 
         /* Prüft, ob es Änderungen gibt. Falls ja, werden alle Zuordnungen entfernt
          */
-       $this->removeEntriesIfRequired($productUuid, $mediaUuids, $context);
+        $this->removeEntriesIfRequired($productUuid, $mediaUuids, $context);
 
         return [
-            'id' => $productUuid,
+            'id'    => $productUuid,
             'cover' => [
-                'id' => $this->coverImageMediaId,
-                'mediaId' => $this->coverImageId,
-                'position' => 1
+                'id'       => $this->coverImageMediaId,
+                'mediaId'  => $this->coverImageId,
+                'position' => 1,
             ],
             'media' => $this->applyPositions($images),
         ];
     }
 
-    private function getAllAssignedMediaByProductId(string $productUuid, Context $context) : array
-    {
-        $criteria = new Criteria();
-        $criteria->addFilter(new EqualsFilter('productId', $productUuid));
-        $result = $this->productMediaRepository->search($criteria, $context);
-        if ($result->count() == 0) {
-            return [];
-        }
-        return $result->getIds();
-    }
-
-    protected function removeEntriesIfRequired(string $productUuid, array $mediaUuids, Context $context)
+    protected function removeEntriesIfRequired(string $productUuid, array $mediaUuids, Context $context): void
     {
         $requiresCleanup = false;
         $assignedImages = $this->getAllAssignedMediaByProductId($productUuid, $context);
@@ -126,10 +118,17 @@ class ImageProcessor
         }
     }
 
-    protected function applyPositions(array $images) : array
+    private function getAllAssignedMediaByProductId(string $productUuid, Context $context): array
+    {
+        $criteria = new Criteria();
+        $criteria->addFilter(new EqualsFilter('productId', $productUuid));
+        return $this->productMediaRepository->search($criteria, $context)->getIds();
+    }
+
+    protected function applyPositions(array $images): array
     {
         $i = 2;
-        foreach ($images as $mediaUuid =>  $image) {
+        foreach ($images as $mediaUuid => $image) {
             $images[$mediaUuid]['position'] = $i;
             $i++;
         }

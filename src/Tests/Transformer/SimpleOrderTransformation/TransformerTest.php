@@ -13,26 +13,6 @@ class TransformerTest extends TestCase
     protected string $fixtureDir;
     protected Transformer $t;
 
-    protected function setUp(): void
-    {
-        $this->testHelper = new TestFunctions();
-        $this->fixtureDir = __DIR__ . '/fixtures/';
-        $this->t = new Transformer();
-    }
-
-    /**
-     * @throws JsonException
-     */
-    protected function getSimpleResponseFromFixture(string $fixture): array
-    {
-        $response = json_decode(file_get_contents($this->fixtureDir . $fixture), true, 512, JSON_THROW_ON_ERROR);
-        $this->t->init($response);
-
-        return $this->t->map();
-    }
-
-    // Simple-Order-Transformation
-
     /**
      * Generischer Test, um die grundlegende Struktur aller Bestellungen zu prüfen.
      * Achtung: Ersetzt keine spezi
@@ -54,6 +34,19 @@ class TransformerTest extends TestCase
             $this->testHelper->assertStructure($simpleResponse);
         }
     }
+
+    /**
+     * @throws JsonException
+     */
+    protected function getSimpleResponseFromFixture(string $fixture): array
+    {
+        $response = json_decode(file_get_contents($this->fixtureDir . $fixture), true, 512, JSON_THROW_ON_ERROR);
+        $this->t->init($response);
+
+        return $this->t->map();
+    }
+
+    // Simple-Order-Transformation
 
     /**
      * Artikel:         Normal(28)
@@ -114,16 +107,16 @@ class TransformerTest extends TestCase
      * @group SimpleOrderTransformation_3
      * @throws JsonException
      */
-    public function N5_PayPal_VersandRegionW_AddressEqual() : void
-{
-    $simpleResponse = $this->getSimpleResponseFromFixture('order_100082_ch_paypal_discount.json');
+    public function N5_PayPal_VersandRegionW_AddressEqual(): void
+    {
+        $simpleResponse = $this->getSimpleResponseFromFixture('order_100082_ch_paypal_discount.json');
 
-    $this->testHelper->assertStructure($simpleResponse);
-    $this->testHelper->assertExpectedNumberOfItems(5, $simpleResponse['lineItemsGraph']);
-    $this->testHelper->assertAddressEqual($simpleResponse);
-    $this->testHelper->assertPayment('PayPal', $simpleResponse);
-    $this->testHelper->assertShipment('Versand Region W', $simpleResponse);
-}
+        $this->testHelper->assertStructure($simpleResponse);
+        $this->testHelper->assertExpectedNumberOfItems(5, $simpleResponse['lineItemsGraph']);
+        $this->testHelper->assertAddressEqual($simpleResponse);
+        $this->testHelper->assertPayment('PayPal', $simpleResponse);
+        $this->testHelper->assertShipment('Versand Region W', $simpleResponse);
+    }
 
     /**
      * Artikel:         Custom(1)
@@ -247,8 +240,8 @@ class TransformerTest extends TestCase
         $this->testHelper->assertShipment('Standard', $simpleResponse);
 
         // Discount checken
-        $this->testHelper->assertDiscount($simpleResponse['lineItemsGraph'][0], 'percentage', '10', 9.990000000000002);
-        $this->testHelper->assertDiscount($simpleResponse['lineItemsGraph'][3], 'percentage', '10', 15.9);
+        $this->testHelper->assertDiscount($simpleResponse['lineItemsGraph'][0], 'percentage');
+        $this->testHelper->assertDiscount($simpleResponse['lineItemsGraph'][3], 'percentage');
     }
 
     /**
@@ -303,5 +296,12 @@ class TransformerTest extends TestCase
 
         $this->testHelper->assertStructure($simpleResponse);
         Assert::assertEquals('Herr', $simpleResponse['customerTitle']);
+    }
+
+    protected function setUp(): void
+    {
+        $this->testHelper = new TestFunctions();
+        $this->fixtureDir = __DIR__ . '/fixtures/';
+        $this->t = new Transformer();
     }
 }

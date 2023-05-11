@@ -6,13 +6,13 @@ namespace MothershipSimpleApi\Service\Validator;
 
 use MothershipSimpleApi\Service\Definition\Product;
 use MothershipSimpleApi\Service\Validator\Exception\InvalidUuidException;
-use MothershipSimpleApi\Service\Validator\Exception\Translation\InvalidIsoCodeException;
-use MothershipSimpleApi\Service\Validator\Exception\Translation\MissingIsoCodeException;
-use MothershipSimpleApi\Service\Validator\Exception\Translation\MissingNameException;
 use Shopware\Core\Framework\Uuid\Uuid;
 
 class CmsPageIdValidator implements IValidator
 {
+    /**
+     * @throws InvalidUuidException
+     */
     public function validate(Product $product): void
     {
         $pageId = $product->getCmsPageId();

@@ -11,6 +11,11 @@ use MothershipSimpleApi\Service\Validator\Exception\Translation\MissingNameExcep
 
 class TranslationValidator implements IValidator
 {
+    /**
+     * @throws MissingIsoCodeException
+     * @throws MissingNameException
+     * @throws InvalidIsoCodeException
+     */
     public function validate(Product $product): void
     {
         $name = $product->getName();
@@ -34,7 +39,10 @@ class TranslationValidator implements IValidator
         }
     }
 
-    private function isCodeIsValid(string $isoCode)
+    /**
+     * @throws InvalidIsoCodeException
+     */
+    private function isCodeIsValid(string $isoCode): void
     {
         if (!preg_match("/[a-z]{2}-[A-Z]{2}/", $isoCode)) {
             throw new InvalidIsoCodeException('The provided Iso-Code ' . $isoCode . ' does not match the schema aa-AA.');

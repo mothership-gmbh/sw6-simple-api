@@ -17,6 +17,6 @@ class BitwiseOperations
      */
     public static function xorHex(string $a, string $b): string
     {
-        return bin2hex(pack('H*',$a) ^ pack('H*',$b));
+        return bin2hex(pack('H*', $a) ^ pack('H*', $b));
     }
 }

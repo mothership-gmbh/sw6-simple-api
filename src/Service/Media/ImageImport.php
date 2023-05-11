@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace MothershipSimpleApi\Service\Media;
 
-
-use Shopware\Core\Content\Media\Exception\DuplicatedMediaFileNameException;
+use Exception;
 use Shopware\Core\Content\Media\Exception\MediaNotFoundException;
 use Shopware\Core\Content\Media\File\FileSaver;
 use Shopware\Core\Content\Media\File\MediaFile;
 use Shopware\Core\Content\Media\MediaEntity;
 use Shopware\Core\Content\Media\MediaService;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
@@ -27,9 +25,9 @@ use Shopware\Core\Framework\Uuid\Uuid;
  */
 class ImageImport
 {
-    const TEMP_NAME = 'image-import-from-url';      //prefix for temporary files, downloaded from URL
-    const MEDIA_DIR = '/public/media/';             //relative path to Shopware's media directory
-    const MEDIA_FOLDER = 'product';
+    public const TEMP_NAME = 'image-import-from-url';      //prefix for temporary files, downloaded from URL
+    public const MEDIA_DIR = '/public/media/';             //relative path to Shopware's media directory
+    public const MEDIA_FOLDER = 'product';
     protected ?string $mediaFolderId = null;
 
     protected EntityRepositoryInterface $mediaRepository;
@@ -40,9 +38,10 @@ class ImageImport
     public function __construct(
         EntityRepositoryInterface $mediaRepository,
         EntityRepositoryInterface $mediaFolderRepository,
-        MediaService $mediaService,
-        FileSaver $fileSaver
-    ) {
+        MediaService              $mediaService,
+        FileSaver                 $fileSaver
+    )
+    {
         $this->mediaRepository = $mediaRepository;
         $this->mediaFolderRepository = $mediaFolderRepository;
 
@@ -50,20 +49,13 @@ class ImageImport
         $this->fileSaver = $fileSaver;
     }
 
-    protected function init(Context $context)
-    {
-        if (null === $this->mediaFolderId) {
-            $this->mediaFolderId = $this->getMediaDefaultFolderId(self::MEDIA_FOLDER, $context);
-        }
-    }
-
     /**
      * Method, that downloads a file from a URL and returns an ID of a newly created media, based on it
      *
-     * @param string  $imageUrl
+     * @param string  $resource
      * @param Context $context
      *
-     * @return string|null
+     * @return string
      */
     public function addImageToMediaFromResource(string $resource, Context $context): string
     {
@@ -76,7 +68,7 @@ class ImageImport
         $fileNameParts = explode('.', array_pop($filePathParts));
 
         //get the file name and extension
-        $fileName      = $fileNameParts[0];
+        $fileName = $fileNameParts[0];
         $fileExtension = end($fileNameParts);
 
         if ($fileName && $fileExtension) {
@@ -91,93 +83,11 @@ class ImageImport
         return $mediaId;
     }
 
-
-    private function createMedia(string $mediaId, Context $context)
+    protected function init(Context $context): void
     {
-        $this->mediaRepository->create(
-            [
-                [
-                    'id'            => $mediaId,
-                    'private'       => false,
-                    'mediaFolderId' => $this->mediaFolderId,
-                ],
-            ],
-            $context
-        );
-
-        return $mediaId;
-    }
-
-    /**
-     * Erstellt eine eindeutige UUID basierend auf dem Dateinamen und der Endung.
-     *
-     * @param string $fileName
-     * @param string $fileExtension
-     *
-     * @return string
-     */
-    private function generateMediaId(string $fileName, string $fileExtension)
-    {
-        // Die Medien-ID ist immer unique
-        return Uuid::fromStringToHex($fileName . $fileExtension);
-    }
-
-    /**
-     * Erstellt bzw. aktualisiert Bilder sowohl in der Tabelle 'media' als auch im lokalen Dateisystem.
-     *
-     * @param string  $filePath
-     * @param string  $fileName
-     * @param string  $fileExtension
-     * @param Context $context
-     *
-     * @return string|null
-     */
-    private function upsertMediaFromFile(string $filePath, string $fileName, string $fileExtension, Context $context)
-    {
-        //get additional info on the file
-        $fileSize = filesize($filePath);
-        $mimeType = mime_content_type($filePath);
-        $hash     = hash_file('sha1', $filePath);
-
-        // Die Medien-ID ist immer unique
-        $mediaId = $this->generateMediaId($fileName, $fileExtension);
-
-        // Prüfen, ob es das Bild überhaupt gibt
-        $mediaEntity = $this->getMediaEntityById($mediaId, $context);
-        $mediaFile = new MediaFile($filePath, $mimeType, $fileExtension, $fileSize, $hash);
-
-
-        if (null === $mediaEntity) {
-            // Es existiert kein Eintrag in der Tabelle 'media'. Ein neuer Eintrag sollte also angelegt werden
-            try {
-                $this->mediaService->loadFile($mediaId, $context);
-            } catch (MediaNotFoundException $e) {
-                // Noch keine Behandlung
-                try {
-                    $this->createMedia($mediaId, $context);
-                    $this->fileSaver->persistFileToMedia($mediaFile, $fileName, $mediaId, $context);
-                } catch (DuplicatedMediaFileNameException $e) {
-                    echo($e->getMessage());
-                    // Noch keine Behandlung
-                } catch (\Exception $e) {
-                    echo($e->getMessage());
-                    // Noch keine Behandlung
-                }
-            }
-        } else {
-            if ($mediaEntity->getMetaData()['hash'] !== $hash) {
-                $this->fileSaver->persistFileToMedia($mediaFile, $fileName, $mediaId, $context);
-            }
+        if (null === $this->mediaFolderId) {
+            $this->mediaFolderId = $this->getMediaDefaultFolderId(self::MEDIA_FOLDER, $context);
         }
-
-        return $mediaId;
-    }
-
-    protected function getMediaEntityById(string $mediaId, Context $context): MediaEntity|null
-    {
-        $criteria = new Criteria();
-        $criteria->setIds([strtolower($mediaId)]);
-        return $this->mediaRepository->search($criteria, $context)->first();
     }
 
     /**
@@ -202,5 +112,87 @@ class ImageImport
         }
 
         return $defaultFolderId;
+    }
+
+    /**
+     * Erstellt bzw. aktualisiert Bilder sowohl in der Tabelle 'media' als auch im lokalen Dateisystem.
+     *
+     * @param string  $filePath
+     * @param string  $fileName
+     * @param string  $fileExtension
+     * @param Context $context
+     *
+     * @return string|null
+     */
+    private function upsertMediaFromFile(string $filePath, string $fileName, string $fileExtension, Context $context): ?string
+    {
+        //get additional info on the file
+        $fileSize = filesize($filePath);
+        $mimeType = mime_content_type($filePath);
+        $hash = hash_file('sha1', $filePath);
+
+        // Die Medien-ID ist immer unique
+        $mediaId = $this->generateMediaId($fileName, $fileExtension);
+
+        // Prüfen, ob es das Bild überhaupt gibt
+        $mediaEntity = $this->getMediaEntityById($mediaId, $context);
+        $mediaFile = new MediaFile($filePath, $mimeType, $fileExtension, $fileSize, $hash);
+
+
+        if (null === $mediaEntity) {
+            // Es existiert kein Eintrag in der Tabelle 'media'. Ein neuer Eintrag sollte also angelegt werden
+            try {
+                $this->mediaService->loadFile($mediaId, $context);
+            } catch (MediaNotFoundException) {
+                // Noch keine Behandlung
+                try {
+                    $this->createMedia($mediaId, $context);
+                    $this->fileSaver->persistFileToMedia($mediaFile, $fileName, $mediaId, $context);
+                } catch (Exception $e) {
+                    echo($e->getMessage());
+                    // Noch keine Behandlung
+                }
+            }
+        } else if ($mediaEntity->getMetaData()['hash'] !== $hash) {
+            $this->fileSaver->persistFileToMedia($mediaFile, $fileName, $mediaId, $context);
+        }
+
+        return $mediaId;
+    }
+
+    /**
+     * Erstellt eine eindeutige UUID basierend auf dem Dateinamen und der Endung.
+     *
+     * @param string $fileName
+     * @param string $fileExtension
+     *
+     * @return string
+     */
+    private function generateMediaId(string $fileName, string $fileExtension): string
+    {
+        // Die Medien-ID ist immer unique
+        return Uuid::fromStringToHex($fileName . $fileExtension);
+    }
+
+    protected function getMediaEntityById(string $mediaId, Context $context): MediaEntity|null
+    {
+        $criteria = new Criteria();
+        $criteria->setIds([strtolower($mediaId)]);
+        return $this->mediaRepository->search($criteria, $context)->first();
+    }
+
+    private function createMedia(string $mediaId, Context $context): void
+    {
+        $this->mediaRepository->create(
+            [
+                [
+                    'id'            => $mediaId,
+                    'private'       => false,
+                    'mediaFolderId' => $this->mediaFolderId,
+                ],
+            ],
+            $context
+        );
+
     }
 }

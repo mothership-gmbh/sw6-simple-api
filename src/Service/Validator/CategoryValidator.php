@@ -9,6 +9,9 @@ use MothershipSimpleApi\Service\Validator\Exception\Category\InvalidDataTypeExce
 
 class CategoryValidator implements IValidator
 {
+    /**
+     * @throws InvalidDataTypeException
+     */
     public function validate(Product $product): void
     {
         $categories = $product->getCategories();

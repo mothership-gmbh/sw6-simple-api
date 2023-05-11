@@ -6,7 +6,6 @@ namespace MothershipSimpleApi\Service\Processor;
 
 use Cocur\Slugify\Slugify;
 use MothershipSimpleApi\Service\Definition\Product;
-use MothershipSimpleApi\Service\Definition\Request;
 use MothershipSimpleApi\Service\Helper\BitwiseOperations;
 use Shopware\Core\Content\Product\ProductEntity;
 use Shopware\Core\Content\Property\Aggregate\PropertyGroupOption\PropertyGroupOptionEntity;
@@ -29,11 +28,12 @@ class PropertyGroupProcessor
         EntityRepository $propertyGroupOptionRepository,
         EntityRepository $productPropertyRepository,
         EntityRepository $productRepository,
-    ) {
-        $this->propertyGroupRepository       = $propertyGroupRepository;
+    )
+    {
+        $this->propertyGroupRepository = $propertyGroupRepository;
         $this->propertyGroupOptionRepository = $propertyGroupOptionRepository;
-        $this->productPropertyRepository     = $productPropertyRepository;
-        $this->productRepository             = $productRepository;
+        $this->productPropertyRepository = $productPropertyRepository;
+        $this->productRepository = $productRepository;
     }
 
     public function process(Product $request, string $productUuid, Context $context): void
@@ -59,7 +59,7 @@ class PropertyGroupProcessor
                 $propertyGroupId = $propertyGroup->getId();
             }
 
-            $propertyGroup  = $this->getPropertyGroupById($propertyGroupId, $context);
+            $propertyGroup = $this->getPropertyGroupById($propertyGroupId, $context);
             if (null === $propertyGroup) {
                 $this->createPropertyGroup($propertyGroupId, $propertyGroupCode, $context);
             }
@@ -71,13 +71,13 @@ class PropertyGroupProcessor
                 // Fallback für Installationen, bei denen die Properties bereits angelegt wurden.
                 $propertyGroupOption = $this->getPropertyGroupOptionByCode($propertyOptionCode, $context);
                 if (null === $propertyGroupOption) {
-                    $propertyGroupOptionId = $this->generatePropertyGroupOptionId($propertyGroupCode, $propertyOptionCode);
+                    $propertyGroupOptionId = self::generatePropertyGroupOptionId($propertyGroupCode, $propertyOptionCode);
                 } else {
                     $propertyGroupOptionId = $propertyGroupOption->getId();
                 }
 
                 $expectedPropertyGroupOptionIds[] = $propertyGroupOptionId;
-                $propertyGroupOption   = $this->getPropertyGroupOptionById($propertyGroupOptionId, $context);
+                $propertyGroupOption = $this->getPropertyGroupOptionById($propertyGroupOptionId, $context);
                 if (null === $propertyGroupOption) {
                     $this->createPropertyGroupOption($propertyGroupOptionId, $propertyGroupId, $propertyOptionCode, $context);
                 }
@@ -90,7 +90,7 @@ class PropertyGroupProcessor
              * Alle invaliden Einträge werden nun anhand von der expection und tatsächlich zugeordneten entfernt
              */
             foreach ($assignedPropertyGroupOptionsIds as $assignedPropertyGroupOptionsId) {
-                if (!in_array($assignedPropertyGroupOptionsId, $expectedPropertyGroupOptionIds)) {
+                if (!in_array($assignedPropertyGroupOptionsId, $expectedPropertyGroupOptionIds, true)) {
                     $this->removeFromProduct($productUuid, $assignedPropertyGroupOptionsId, $context);
                 }
             }
@@ -106,11 +106,62 @@ class PropertyGroupProcessor
         return $this->propertyGroupRepository->search($criteria, $context)->first();
     }
 
+    /**
+     *
+     *
+     * @param string $propertyGroupCode
+     *
+     * @return string
+     */
+    private function generatePropertyGroupId(string $propertyGroupCode): string
+    {
+        return Uuid::fromStringToHex($propertyGroupCode);
+    }
+
     protected function getPropertyGroupById(string $propertyGroupId, Context $context): PropertyGroupEntity|null
     {
         $criteria = new Criteria();
         $criteria->setIds([strtolower($propertyGroupId)]);
         return $this->propertyGroupRepository->search($criteria, $context)->first();
+    }
+
+    /**
+     * @param string  $propertyGroupId
+     * @param string  $propertyGroupCode
+     * @param Context $context
+     *
+     * @return void
+     */
+    private function createPropertyGroup(string $propertyGroupId, string $propertyGroupCode, Context $context): void
+    {
+        $this->propertyGroupRepository->create(
+            [
+                [
+                    'id'           => $propertyGroupId,
+                    'translations' => [
+                        $context->getLanguageId() => [
+                            'name'         => $propertyGroupCode,
+                            'customFields' => ['code' => $propertyGroupCode],
+                        ],
+                    ],
+                ],
+            ],
+            $context
+        );
+    }
+
+    private function getAssignedPropertyGroupOptionIds(string $productId, Context $context): array
+    {
+        $criteria = new Criteria();
+        $criteria->addAssociations(['properties']);
+        $criteria->addFilter(new EqualsFilter('id', $productId));
+
+        /* @var $product ProductEntity */
+        $product = $this->productRepository->search($criteria, $context)->first();
+
+        $assignedPropertyIds = $product->getProperties()->getIds();
+
+        return $assignedPropertyIds;
     }
 
     protected function getPropertyGroupOptionByCode(string $propertyGroupOptionCode, Context $context): PropertyGroupOptionEntity|null
@@ -122,77 +173,19 @@ class PropertyGroupProcessor
         return $this->propertyGroupOptionRepository->search($criteria, $context)->first();
     }
 
+    public static function generatePropertyGroupOptionId(string $propertyGroupCode, string $propertyGroupOptionCode): string
+    {
+        $propertyGroupCodeUuid = Uuid::fromStringToHex($propertyGroupCode);
+        $propertyGroupOptionCodeUuid = Uuid::fromStringToHex($propertyGroupOptionCode);
+
+        return BitwiseOperations::xorHex($propertyGroupCodeUuid, $propertyGroupOptionCodeUuid);
+    }
+
     protected function getPropertyGroupOptionById(string $propertyGroupOptionId, Context $context): PropertyGroupOptionEntity|null
     {
         $criteria = new Criteria();
         $criteria->setIds([strtolower($propertyGroupOptionId)]);
         return $this->propertyGroupOptionRepository->search($criteria, $context)->first();
-    }
-
-    private function assignToProduct(string $productId, string $propertyGroupOptionId, array $assignedPropertyIds, Context $context) : void
-    {
-        if (!in_array($propertyGroupOptionId, $assignedPropertyIds)) {
-            $this->productPropertyRepository->create(
-                [[
-                    'productId' => $productId,
-                    'optionId' => $propertyGroupOptionId
-                 ]],
-                $context
-            );
-        }
-    }
-
-    private function removeFromProduct(string $productId, string $propertyGroupOptionId, Context $context) : void
-    {
-        $this->productPropertyRepository->delete(
-            [[
-                'productId' => $productId,
-                'optionId' => $propertyGroupOptionId
-             ]],
-            $context
-        );
-    }
-
-    private function getAssignedPropertyGroupOptionIds(string $productId, Context $context)
-    {
-        $criteria = new Criteria();
-        $criteria->addAssociations(['properties']);
-        $criteria->addFilter(new EqualsFilter('id', $productId));
-
-        /* @var $product ProductEntity */
-        $product = $this->productRepository->search($criteria, $context)->first();
-
-        $assignedPropertyIds = $product->getProperties()->getIds();
-
-        if (null == $assignedPropertyIds) {
-            $assignedPropertyIds = [];
-        }
-        return $assignedPropertyIds;
-    }
-
-    /**
-     * @param string  $propertyGroupId
-     * @param string  $propertyGroupCode
-     * @param Context $context
-     *
-     * @return void
-     */
-    private function createPropertyGroup(string $propertyGroupId, string $propertyGroupCode, Context $context) : void
-    {
-        $this->propertyGroupRepository->create(
-            [
-                [
-                    'id'            => $propertyGroupId,
-                    'translations'  => [
-                        $context->getLanguageId() => [
-                            'name' => $propertyGroupCode,
-                            'customFields' => ['code' => $propertyGroupCode]
-                        ]
-                    ]
-                ],
-            ],
-            $context
-        );
     }
 
     /**
@@ -203,42 +196,46 @@ class PropertyGroupProcessor
      *
      * @return void
      */
-    private function createPropertyGroupOption(string $propertyGroupOptionId, string $propertyGroupId, string $propertyGroupOptionCode, Context $context) : void
+    private function createPropertyGroupOption(string $propertyGroupOptionId, string $propertyGroupId, string $propertyGroupOptionCode, Context $context): void
     {
         $this->propertyGroupOptionRepository->create(
             [
                 [
-                    'id'            => $propertyGroupOptionId,
-                    'groupId'       => $propertyGroupId,
-                    'translations'  => [
+                    'id'           => $propertyGroupOptionId,
+                    'groupId'      => $propertyGroupId,
+                    'translations' => [
                         $context->getLanguageId() => [
-                            'name' => $propertyGroupOptionCode,
-                            'customFields' => ['code' => $propertyGroupOptionCode]
-                        ]
-                    ]
+                            'name'         => $propertyGroupOptionCode,
+                            'customFields' => ['code' => $propertyGroupOptionCode],
+                        ],
+                    ],
                 ],
             ],
             $context
         );
     }
 
-    /**
-     *
-     *
-     * @param string $propertyGroupCode
-     *
-     * @return string
-     */
-    private function generatePropertyGroupId(string $propertyGroupCode)
+    private function assignToProduct(string $productId, string $propertyGroupOptionId, array $assignedPropertyIds, Context $context): void
     {
-        return Uuid::fromStringToHex($propertyGroupCode);
+        if (!in_array($propertyGroupOptionId, $assignedPropertyIds, true)) {
+            $this->productPropertyRepository->create(
+                [[
+                    'productId' => $productId,
+                    'optionId'  => $propertyGroupOptionId,
+                ]],
+                $context
+            );
+        }
     }
 
-    public static function generatePropertyGroupOptionId(string $propertyGroupCode, string $propertyGroupOptionCode)
+    private function removeFromProduct(string $productId, string $propertyGroupOptionId, Context $context): void
     {
-        $propertyGroupCodeUuid       = Uuid::fromStringToHex($propertyGroupCode);
-        $propertyGroupOptionCodeUuid = Uuid::fromStringToHex($propertyGroupOptionCode);
-
-        return BitwiseOperations::xorHex($propertyGroupCodeUuid, $propertyGroupOptionCodeUuid);
+        $this->productPropertyRepository->delete(
+            [[
+                'productId' => $productId,
+                'optionId'  => $propertyGroupOptionId,
+            ]],
+            $context
+        );
     }
 }

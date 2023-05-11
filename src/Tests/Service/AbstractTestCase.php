@@ -2,9 +2,11 @@
 
 namespace MothershipSimpleApi\Tests\Service;
 
+use Exception;
 use PHPUnit\Framework\TestCase;
+use Shopware\Core\Content\Category\CategoryEntity;
 use Shopware\Core\Content\Cms\CmsPageEntity;
-use Shopware\Core\Content\Product\Aggregate\ProductVisibility\ProductVisibilityDefinition;
+use Shopware\Core\Content\Media\MediaEntity;
 use Shopware\Core\Content\Product\ProductEntity;
 use Shopware\Core\Content\Property\Aggregate\PropertyGroupOption\PropertyGroupOptionEntity;
 use Shopware\Core\Content\Property\PropertyGroupEntity;
@@ -22,32 +24,28 @@ abstract class AbstractTestCase extends TestCase
     use KernelTestBehaviour;
     use FilesystemBehaviour;
 
-    protected function getContext() : Context
-    {
-        return Context::createDefaultContext();
-    }
-
-    protected function getRepository(string $repository = 'product.repository') : EntityRepository
-    {
-        return $this->getContainer()->get($repository);
-    }
-
-    protected function cleanMedia()
+    protected function cleanMedia(): void
     {
         /* @var EntityRepository $mediaRepository */
         $mediaRepository = $this->getContainer()->get('media.repository');
 
         $criteria = new Criteria();
         foreach ($mediaRepository->search($criteria, $this->getContext())->getElements() as $element) {
+            /** @var MediaEntity $element */
             try {
                 $mediaRepository->delete([['id' => $element->getId()]], $this->getContext());
-            } catch (\Exception $e) {
+            } catch (Exception) {
                 // Es soll einfach versucht werden, alles zu löschen.
             }
         }
     }
 
-    protected function cleanProduct()
+    protected function getContext(): Context
+    {
+        return Context::createDefaultContext();
+    }
+
+    protected function cleanProduct(): void
     {
         /* @var EntityRepository $mediaRepository */
         $productRepository = $this->getContainer()->get('product.repository');
@@ -56,13 +54,13 @@ abstract class AbstractTestCase extends TestCase
         foreach ($productRepository->search($criteria, $this->getContext())->getElements() as $element) {
             try {
                 $productRepository->delete([['id' => $element->getId()]], $this->getContext());
-            } catch (\Exception $e) {
+            } catch (Exception) {
                 // Es soll einfach versucht werden, alles zu löschen.
             }
         }
     }
 
-    protected function cleanProperties()
+    protected function cleanProperties(): void
     {
         /* @var EntityRepository $mediaRepository */
         $propertyGroupRepository = $this->getContainer()->get('property_group.repository');
@@ -71,22 +69,23 @@ abstract class AbstractTestCase extends TestCase
         foreach ($propertyGroupRepository->search($criteria, $this->getContext())->getElements() as $element) {
             try {
                 $propertyGroupRepository->delete([['id' => $element->getId()]], $this->getContext());
-            } catch (\Exception $e) {
+            } catch (Exception) {
                 // Es soll einfach versucht werden, alles zu löschen.
             }
         }
     }
 
-    protected function cleanCategories()
+    protected function cleanCategories(): void
     {
         /* @var EntityRepository $categoryRepository */
         $categoryRepository = $this->getContainer()->get('category.repository');
 
         $criteria = new Criteria();
         foreach ($categoryRepository->search($criteria, $this->getContext())->getElements() as $element) {
+            /** @var CategoryEntity $element */
             try {
                 $categoryRepository->delete([['id' => $element->getId()]], $this->getContext());
-            } catch (\Exception $e) {
+            } catch (Exception) {
                 // Es soll einfach versucht werden, alles zu löschen.
             }
         }
@@ -97,19 +96,19 @@ abstract class AbstractTestCase extends TestCase
      *
      * @return array
      */
-    protected function getMinimalDefinition() : array
+    protected function getMinimalDefinition(): array
     {
         return [
             'sku'   => 'ms-123',
-            'name' => [
-                'en-GB' => 'T-Shirt'
+            'name'  => [
+                'en-GB' => 'T-Shirt',
             ],
             'price' => [
                 // Wert in EUR
-                'EUR' => 20
+                'EUR' => 20,
             ],
             'tax'   => 19,
-            'stock' => 1
+            'stock' => 1,
         ];
     }
 
@@ -118,23 +117,23 @@ abstract class AbstractTestCase extends TestCase
      *
      * @return array
      */
-    protected function getMaximalDefinition() : array
+    protected function getMaximalDefinition(): array
     {
         return [
-            'sku'   => 'ms-123',
-            'name' => 'T-Shirt',
-            'price' => [
+            'sku'           => 'ms-123',
+            'name'          => 'T-Shirt',
+            'price'         => [
                 // Wert in EUR
-                'EUR' => 20
+                'EUR' => 20,
             ],
-            'tax'   => 19,
-            'stock' => 1,
+            'tax'           => 19,
+            'stock'         => 1,
             'sales_channel' => [
                 // Muss kein Key sein
                 'default' => 'all',
                 // ProductVisibilityDefinition::VISIBILITY_ALL
-                'club' => 'all'
-            ]
+                'club'    => 'all',
+            ],
         ];
     }
 
@@ -148,7 +147,7 @@ abstract class AbstractTestCase extends TestCase
      *
      * @return void
      */
-    protected function deleteProductBySku(string $sku) : void
+    protected function deleteProductBySku(string $sku): void
     {
         $productRepository = $this->getRepository('product.repository');
         $productEntity = $this->getProductBySku($sku);
@@ -156,13 +155,19 @@ abstract class AbstractTestCase extends TestCase
         if (null !== $productEntity) {
             $productRepository->delete([
                 [
-                    'id' => $productEntity->getId()
-                ]
+                    'id' => $productEntity->getId(),
+                ],
             ], $this->getContext());
         }
     }
 
-    protected function getProductBySku(string $sku) : ProductEntity|null
+    protected function getRepository(string $repository): EntityRepository
+    {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return $this->getContainer()->get($repository);
+    }
+
+    protected function getProductBySku(string $sku): ProductEntity|null
     {
         $productRepository = $this->getRepository('product.repository');
 
@@ -170,65 +175,50 @@ abstract class AbstractTestCase extends TestCase
         $criteria->addAssociations(['visibilities', 'media', 'properties', 'translations', 'children', 'configuratorSettings', 'categories', 'manufacturer']);
         $criteria->addFilter(new EqualsFilter('productNumber', $sku));
         $productEntity = $productRepository->search($criteria, $this->getContext())->first();
-        if (null !== $productEntity) {
-            return $productEntity;
-        }
-        return null;
+        return $productEntity ?? null;
     }
 
-    protected function getPropertyGroupByCode(string $propertyGroupCode) : PropertyGroupEntity|null
+    protected function getPropertyGroupByCode(string $propertyGroupCode): PropertyGroupEntity|null
     {
         $productRepository = $this->getRepository('property_group.repository');
 
         $criteria = new Criteria();
         $criteria->addFilter(new EqualsFilter('name', $propertyGroupCode));
         $propertyGroup = $productRepository->search($criteria, $this->getContext())->first();
-        if (null !== $propertyGroup) {
-            return $propertyGroup;
-        }
-        return null;
+        return $propertyGroup ?? null;
     }
 
-    protected function getLayoutIdByType(string $type = 'product_detail') : CmsPageEntity|null
+    protected function getLayoutIdByType(string $type): CmsPageEntity|null
     {
         $cmsPageRepository = $this->getRepository('cms_page.repository');
 
         $criteria = new Criteria();
         $criteria->addFilter(new EqualsFilter('type', $type));
         $cmsLayoutId = $cmsPageRepository->search($criteria, $this->getContext())->first();
-        if (null !== $cmsLayoutId) {
-            return $cmsLayoutId;
-        }
-        return null;
+        return $cmsLayoutId ?? null;
     }
 
-    protected function getCustomFieldByCode(string $customFieldCode) : CustomFieldEntity|null
+    protected function getCustomFieldByCode(string $customFieldCode): CustomFieldEntity|null
     {
         $customFieldRepository = $this->getRepository('custom_field.repository');
 
         $criteria = new Criteria();
         $criteria->addFilter(new EqualsFilter('name', $customFieldCode));
         $customField = $customFieldRepository->search($criteria, $this->getContext())->first();
-        if (null !== $customField) {
-            return $customField;
-        }
-        return null;
+        return $customField ?? null;
     }
 
-    protected function getPropertyGroupOptionByCode(string $propertyGroupOptionCode) : PropertyGroupOptionEntity|null
+    protected function getPropertyGroupOptionByCode(string $propertyGroupOptionCode): PropertyGroupOptionEntity|null
     {
         $productRepository = $this->getRepository('property_group_option.repository');
 
         $criteria = new Criteria();
         $criteria->addFilter(new EqualsFilter('name', $propertyGroupOptionCode));
         $propertyGroupOption = $productRepository->search($criteria, $this->getContext())->first();
-        if (null !== $propertyGroupOption) {
-            return $propertyGroupOption;
-        }
-        return null;
+        return $propertyGroupOption ?? null;
     }
 
-    protected function getTranslationIdByIsoCode(string $isoCode) : string
+    protected function getTranslationIdByIsoCode(string $isoCode): string
     {
         $criteria = new Criteria();
         $criteria->addAssociations(['languages']);

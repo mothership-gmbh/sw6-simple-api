@@ -2,7 +2,9 @@
 
 namespace MothershipSimpleApi\Service\Validator\Exception\SalesChannel;
 
-class InvalidSalesChannelVisibilityException extends \Exception
+use Exception;
+
+class InvalidSalesChannelVisibilityException extends Exception
 {
 
 }

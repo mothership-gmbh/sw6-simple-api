@@ -4,15 +4,17 @@ declare(strict_types=1);
 
 namespace MothershipSimpleApi\Api;
 
-use MothershipSimpleApi\Service\SimpleProductCreator;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use JsonException;
-
+use MothershipSimpleApi\Service\Exception\InvalidCurrencyCodeException;
+use MothershipSimpleApi\Service\Exception\InvalidSalesChannelNameException;
+use MothershipSimpleApi\Service\Exception\InvalidTaxValueException;
+use MothershipSimpleApi\Service\SimpleProductCreator;
 use Shopware\Core\Framework\Context;
-use Symfony\Component\HttpFoundation\Request;
 use Shopware\Core\Framework\Routing\Annotation\Since;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 
 /**
@@ -22,7 +24,7 @@ class ProductActionController extends AbstractController
 {
     protected SimpleProductCreator $simpleProductCreator;
 
-    public function __construct(\MothershipSimpleApi\Service\SimpleProductCreator $simpleProductCreator)
+    public function __construct(SimpleProductCreator $simpleProductCreator)
     {
         $this->simpleProductCreator = $simpleProductCreator;
     }
@@ -47,7 +49,14 @@ class ProductActionController extends AbstractController
      * Die Annotations werden in dem Fall über die Entity und nicht über einen Controller definiert. Das ist
      * an der Stelle etwas schwieriger zu finden.
      *
+     * @param Request $request
+     * @param Context $context
+     *
+     * @return JsonResponse
+     * @throws InvalidTaxValueException
      * @throws JsonException
+     * @throws InvalidCurrencyCodeException
+     * @throws InvalidSalesChannelNameException
      * @link www/vendor/shopware/core/System/CustomEntity/Api/CustomEntityApiController.php
      */
     public function exampleApi(Request $request, Context $context): JsonResponse

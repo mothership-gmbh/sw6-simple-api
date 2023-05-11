@@ -2,7 +2,9 @@
 
 namespace MothershipSimpleApi\Service\Validator\Exception\CustomField;
 
-class InvalidIsoCodeException extends \Exception
+use Exception;
+
+class InvalidIsoCodeException extends Exception
 {
 
 }

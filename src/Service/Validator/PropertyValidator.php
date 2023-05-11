@@ -9,6 +9,9 @@ use MothershipSimpleApi\Service\Validator\Exception\Property\InvalidDataTypeExce
 
 class PropertyValidator implements IValidator
 {
+    /**
+     * @throws InvalidDataTypeException
+     */
     public function validate(Product $product): void
     {
         $properties = $product->getProperties();

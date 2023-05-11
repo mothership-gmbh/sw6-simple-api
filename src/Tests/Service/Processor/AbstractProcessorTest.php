@@ -11,7 +11,7 @@ abstract class AbstractProcessorTest extends AbstractTestCase
 
     protected function setUp(): void
     {
-        $this->simpleProductCreator = $this->getContainer()->get(\MothershipSimpleApi\Service\SimpleProductCreator::class);
+        $this->simpleProductCreator = $this->getContainer()->get(SimpleProductCreator::class);
         $this->cleanMedia();
         $this->cleanProduct();
         $this->cleanProperties();

@@ -40,7 +40,7 @@ class TestFunctions
     /**
      * Versand- und Rechnungsadresse sind identisch.
      *
-     * @param array response
+     * @param array $response response
      */
     public function assertAddressEqual(array $response): void
     {
@@ -50,7 +50,7 @@ class TestFunctions
     /**
      * Versand- und Rechnungsadresse sind abweichend.
      *
-     * @param array response
+     * @param array $response response
      */
     public function assertAddressNotEqual(array $response): void
     {
@@ -87,9 +87,84 @@ class TestFunctions
     }
 
     /**
+     * Assert-Helper für den Brutto-Preis. Es kommt immer wieder zu Rundungsfehler in Javascript,
+     * weswegen mit Math.round gerundet wird.
+     *
+     * @param array $response response
+     */
+    public function assertValidGrandTotal(array $response): void
+    {
+        $calculated = round(($response["taxAmount"] + $response["subTotal"] + $response["shippingAmount"]) * 100) / 100;
+        Assert::assertEquals($calculated, $response["grandTotal"]);
+    }
+
+    public function assertExpectedShippingCosts(float $shippingTotal, int $shippingTaxRate, array $repsonse): void
+    {
+        Assert::assertEquals($repsonse["shippingTotal"], $shippingTotal);
+        Assert::assertEquals($repsonse["shippingTaxRate"], $shippingTaxRate);
+    }
+
+    /**
+     *
+     * @param array  $item
+     * @param string $type
+     */
+    public function assertDiscount(array $item, string $type): void
+    {
+        Assert::assertEquals($item["discount"]["type"], $type);
+    }
+
+    /**
+     * Assert-Helper für die Mehrwertsteuer.
+     * Aktuell hardgecodet auf 19 %.
+     *
+     * @param array $response
+     */
+    public function assertValidTaxRate(array $response): void
+    {
+        foreach ($response["lineItemsGraph"] as $a) {
+            Assert::assertEquals($a["taxPercent"], 19);
+        }
+    }
+
+    /**
+     * Assert-Helper für die Mehrwertsteuer.
+     * Aktuell hardgecodet auf 19 %.
+     *
+     * @param array $response
+     */
+    public function assertValidVatId(array $response): void
+    {
+        Assert::assertMatchesRegularExpression('/^$|[0-9]/', $response["billingAddress"]["vatId"]);
+    }
+
+    /**
+     * führt alle relevanten Assertions aus
+     *
+     * @param array $response
+     */
+    public function assertRelevant(array $response): void
+    {
+        $this->assertValidOrderCurrencyCode($response);
+        $this->assertValidShippingMethod($response);
+        $this->assertValidGrandTotal($response);
+    }
+
+    /**
+     * Assert-Helper für die Währung.
+     * Aktuell hardgecodet auf EUR.
+     *
+     * @param array $response response
+     */
+    public function assertValidOrderCurrencyCode(array $response): void
+    {
+        Assert::assertEquals($response["orderCurrencyCode"], 'EUR');
+    }
+
+    /**
      * Assert-Helper für die in Shopware definierten Versandarten.
      *
-     * @param array response
+     * @param array $response response
      */
     public function assertValidShippingMethod(array $response): void
     {
@@ -121,83 +196,5 @@ class TestFunctions
             'Test',
         ];
         Assert::assertContains($response["shippingMethod"], $validShippingMethods);
-    }
-
-    /**
-     * Assert-Helper für den Brutto-Preis. Es kommt immer wieder zu Rundungsfehler in Javascript,
-     * weswegen mit Math.round gerundet wird.
-     *
-     * @param array response
-     */
-    public function assertValidGrandTotal(array $response): void
-    {
-        $calculated = round(($response["taxAmount"] + $response["subTotal"] + $response["shippingAmount"]) * 100) / 100;
-        Assert::assertEquals($calculated, $response["grandTotal"]);
-    }
-
-    /**
-     * Assert-Helper für die Währung.
-     * Aktuell hardgecodet auf EUR.
-     *
-     * @param array response
-     */
-    public function assertValidOrderCurrencyCode(array $response): void
-    {
-        Assert::assertEquals($response["orderCurrencyCode"], 'EUR');
-    }
-
-    public function assertExpectedShippingCosts(float $shippingTotal, int $shippingTaxRate, array $repsonse): void
-    {
-        Assert::assertEquals($repsonse["shippingTotal"], $shippingTotal);
-        Assert::assertEquals($repsonse["shippingTaxRate"], $shippingTaxRate);
-    }
-
-
-    /**
-     *
-     * @param array  $item
-     * @param string $type
-     * @param string $typeAmount
-     * @param float    $value
-     */
-    public function assertDiscount(array $item, string $type, string $typeAmount, float $value): void
-    {
-        Assert::assertEquals($item["discount"]["type"], $type);
-    }
-
-    /**
-     * Assert-Helper für die Mehrwertsteuer.
-     * Aktuell hardgecodet auf 19%.
-     *
-     * @param array $response
-     */
-    public function assertValidTaxRate(array $response): void
-    {
-        foreach ($response["lineItemsGraph"] as $a) {
-            Assert::assertEquals($a["taxPercent"], 19);
-        }
-    }
-
-    /**
-     * Assert-Helper für die Mehrwertsteuer.
-     * Aktuell hardgecodet auf 19%.
-     *
-     * @param array $response
-     */
-    public function assertValidVatId(array $response): void
-    {
-        Assert::assertMatchesRegularExpression('/^$|[0-9]/', $response["billingAddress"]["vatId"]);
-    }
-
-    /**
-     * führt alle relevanten Assertions aus
-     *
-     * @param array $response
-     */
-    public function assertRelevant(array $response): void
-    {
-        $this->assertValidOrderCurrencyCode($response);
-        $this->assertValidShippingMethod($response);
-        $this->assertValidGrandTotal($response);
     }
 }

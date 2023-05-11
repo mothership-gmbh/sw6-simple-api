@@ -8,7 +8,7 @@ use MothershipSimpleApi\Service\Definition\Product;
 
 class LayoutProcessor
 {
-    public function process(array &$data, Product $request) : void
+    public function process(array &$data, Product $request): void
     {
         $data['cmsPageId'] = $request->getCmsPageId();
     }

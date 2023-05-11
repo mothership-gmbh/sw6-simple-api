@@ -9,6 +9,9 @@ use MothershipSimpleApi\Service\Validator\Exception\Manufacturer\InvalidDataType
 
 class ManufacturerValidator implements IValidator
 {
+    /**
+     * @throws InvalidDataTypeException
+     */
     public function validate(Product $product): void
     {
         $manufacturer = $product->getManufacturer();

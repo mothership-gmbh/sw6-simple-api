@@ -2,7 +2,9 @@
 
 namespace MothershipSimpleApi\Service\Validator\Exception\CustomField;
 
-class InvalidDefinitionException extends \Exception
+use Exception;
+
+class InvalidDefinitionException extends Exception
 {
 
 }

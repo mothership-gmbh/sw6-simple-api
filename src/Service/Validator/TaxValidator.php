@@ -9,6 +9,9 @@ use MothershipSimpleApi\Service\Validator\Exception\MissingTaxException;
 
 class TaxValidator implements IValidator
 {
+    /**
+     * @throws MissingTaxException
+     */
     public function validate(Product $product): void
     {
         $tax = $product->getTax();

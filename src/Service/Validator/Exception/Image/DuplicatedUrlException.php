@@ -2,7 +2,9 @@
 
 namespace MothershipSimpleApi\Service\Validator\Exception\Image;
 
-class DuplicatedUrlException extends \Exception
+use Exception;
+
+class DuplicatedUrlException extends Exception
 {
 
 }

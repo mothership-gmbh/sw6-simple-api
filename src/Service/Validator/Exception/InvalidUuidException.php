@@ -2,7 +2,9 @@
 
 namespace MothershipSimpleApi\Service\Validator\Exception;
 
-class InvalidUuidException extends \Exception
+use Exception;
+
+class InvalidUuidException extends Exception
 {
 
 }

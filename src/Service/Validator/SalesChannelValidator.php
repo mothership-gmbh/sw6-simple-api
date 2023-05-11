@@ -9,6 +9,9 @@ use MothershipSimpleApi\Service\Validator\Exception\SalesChannel\InvalidSalesCha
 
 class SalesChannelValidator implements IValidator
 {
+    /**
+     * @throws InvalidSalesChannelVisibilityException
+     */
     public function validate(Product $product): void
     {
         // ProductVisibilityDefinition::VISIBILITY_ALL
@@ -17,12 +20,12 @@ class SalesChannelValidator implements IValidator
             'link',
             'search',
         ];
-        $salesChannel = $product->getSalesChannel();
+        $salesChannels = $product->getSalesChannel();
 
 
-        if (null !== $salesChannel) {
-            foreach ($salesChannel as $salesChannel => $visibility) {
-                if (!in_array($visibility, $validVisibilities)) {
+        if (null !== $salesChannels) {
+            foreach ($salesChannels as $salesChannel => $visibility) {
+                if (!in_array($visibility, $validVisibilities, true)) {
                     throw new InvalidSalesChannelVisibilityException('The visibility [' . $visibility . '] for [' . $salesChannel . '] is invalid.');
                 }
             }

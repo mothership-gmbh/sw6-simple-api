@@ -2,7 +2,9 @@
 
 namespace MothershipSimpleApi\Service\Exception;
 
-class InvalidSalesChannelNameException extends \Exception
+use Exception;
+
+class InvalidSalesChannelNameException extends Exception
 {
 
 }

@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace MothershipSimpleApi\Service\Processor;
 
 use MothershipSimpleApi\Service\Definition\Product;
-use MothershipSimpleApi\Service\Definition\Request;
 use MothershipSimpleApi\Service\Exception\InvalidSalesChannelNameException;
-use Shopware\Core\Content\Product\Aggregate\ProductVisibility\ProductVisibilityDefinition;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
@@ -19,12 +17,15 @@ class CategoryProcessor
     public function __construct(
         protected EntityRepositoryInterface $categoryRepository,
         protected EntityRepositoryInterface $productRepository,
-        protected EntityRepository $productCategoryRepository,
+        protected EntityRepository          $productCategoryRepository,
     )
     {
     }
 
-    public function process(array &$data, Product $request, string $productUuid, Context $context) : void
+    /**
+     * @throws InvalidSalesChannelNameException
+     */
+    public function process(array &$data, Product $request, string $productUuid, Context $context): void
     {
         $categories = $request->getCategories();
         $expectedCategories = [];
@@ -32,7 +33,7 @@ class CategoryProcessor
         if (null !== $categories) {
             foreach ($categories as $category) {
                 $categoryId = $this->getCategoryByCode($category, $context);
-                $data['categories'][] = [ 'id' => $categoryId ];
+                $data['categories'][] = ['id' => $categoryId];
                 $expectedCategories[] = $categoryId;
             }
 
@@ -43,7 +44,22 @@ class CategoryProcessor
         }
     }
 
-    protected function getAssignedCategories(string $productUuid, Context $context) : array
+    /**
+     * @throws InvalidSalesChannelNameException
+     */
+    protected function getCategoryByCode(string $categoryCode, Context $context): string
+    {
+        $criteria = new Criteria();
+        $criteria->addFilter(new EqualsFilter('customFields.code', $categoryCode));
+
+        $categoryId = $this->categoryRepository->searchIds($criteria, $context)->firstId();
+        if (null === $categoryId) {
+            throw new InvalidSalesChannelNameException('There is no category with the code [' . $categoryCode . '] in the table category');
+        }
+        return $categoryId;
+    }
+
+    protected function getAssignedCategories(string $productUuid, Context $context): array
     {
         $criteria = new Criteria();
         $criteria->addFilter(new EqualsFilter('id', $productUuid));
@@ -65,7 +81,7 @@ class CategoryProcessor
         return $assignedCategoryIds;
     }
 
-    protected function cleanup(string $productId, array $assignedCategories, array $expectedCategories, Context $context)
+    protected function cleanup(string $productId, array $assignedCategories, array $expectedCategories, Context $context): void
     {
         $requiresCleanup = false;
         if (count($assignedCategories) !== count($expectedCategories)) {
@@ -82,16 +98,5 @@ class CategoryProcessor
                 $this->productCategoryRepository->delete([['productId' => $productId, 'categoryId' => $assignedCategoryId]], $context);
             }
         }
-    }
-    protected function getCategoryByCode(string $categoryCode, Context $context) : string
-    {
-        $criteria = new Criteria();
-        $criteria->addFilter(new EqualsFilter('customFields.code', $categoryCode));
-
-        $categoryId = $this->categoryRepository->searchIds($criteria, $context)->firstId();
-        if (null == $categoryId) {
-            throw new InvalidSalesChannelNameException('There is no category with the code [' . $categoryCode . '] in the table category');
-        }
-        return $categoryId;
     }
 }

@@ -9,6 +9,9 @@ use MothershipSimpleApi\Service\Validator\Exception\MissingStockException;
 
 class StockValidator implements IValidator
 {
+    /**
+     * @throws MissingStockException
+     */
     public function validate(Product $product): void
     {
         $stock = $product->getStock();

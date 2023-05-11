@@ -2,7 +2,9 @@
 
 namespace MothershipSimpleApi\Service\Validator\Exception;
 
-class MissingTaxException extends \Exception
+use Exception;
+
+class MissingTaxException extends Exception
 {
 
 }

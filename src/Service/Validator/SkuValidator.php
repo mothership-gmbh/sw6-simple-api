@@ -9,6 +9,9 @@ use MothershipSimpleApi\Service\Validator\Exception\MissingSkuException;
 
 class SkuValidator implements IValidator
 {
+    /**
+     * @throws MissingSkuException
+     */
     public function validate(Product $product): void
     {
         $sku = $product->getSku();

@@ -2,14 +2,12 @@
 
 namespace MothershipSimpleApi\Tests\Service\Validator;
 
-use JsonException;
-use MothershipSimpleApi\Service\Validator\Exception\MissingTaxException;
 use MothershipSimpleApi\Service\Validator\Exception\SalesChannel\InvalidSalesChannelVisibilityException;
 
 class SalesChannelValidatorTest extends AbstractValidatorTest
 {
     /**
-     * Jede Kanal braucht eine Sichtbarkeit
+     * Jeder Kanal braucht eine Sichtbarkeit
      *
      * @test
      *
@@ -19,13 +17,12 @@ class SalesChannelValidatorTest extends AbstractValidatorTest
      * @group SimpleApi_Product_Validator_SalesChannel
      * @group SimpleApi_Product_Validator_SalesChannel_1
      *
-     * @throws JsonException
      */
     public function channelWithoutVisibilityWillThrowException(): void
     {
         $definition = $this->getMinimalDefinition();
         $definition['sales_channel'] = [
-            'default'
+            'default',
         ];
 
         $this->expectException(InvalidSalesChannelVisibilityException::class);
@@ -43,7 +40,6 @@ class SalesChannelValidatorTest extends AbstractValidatorTest
      * @group SimpleApi_Product_Validator_SalesChannel
      * @group SimpleApi_Product_Validator_SalesChannel_2
      *
-     * @throws JsonException
      */
     public function channelHasValidVisibility(): void
     {

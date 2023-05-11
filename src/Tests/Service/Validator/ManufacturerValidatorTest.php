@@ -2,7 +2,6 @@
 
 namespace MothershipSimpleApi\Tests\Service\Validator;
 
-use JsonException;
 use MothershipSimpleApi\Service\Validator\Exception\Manufacturer\InvalidDataTypeException;
 
 class ManufacturerValidatorTest extends AbstractValidatorTest
@@ -18,7 +17,6 @@ class ManufacturerValidatorTest extends AbstractValidatorTest
      * @group SimpleApi_Product_Validator_Manufacturer
      * @group SimpleApi_Product_Validator_Manufacturer_1
      *
-     * @throws JsonException
      */
     public function invalidIsoCodeSchemaWillThrowException(): void
     {

@@ -2,7 +2,6 @@
 
 namespace MothershipSimpleApi\Transformer\SimpleOrderTransformation;
 
-
 class Transformer
 {
     protected Parser $parser;

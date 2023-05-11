@@ -2,7 +2,6 @@
 
 namespace MothershipSimpleApi\Tests\Service\Validator;
 
-use JsonException;
 use MothershipSimpleApi\Service\Validator\Exception\MissingSkuException;
 
 class SkuValidatorTest extends AbstractValidatorTest
@@ -16,7 +15,6 @@ class SkuValidatorTest extends AbstractValidatorTest
      * @group SimpleApi_Product
      * @group SimpleApi_Product_Validator
      * @group SimpleApi_Product_Validator_Sku
-     * @throws JsonException
      */
     public function missingSkuWillThrowException(): void
     {

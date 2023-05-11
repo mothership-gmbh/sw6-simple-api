@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace MothershipSimpleApi\Service\Definition;
 
-
 class Product
 {
     protected array $data = [];
@@ -14,7 +13,7 @@ class Product
         $this->data = $data;
     }
 
-    public static function initWithData(array $data)
+    public static function initWithData(array $data): Product
     {
         return new self($data);
     }
@@ -99,13 +98,10 @@ class Product
         return $this->getPropertyByKey('manufacturer');
     }
 
-    public function getAxis() : array
+    public function getAxis(): array
     {
         $axis = $this->getPropertyByKey('axis');
-        if (null == $axis) {
-            return [];
-        }
-        return $axis;
+        return $axis ?? [];
     }
 
     /**
@@ -114,29 +110,20 @@ class Product
      *
      * @return mixed
      */
-    public function getProperties() : array
+    public function getProperties(): array
     {
         $properties = $this->getPropertyByKey('properties');
-        if (null == $properties) {
-            return [];
-        }
-        return $properties;
+        return $properties ?? [];
     }
 
-    public function getCustomFields() : array
+    public function getCustomFields(): array
     {
         $customFields = $this->getPropertyByKey('custom_fields');
-        if (null == $customFields) {
-            return [];
-        }
-        return $customFields;
+        return $customFields ?? [];
     }
 
-    protected function getPropertyByKey(string $key) : mixed
+    protected function getPropertyByKey(string $key): mixed
     {
-        if (array_key_exists($key, $this->data)) {
-            return $this->data[$key];
-        }
-        return null;
+        return $this->data[$key] ?? null;
     }
 }

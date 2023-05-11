@@ -2,25 +2,14 @@
 
 namespace MothershipSimpleApi\Tests\Service;
 
-use JsonException;
 use MothershipSimpleApi\Service\Exception\InvalidCurrencyCodeException;
 use MothershipSimpleApi\Service\Exception\InvalidTaxValueException;
 use MothershipSimpleApi\Service\SimpleProductCreator;
 use Shopware\Core\Content\Product\ProductEntity;
-use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
-use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 
 class ProductCreatorTest extends AbstractTestCase
 {
     protected SimpleProductCreator $simpleProductCreator;
-
-    protected function setUp(): void
-    {
-        $this->simpleProductCreator = $this->getContainer()->get(\MothershipSimpleApi\Service\SimpleProductCreator::class);
-
-        $product = $this->getMinimalDefinition();
-        $this->deleteProductBySku($product['sku']);
-    }
 
     /**
      * Das einfache Produkt enthält nur die notwendigsten Informationen
@@ -31,11 +20,12 @@ class ProductCreatorTest extends AbstractTestCase
      * @group SimpleApi_Product
      * @group SimpleApi_Product_Entity
      * @group SimpleApi_Product_Entity_1
-     * @throws JsonException
+     * @throws InvalidCurrencyCodeException
+     * @throws InvalidTaxValueException
      */
     public function createBasicProduct(): void
     {
-        $productDefinition =  $this->getMinimalDefinition();
+        $productDefinition = $this->getMinimalDefinition();
         $context = $this->getContext();
         $this->simpleProductCreator->createEntity($productDefinition, $context);
 
@@ -44,9 +34,9 @@ class ProductCreatorTest extends AbstractTestCase
         $this->assertInstanceOf(ProductEntity::class, $createdProduct);
         $this->assertEquals($productDefinition['sku'], $createdProduct->getProductNumber());
         $this->assertEquals($productDefinition['tax'], $createdProduct->getTax()->getTaxRate());
-        $this->assertEquals($productDefinition['price']['EUR'],  $createdProduct->getPrice()->first()->getGross());
-        $this->assertEquals($productDefinition['stock'],  $createdProduct->getStock());
-        $this->assertEquals($productDefinition['name']['en-GB'],  $createdProduct->getName());
+        $this->assertEquals($productDefinition['price']['EUR'], $createdProduct->getPrice()->first()->getGross());
+        $this->assertEquals($productDefinition['stock'], $createdProduct->getStock());
+        $this->assertEquals($productDefinition['name']['en-GB'], $createdProduct->getName());
     }
 
     /**
@@ -59,11 +49,12 @@ class ProductCreatorTest extends AbstractTestCase
      * @group SimpleApi_Product
      * @group SimpleApi_Product_Entity
      * @group SimpleApi_Product_Entity_2
-     * @throws JsonException
+     * @throws InvalidTaxValueException
+     * @throws InvalidCurrencyCodeException
      */
     public function invalidTaxWillThrowException(): void
     {
-        $productDefinition =  $this->getMinimalDefinition();
+        $productDefinition = $this->getMinimalDefinition();
         $productDefinition['tax'] = 25; // Es wird ein Steuersatz gesetzt, der nicht existiert.
         $this->expectException(InvalidTaxValueException::class);
         $this->simpleProductCreator->createEntity($productDefinition, $this->getContext());
@@ -79,15 +70,15 @@ class ProductCreatorTest extends AbstractTestCase
      * @group SimpleApi_Product
      * @group SimpleApi_Product_Entity
      * @group SimpleApi_Product_Entity_3
-     * @throws JsonException
+     * @throws InvalidTaxValueException
      */
     public function invalidCurrencyWillThrowException(): void
     {
-        $productDefinition =  $this->getMinimalDefinition();
+        $productDefinition = $this->getMinimalDefinition();
 
         // Wir setzen eine Währung, die nicht existiert.
         $productDefinition['price'] = [
-            'INVALID_CURRENCY_CODE' => 50
+            'INVALID_CURRENCY_CODE' => 50,
         ];
         $this->expectException(InvalidCurrencyCodeException::class);
         $this->simpleProductCreator->createEntity($productDefinition, $this->getContext());
@@ -102,11 +93,12 @@ class ProductCreatorTest extends AbstractTestCase
      * @group SimpleApi_Product
      * @group SimpleApi_Product_Entity
      * @group SimpleApi_Product_Entity_4
-     * @throws JsonException
+     * @throws InvalidTaxValueException
+     * @throws InvalidCurrencyCodeException
      */
     public function productHasMultipleCurrencies(): void
     {
-        $productDefinition =  $this->getMinimalDefinition();
+        $productDefinition = $this->getMinimalDefinition();
 
         // Es wird GBP hinzugefügt.
         $productDefinition['price']['GBP'] = 50;
@@ -115,8 +107,8 @@ class ProductCreatorTest extends AbstractTestCase
         $this->simpleProductCreator->createEntity($productDefinition, $this->getContext());
         $createdProduct = $this->getProductBySku($productDefinition['sku']);
 
-        $this->assertEquals($productDefinition['price']['EUR'],  $createdProduct->getPrice()->getAt(0)->getGross());
-        $this->assertEquals($productDefinition['price']['GBP'],  $createdProduct->getPrice()->getAt(1)->getGross());
+        $this->assertEquals($productDefinition['price']['EUR'], $createdProduct->getPrice()->getAt(0)->getGross());
+        $this->assertEquals($productDefinition['price']['GBP'], $createdProduct->getPrice()->getAt(1)->getGross());
     }
 
     /**
@@ -129,18 +121,27 @@ class ProductCreatorTest extends AbstractTestCase
      * @group SimpleApi_Product
      * @group SimpleApi_Product_Entity
      * @group SimpleApi_Product_Entity_5
-     * @throws JsonException
+     * @throws InvalidCurrencyCodeException
+     * @throws InvalidTaxValueException
      */
     public function addSalesChannel(): void
     {
-        $productDefinition =  $this->getMinimalDefinition();
+        $productDefinition = $this->getMinimalDefinition();
         // Das Produkt wird einem Verkaufskanal zugeordnet
         $productDefinition['sales_channel'] = [
-            'default' => 'all' // hier wären auch andere Werte möglich
+            'default' => 'all', // hier wären auch andere Werte möglich
         ];
         $this->simpleProductCreator->createEntity($productDefinition, $this->getContext());
         $createdProduct = $this->getProductBySku($productDefinition['sku']);
 
-        $this->assertEquals(30,  $createdProduct->getVisibilities()->first()->getVisibility());
+        $this->assertEquals(30, $createdProduct->getVisibilities()->first()->getVisibility());
+    }
+
+    protected function setUp(): void
+    {
+        $this->simpleProductCreator = $this->getContainer()->get(SimpleProductCreator::class);
+
+        $product = $this->getMinimalDefinition();
+        $this->deleteProductBySku($product['sku']);
     }
 }

@@ -2,8 +2,8 @@
 
 namespace MothershipSimpleApi\Tests\Service\Validator;
 
-use JsonException;
 use MothershipSimpleApi\Service\Validator\Exception\InvalidUuidException;
+
 class CmsPageIdValidatorTest extends AbstractValidatorTest
 {
     /**
@@ -16,7 +16,6 @@ class CmsPageIdValidatorTest extends AbstractValidatorTest
      * @group SimpleApi_Product_Validator
      * @group SimpleApi_Product_Validator_CmsPageId
      * @group SimpleApi_Product_Validator_CmsPageId_1
-     * @throws JsonException
      */
     public function invalidUuidWillThrowException(): void
     {

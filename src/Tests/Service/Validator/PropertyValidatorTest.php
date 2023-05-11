@@ -2,7 +2,6 @@
 
 namespace MothershipSimpleApi\Tests\Service\Validator;
 
-use JsonException;
 use MothershipSimpleApi\Service\Validator\Exception\Property\InvalidDataTypeException;
 
 class PropertyValidatorTest extends AbstractValidatorTest
@@ -18,13 +17,12 @@ class PropertyValidatorTest extends AbstractValidatorTest
      * @group SimpleApi_Product_Validator_Property
      * @group SimpleApi_Product_Validator_Property_1
      *
-     * @throws JsonException
      */
     public function invalidDataTypeWillThrowException(): void
     {
         $definition = $this->getMinimalDefinition();
         $definition['properties'] = [
-            'color' => 1
+            'color' => 1,
         ];
 
         $this->expectException(InvalidDataTypeException::class);

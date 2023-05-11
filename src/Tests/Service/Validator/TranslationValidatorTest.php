@@ -2,7 +2,6 @@
 
 namespace MothershipSimpleApi\Tests\Service\Validator;
 
-use JsonException;
 use MothershipSimpleApi\Service\Validator\Exception\Translation\InvalidIsoCodeException;
 use MothershipSimpleApi\Service\Validator\Exception\Translation\MissingIsoCodeException;
 use MothershipSimpleApi\Service\Validator\Exception\Translation\MissingNameException;
@@ -19,7 +18,6 @@ class TranslationValidatorTest extends AbstractValidatorTest
      * @group SimpleApi_Product_Validator
      * @group SimpleApi_Product_Validator_Translation
      * @group SimpleApi_Product_Validator_Translation_1
-     * @throws JsonException
      */
     public function missingNameWillThrowException(): void
     {
@@ -41,7 +39,6 @@ class TranslationValidatorTest extends AbstractValidatorTest
      * @group SimpleApi_Product_Validator
      * @group SimpleApi_Product_Validator_Translation
      * @group SimpleApi_Product_Validator_Translation_2
-     * @throws JsonException
      */
     public function missingIsoCodesWillThrowException(): void
     {
@@ -62,13 +59,12 @@ class TranslationValidatorTest extends AbstractValidatorTest
      * @group SimpleApi_Product_Validator
      * @group SimpleApi_Product_Validator_Translation
      * @group SimpleApi_Product_Validator_Translation_3
-     * @throws JsonException
      */
     public function invalidIsoCodeWillThrowException(): void
     {
         $definition = $this->getMinimalDefinition();
         $definition['name'] = [
-            'invalid-iso' => 'test'
+            'invalid-iso' => 'test',
         ];
 
         $this->expectException(InvalidIsoCodeException::class);

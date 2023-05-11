@@ -2,7 +2,9 @@
 
 namespace MothershipSimpleApi\Service\Validator\Exception;
 
-class MissingNameException extends \Exception
+use Exception;
+
+class MissingNameException extends Exception
 {
 
 }

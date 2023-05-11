@@ -7,9 +7,9 @@ use Shopware\Core\Content\Product\ProductEntity;
 
 abstract class AbstractTranslationTestcase extends AbstractProcessorTest
 {
-    protected function getTranslationElementByIsoCode(ProductEntity $createdProduct, string $isoCode) : ProductTranslationEntity
+    protected function getTranslationElementByIsoCode(ProductEntity $createdProduct, string $isoCode): ProductTranslationEntity
     {
-        $productId  = $createdProduct->getUniqueIdentifier();
+        $productId = $createdProduct->getUniqueIdentifier();
         $languageId = $this->getTranslationIdByIsoCode($isoCode);
 
         // Die Translation-Id wird über einen kombinierten Schlüssel erstellt

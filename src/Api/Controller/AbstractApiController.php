@@ -2,6 +2,7 @@
 
 namespace MothershipSimpleApi\Api\Controller;
 
+use Exception;
 use Shopware\Core\Framework\Api\Acl\AclCriteriaValidator;
 use Shopware\Core\Framework\Api\Acl\Role\AclRoleDefinition;
 use Shopware\Core\Framework\Api\Controller\ApiController;
@@ -32,52 +33,24 @@ use Symfony\Component\Serializer\Serializer;
 
 /**
  * Dieser API-Controller basiert auf der Implementierung in Shopware. Wir machen das, damit wir bei den
- * JSON-Filter-Kriterien zu 100% mit Shopware kompatibel sind.
+ * JSON-Filter-Kriterien zu 100 % mit Shopware kompatibel sind.
  *
  * Viele relevante Methoden im API-Controller von Shopware sind private, daher mussten wir sie in diese Klasse
  * kopieren um sie in unserer eigenen API verwenden zu können.
  *
- * @see \Shopware\Core\Framework\Api\Controller\ApiController
+ * @see ApiController
  *
  * @Route(defaults={"_routeScope"={"api"}})
  */
 class AbstractApiController extends ApiController
 {
-
-    /**
-     * @var DefinitionInstanceRegistry
-     */
-    protected $definitionRegistry;
-
-    /**
-     * @var Serializer
-     */
-    protected $serializer;
-
-    /**
-     * @var RequestCriteriaBuilder
-     */
-    protected $criteriaBuilder;
-
-    /**
-     * @var CompositeEntitySearcher
-     */
-    protected $compositeEntitySearcher;
-
-    /**
-     * @var ApiVersionConverter
-     */
-    protected $apiVersionConverter;
-
-    /**
-     * @var EntityProtectionValidator
-     */
-    protected $entityProtectionValidator;
-
-    /**
-     * @var AclCriteriaValidator
-     */
-    protected $criteriaValidator;
+    protected DefinitionInstanceRegistry $definitionRegistry;
+    protected Serializer $serializer;
+    protected RequestCriteriaBuilder $criteriaBuilder;
+    protected CompositeEntitySearcher $compositeEntitySearcher;
+    protected ApiVersionConverter $apiVersionConverter;
+    protected EntityProtectionValidator $entityProtectionValidator;
+    protected AclCriteriaValidator $criteriaValidator;
 
     /**
      * @internal
@@ -110,6 +83,9 @@ class AbstractApiController extends ApiController
         $this->criteriaValidator = $criteriaValidator;
     }
 
+    /**
+     * @throws Exception
+     */
     protected function resolveSearch(Request $request, Context $context, string $entityName, string $path): array
     {
         $pathSegments = $this->buildEntityPath($entityName, $path, $context);
@@ -319,6 +295,9 @@ class AbstractApiController extends ApiController
         return null;
     }
 
+    /**
+     * @throws Exception
+     */
     protected function buildEntityPath(
         string  $entityName,
         string  $pathInfo,
@@ -414,6 +393,9 @@ class AbstractApiController extends ApiController
         return lcfirst(implode('', $parts));
     }
 
+    /**
+     * @throws Exception
+     */
     protected function getDefinitionOfPath(string $entityName, string $path, Context $context): EntityDefinition
     {
         $pathSegments = $this->buildEntityPath($entityName, $path, $context);

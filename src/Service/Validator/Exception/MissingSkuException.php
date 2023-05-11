@@ -2,7 +2,9 @@
 
 namespace MothershipSimpleApi\Service\Validator\Exception;
 
-class MissingSkuException extends \Exception
+use Exception;
+
+class MissingSkuException extends Exception
 {
 
 }

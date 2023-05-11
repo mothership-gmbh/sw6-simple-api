@@ -7,6 +7,7 @@ namespace MothershipSimpleApi\Service;
 use MothershipSimpleApi\Service\Definition\Product;
 use MothershipSimpleApi\Service\Definition\Request;
 use MothershipSimpleApi\Service\Exception\InvalidCurrencyCodeException;
+use MothershipSimpleApi\Service\Exception\InvalidSalesChannelNameException;
 use MothershipSimpleApi\Service\Exception\InvalidTaxValueException;
 use MothershipSimpleApi\Service\Processor\ActiveProcessor;
 use MothershipSimpleApi\Service\Processor\CategoryProcessor;
@@ -27,30 +28,36 @@ use Shopware\Core\Framework\Uuid\Uuid;
 class SimpleProductCreator
 {
     public function __construct(
-        protected EntityRepository $productRepository,
-        protected EntityRepository $taxRepository,
-        protected EntityRepository $currencyRepository,
-
-        protected TranslationProcessor $translationProcessor,
-        protected VisbilityProcessor $visbilityProcessor,
-        protected ImageProcessor $imageProcessor,
+        protected EntityRepository       $productRepository,
+        protected EntityRepository       $taxRepository,
+        protected EntityRepository       $currencyRepository,
+        protected TranslationProcessor   $translationProcessor,
+        protected VisbilityProcessor     $visbilityProcessor,
+        protected ImageProcessor         $imageProcessor,
         protected PropertyGroupProcessor $propertyGroupProcessor,
-        protected CustomFieldProcessor $customFieldProcessor,
-        protected VariantProcessor $variantProcessor,
-        protected LayoutProcessor $layoutProcessor,
-        protected ActiveProcessor $activeProcessor,
-        protected CategoryProcessor $categoryProcessor,
-        protected ManufacturerProcessor $manufacturerProcessor,
-
-        protected Request $request,
-    ) {
-        $this->request                = $request;
+        protected CustomFieldProcessor   $customFieldProcessor,
+        protected VariantProcessor       $variantProcessor,
+        protected LayoutProcessor        $layoutProcessor,
+        protected ActiveProcessor        $activeProcessor,
+        protected CategoryProcessor      $categoryProcessor,
+        protected ManufacturerProcessor  $manufacturerProcessor,
+        protected Request                $request,
+    )
+    {
     }
 
-    public function createEntity(array $definition, Context $context)
+    /**
+     * @param array   $definition
+     * @param Context $context
+     *
+     * @throws InvalidCurrencyCodeException
+     * @throws InvalidSalesChannelNameException
+     * @throws InvalidTaxValueException
+     */
+    public function createEntity(array $definition, Context $context): void
     {
         $this->request->init($definition);
-        $this->createProductByDefinition($definition, $context);
+        $this->createProductByDefinition($context);
     }
 
     /**
@@ -58,29 +65,33 @@ class SimpleProductCreator
      * @link https://stackoverflow.com/questions/74450074/shopware-6-how-create-a-product-with-media-with-the-admin-api
      * @link https://www.matheusgontijo.com/2022/01/28/how-to-create-a-product-programmatically-in-shopware-6
      *
-     * @param array   $definition
      * @param Context $context
      *
      * @return void
+     * @throws InvalidCurrencyCodeException
      * @throws InvalidTaxValueException
+     * @throws InvalidSalesChannelNameException
      */
-    protected function createProductByDefinition(array $definition, Context $context)
+    protected function createProductByDefinition(Context $context): void
     {
-        try {
-            foreach ($this->request->getVariants() as $variant) {
-                $this->upsertProduct($variant, $context);
-            }
-            $this->upsertProduct($this->request->getProduct(), $context);
-
-            // Ab Hier VariantenHandling
-            $this->variantProcessor->process($this->request, $context);
-
-        } catch (\Exception $e) {
-            throw $e;
+        foreach ($this->request->getVariants() as $variant) {
+            $this->upsertProduct($variant, $context);
         }
+        $this->upsertProduct($this->request->getProduct(), $context);
+
+        // Ab Hier VariantenHandling
+        $this->variantProcessor->process($this->request, $context);
     }
 
-    protected function upsertProduct(Product $product, Context $context)
+    /**
+     * @param Product $product
+     * @param Context $context
+     *
+     * @throws InvalidCurrencyCodeException
+     * @throws InvalidTaxValueException
+     * @throws InvalidSalesChannelNameException
+     */
+    protected function upsertProduct(Product $product, Context $context): void
     {
         $productUuid = Uuid::fromStringToHex($product->getSku());
         $data = [
@@ -88,7 +99,7 @@ class SimpleProductCreator
             'price'         => $this->setPrice($product->getPrice(), $product->getTax(), $context),
             'taxId'         => $this->setTax($product->getTax(), $context),
             'stock'         => $product->getStock(),
-            'productNumber' => $product->getSku()
+            'productNumber' => $product->getSku(),
         ];
 
         $this->translationProcessor->process($data, $product);
@@ -99,11 +110,11 @@ class SimpleProductCreator
         // Für die Zuordnung der Kategorien
         $this->categoryProcessor->process($data, $product, $productUuid, $context);
 
-        // Für die Zuordnung des Sales-Channel
+        // Für die Zuordnung des Sales-Channels
         $this->visbilityProcessor->process($data, $product, $productUuid, $context);
         $this->productRepository->upsert([$data], $context);
 
-        // Kann erst durchgeführt werden, nachdem es Produkte gibt.
+        // Kann erst durchgeführt werden, nachdem es Produkte gibt
         $imageUpdated = $this->imageProcessor->process($product, $productUuid, $context);
         if (!empty($imageUpdated)) {
             $this->productRepository->update([$imageUpdated], $context);
@@ -111,9 +122,9 @@ class SimpleProductCreator
 
         $this->propertyGroupProcessor->process($product, $productUuid, $context);
         $customFieldData = [
-            'id' => $productUuid
+            'id' => $productUuid,
         ];
-        $this->customFieldProcessor->process($customFieldData, $product, $productUuid, $context);
+        $this->customFieldProcessor->process($customFieldData, $product, $context);
         $this->productRepository->update([$customFieldData], $context);
     }
 
@@ -126,19 +137,22 @@ class SimpleProductCreator
      * @return string
      * @throws InvalidTaxValueException
      */
-    protected function setTax(float $taxRate, Context $context)
+    protected function setTax(float $taxRate, Context $context): string
     {
         $criteria = new Criteria();
         $criteria->addFilter(new EqualsFilter('taxRate', $taxRate));
 
         $taxId = $this->taxRepository->searchIds($criteria, $context)->firstId();
-        if (null == $taxId) {
+        if (null === $taxId) {
             throw new InvalidTaxValueException('There is no tax with a value of [' . $taxRate . '] in the table tax');
         }
         return $taxId;
     }
 
-    protected function setPrice(array $prices, float $taxRate, Context $context) : array
+    /**
+     * @throws InvalidCurrencyCodeException
+     */
+    protected function setPrice(array $prices, float $taxRate, Context $context): array
     {
         $data = [];
         foreach ($prices as $currencyIsoCode => $grossPrice) {
@@ -153,13 +167,16 @@ class SimpleProductCreator
         return $data;
     }
 
-    protected function getCurrencyIdByIsoCode(string $currencyIsoCode, Context $context)
+    /**
+     * @throws InvalidCurrencyCodeException
+     */
+    protected function getCurrencyIdByIsoCode(string $currencyIsoCode, Context $context): string
     {
         $criteria = new Criteria();
         $criteria->addFilter(new EqualsFilter('isoCode', $currencyIsoCode));
 
         $currencyId = $this->currencyRepository->searchIds($criteria, $context)->firstId();
-        if (null == $currencyId) {
+        if (null === $currencyId) {
             throw new InvalidCurrencyCodeException('There is no currency [' . $currencyIsoCode . '] in the table currency');
         }
         return $currencyId;

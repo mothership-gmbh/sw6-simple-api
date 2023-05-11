@@ -2,7 +2,9 @@
 
 namespace MothershipSimpleApi\Service\Exception;
 
-class InvalidCurrencyCodeException extends \Exception
+use Exception;
+
+class InvalidCurrencyCodeException extends Exception
 {
 
 }

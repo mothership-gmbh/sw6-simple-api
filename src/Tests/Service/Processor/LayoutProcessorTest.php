@@ -1,10 +1,9 @@
 <?php
 
-namespace MothershipSimpleApi\Tests\Service\Traits;
+namespace MothershipSimpleApi\Tests\Service\Processor;
 
-use JsonException;
-use MothershipSimpleApi\Tests\Service\Processor\AbstractProcessorTest;
-use Shopware\Core\Content\Product\Aggregate\ProductVisibility\ProductVisibilityDefinition;
+use MothershipSimpleApi\Service\Exception\InvalidCurrencyCodeException;
+use MothershipSimpleApi\Service\Exception\InvalidTaxValueException;
 
 class LayoutProcessorTest extends AbstractProcessorTest
 {
@@ -19,11 +18,12 @@ class LayoutProcessorTest extends AbstractProcessorTest
      * @group SimpleApi_Product_Processor_Layout
      * @group SimpleApi_Product_Processor_Layout_1
      *
-     * @throws JsonException
+     * @throws InvalidTaxValueException
+     * @throws InvalidCurrencyCodeException
      */
     public function assignedToHeadlessChannel(): void
     {
-        $productDefinition =  $this->getMinimalDefinition();
+        $productDefinition = $this->getMinimalDefinition();
         $defaultPageLayout = $this->getLayoutIdByType('product_detail');
 
         $productDefinition['cms_page_id'] = $defaultPageLayout->getId();

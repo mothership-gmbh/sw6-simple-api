@@ -4,24 +4,25 @@ declare(strict_types=1);
 
 namespace MothershipSimpleApi\Api;
 
+use Exception;
 use JsonException;
 use MothershipSimpleApi\Api\Controller\AbstractApiController;
 use MothershipSimpleApi\Transformer\SimpleOrderTransformation\Transformer;
 use Shopware\Core\Checkout\Order\OrderEntity;
 use Shopware\Core\Framework\Api\Response\ResponseFactoryInterface;
 use Shopware\Core\Framework\Context;
+use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\EntitySearchResult;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Sorting\FieldSorting;
+use Shopware\Core\Framework\Routing\Annotation\Since;
 use Shopware\Core\Framework\Uuid\Exception\InvalidUuidException;
 use Shopware\Core\Framework\Uuid\Uuid;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Shopware\Core\Framework\Routing\Annotation\Since;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 
 /**
  * @Route(defaults={"_routeScope"={"api"}})
@@ -49,16 +50,18 @@ class OrderActionController extends AbstractApiController
      * an der Stelle etwas schwieriger zu finden.
      *
      * @throws JsonException
+     * @throws Exception
      * @link www/vendor/shopware/core/System/CustomEntity/Api/CustomEntityApiController.php
      */
     public function searchOptionallyTransformedDetails(
-        string $orderId,
-        Request $request,
-        Context $context,
+        string                   $orderId,
+        Request                  $request,
+        Context                  $context,
         ResponseFactoryInterface $responseFactory,
-        string $entityName = 'order',
-        string $path = ''
-    ): Response {
+        string                   $entityName = 'order',
+        string                   $path = ''
+    ): Response
+    {
         if ($orderId && !Uuid::isValid($orderId)) {
             throw new InvalidUuidException($orderId);
         }
@@ -90,21 +93,56 @@ class OrderActionController extends AbstractApiController
     }
 
     /**
+     * @param string $orderId
+     *
+     * @return Criteria
+     */
+    protected function getCriteria(string $orderId): Criteria
+    {
+        /** Criteria sind von hier übernommen, da hier auch das CheckoutOrderPlaced-Event gefeuert wird, was ursächlich für die
+         * initiale Bestellbestätigung ist:
+         *
+         * @see \Shopware\Core\Checkout\Cart\SalesChannel\CartOrderRoute::order
+         **/
+        $criteria = new Criteria();
+        $criteria
+            ->addFilter(new EqualsFilter('id', $orderId))
+            ->addAssociation('lineItems.product')
+            ->addAssociation('currency')
+            ->addAssociation('orderCustomer.customer')
+            ->addAssociation('orderCustomer.salutation')
+            ->addAssociation('language')
+            ->addAssociation('deliveries.shippingMethod')
+            ->addAssociation('deliveries.shippingOrderAddress.country')
+            ->addAssociation('salesChannel')
+            ->addAssociation('addresses.country')
+            ->addAssociation('addresses.countryState')
+            ->addAssociation('transactions')
+            ->addAssociation('transactions.paymentMethod')
+            ->addAssociation('documents.documentType')
+            ->addSorting(new FieldSorting('createdAt'));
+
+        return $criteria;
+    }
+
+    /**
      * @Route(
      *     "/api/mothership/search/order",
      *     name="api.mothership.search.order.short",
      *     requirements={"path"="(\/[0-9a-f]{32}\/(extensions\/)?[a-zA-Z-]+)*\/?$"},
      *     methods={"POST"}
      * )
+     * @throws Exception
      */
     public function searchShortInfo(
         Request $request,
         Context $context,
-        string $entityName = 'order',
-        string $path = ''
-    ): Response {
+        string  $entityName = 'order',
+        string  $path = ''
+    ): Response
+    {
         /**
-         * @var Criteria                  $criteria
+         * @var Criteria         $criteria
          * @var EntityRepository $repository
          */
         [$criteria, $repository] = $this->resolveSearch($request, $context, $entityName, $path);
@@ -191,38 +229,5 @@ class OrderActionController extends AbstractApiController
             'invoice_number' => $invoiceNumber,
             'invoice_link'   => $invoiceLink,
         ];
-    }
-
-    /**
-     * @param string $orderId
-     *
-     * @return Criteria
-     */
-    protected function getCriteria(string $orderId): Criteria
-    {
-        /** Criteria sind von hier übernommen, da hier auch das CheckoutOrderPlaced-Event gefeuert wird, was ursächlich für die
-         * initiale Bestellbestätigung ist:
-         *
-         * @see \Shopware\Core\Checkout\Cart\SalesChannel\CartOrderRoute::order
-         **/
-        $criteria = new Criteria();
-        $criteria
-            ->addFilter(new EqualsFilter('id', $orderId))
-            ->addAssociation('lineItems.product')
-            ->addAssociation('currency')
-            ->addAssociation('orderCustomer.customer')
-            ->addAssociation('orderCustomer.salutation')
-            ->addAssociation('language')
-            ->addAssociation('deliveries.shippingMethod')
-            ->addAssociation('deliveries.shippingOrderAddress.country')
-            ->addAssociation('salesChannel')
-            ->addAssociation('addresses.country')
-            ->addAssociation('addresses.countryState')
-            ->addAssociation('transactions')
-            ->addAssociation('transactions.paymentMethod')
-            ->addAssociation('documents.documentType')
-            ->addSorting(new FieldSorting('createdAt'));
-
-        return $criteria;
     }
 }

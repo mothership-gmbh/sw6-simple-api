@@ -9,6 +9,9 @@ use MothershipSimpleApi\Service\Validator\Exception\Active\InvalidStateException
 
 class ActiveValidator implements IValidator
 {
+    /**
+     * @throws InvalidStateException
+     */
     public function validate(Product $product): void
     {
         $state = $product->getActive();

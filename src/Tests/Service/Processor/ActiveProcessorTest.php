@@ -1,10 +1,9 @@
 <?php
 
-namespace MothershipSimpleApi\Tests\Service\Traits;
+namespace MothershipSimpleApi\Tests\Service\Processor;
 
-use JsonException;
-use MothershipSimpleApi\Tests\Service\Processor\AbstractProcessorTest;
-use Shopware\Core\Content\Product\Aggregate\ProductVisibility\ProductVisibilityDefinition;
+use MothershipSimpleApi\Service\Exception\InvalidCurrencyCodeException;
+use MothershipSimpleApi\Service\Exception\InvalidTaxValueException;
 
 class ActiveProcessorTest extends AbstractProcessorTest
 {
@@ -19,11 +18,12 @@ class ActiveProcessorTest extends AbstractProcessorTest
      * @group SimpleApi_Product_Processor_Active
      * @group SimpleApi_Product_Processor_Active_1
      *
-     * @throws JsonException
+     * @throws InvalidTaxValueException
+     * @throws InvalidCurrencyCodeException
      */
     public function productIsActive(): void
     {
-        $productDefinition =  $this->getMinimalDefinition();
+        $productDefinition = $this->getMinimalDefinition();
         $productDefinition['active'] = true;
 
         $this->simpleProductCreator->createEntity($productDefinition, $this->getContext());
@@ -43,11 +43,12 @@ class ActiveProcessorTest extends AbstractProcessorTest
      * @group SimpleApi_Product_Processor_Active
      * @group SimpleApi_Product_Processor_Active_2
      *
-     * @throws JsonException
+     * @throws InvalidTaxValueException
+     * @throws InvalidCurrencyCodeException
      */
     public function productIsDesActivated(): void
     {
-        $productDefinition =  $this->getMinimalDefinition();
+        $productDefinition = $this->getMinimalDefinition();
         $productDefinition['active'] = false;
 
         $this->simpleProductCreator->createEntity($productDefinition, $this->getContext());

@@ -1,14 +1,14 @@
 <?php
 
-namespace MothershipSimpleApi\Tests\Service\Traits;
+namespace MothershipSimpleApi\Tests\Service\Processor;
 
-use JsonException;
-use MothershipSimpleApi\Tests\Service\Processor\AbstractProcessorTest;
+use MothershipSimpleApi\Service\Exception\InvalidCurrencyCodeException;
+use MothershipSimpleApi\Service\Exception\InvalidTaxValueException;
 use Shopware\Core\Content\Product\Aggregate\ProductVisibility\ProductVisibilityDefinition;
 
 class VisibilityProcessorTest extends AbstractProcessorTest
 {
-    CONST POS_COVER_IMAGE = 0;
+    public const POS_COVER_IMAGE = 0;
 
     /**
      * Das Produkt wird dem Headless-Kanal zugeordnet
@@ -21,13 +21,14 @@ class VisibilityProcessorTest extends AbstractProcessorTest
      * @group SimpleApi_Product_Processor_Visibility
      * @group SimpleApi_Product_Processor_Visibility_1
      *
-     * @throws JsonException
+     * @throws InvalidTaxValueException
+     * @throws InvalidCurrencyCodeException
      */
     public function assignedToHeadlessChannel(): void
     {
-        $productDefinition =  $this->getMinimalDefinition();
+        $productDefinition = $this->getMinimalDefinition();
         $productDefinition['sales_channel'] = [
-            "Headless" => "all"
+            "Headless" => "all",
         ];
 
         $this->simpleProductCreator->createEntity($productDefinition, $this->getContext());
@@ -48,11 +49,12 @@ class VisibilityProcessorTest extends AbstractProcessorTest
      * @group SimpleApi_Product_Processor_Visibility
      * @group SimpleApi_Product_Processor_Visibility_2
      *
-     * @throws JsonException
+     * @throws InvalidTaxValueException
+     * @throws InvalidCurrencyCodeException
      */
     public function assignedToHeadlessAndStoreFrontChannel(): void
     {
-        $productDefinition =  $this->getMinimalDefinition();
+        $productDefinition = $this->getMinimalDefinition();
         $productDefinition['sales_channel'] = [
             "Headless"   => "all",
             "Storefront" => "all",
@@ -77,13 +79,15 @@ class VisibilityProcessorTest extends AbstractProcessorTest
      * @group SimpleApi_Product_Processor_Visibility
      * @group SimpleApi_Product_Processor_Visibility_3
      *
-     * @throws JsonException
+     * @throws InvalidTaxValueException
+     * @throws InvalidCurrencyCodeException
+     * @throws InvalidCurrencyCodeException
      */
     public function assignedToHeadlessChannelAndRemovedAfterwards(): void
     {
-        $productDefinition =  $this->getMinimalDefinition();
+        $productDefinition = $this->getMinimalDefinition();
         $productDefinition['sales_channel'] = [
-            "Headless"   => "all"
+            "Headless" => "all",
         ];
 
         $this->simpleProductCreator->createEntity($productDefinition, $this->getContext());

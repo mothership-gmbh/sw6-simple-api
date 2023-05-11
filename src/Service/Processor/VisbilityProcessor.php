@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace MothershipSimpleApi\Service\Processor;
 
 use MothershipSimpleApi\Service\Definition\Product;
-use MothershipSimpleApi\Service\Definition\Request;
 use MothershipSimpleApi\Service\Exception\InvalidSalesChannelNameException;
 use Shopware\Core\Content\Product\Aggregate\ProductVisibility\ProductVisibilityDefinition;
 use Shopware\Core\Framework\Context;
@@ -17,12 +16,17 @@ class VisbilityProcessor
 {
     protected EntityRepositoryInterface $salesChannelRepository;
     protected EntityRepositoryInterface $productVisibilityRepository;
+
     public function __construct(EntityRepositoryInterface $salesChannelRepository, EntityRepositoryInterface $productVisibilityRepository)
     {
-        $this->salesChannelRepository      = $salesChannelRepository;
+        $this->salesChannelRepository = $salesChannelRepository;
         $this->productVisibilityRepository = $productVisibilityRepository;
     }
-    public function process(array &$data, Product $request, string $productUuid, Context $context) : void
+
+    /**
+     * @throws InvalidSalesChannelNameException
+     */
+    public function process(array &$data, Product $request, string $productUuid, Context $context): void
     {
         $mapping = [
             'all'    => ProductVisibilityDefinition::VISIBILITY_ALL,
@@ -39,7 +43,7 @@ class VisbilityProcessor
                 $salesChannelIds[] = $salesChannelId;
                 $data['visibilities'][] = [
                     'salesChannelId' => $salesChannelId,
-                    'visibility'     => $mapping[$visibility]
+                    'visibility'     => $mapping[$visibility],
                 ];
             }
         }
@@ -49,10 +53,39 @@ class VisbilityProcessor
             $this->cleanup($assignedSalesChannels, $salesChannelIds, $context);
         }
     }
-    protected function cleanup(array $assignedSalesChannels, array $salesChannels, Context $context)
+
+    /**
+     * @throws InvalidSalesChannelNameException
+     */
+    protected function getSalesChannelByName(string $salesChannelName, Context $context): string
+    {
+        $criteria = new Criteria();
+
+        // Bei default ist der Sales-Channel einfach leer.
+        if ($salesChannelName === 'default') {
+            $criteria->addFilter(new EqualsFilter('name', null));
+        } else {
+            $criteria->addFilter(new EqualsFilter('name', $salesChannelName));
+        }
+
+        $salesChannelId = $this->salesChannelRepository->searchIds($criteria, $context)->firstId();
+        if (null === $salesChannelId) {
+            throw new InvalidSalesChannelNameException('There is no sales-channel [' . $salesChannelName . '] in the table sales_channel');
+        }
+        return $salesChannelId;
+    }
+
+    protected function getAssignedSalesChannels(string $productUuid, Context $context): array
+    {
+        $criteria = new Criteria();
+        $criteria->addFilter(new EqualsFilter('productId', $productUuid));
+        return $this->productVisibilityRepository->searchIds($criteria, $context)->getIds();
+    }
+
+    protected function cleanup(array $assignedSalesChannels, array $salesChannels, Context $context): void
     {
         $requiresCleanup = false;
-        if (count($assignedSalesChannels) != count($salesChannels)) {
+        if (count($assignedSalesChannels) !== count($salesChannels)) {
             $requiresCleanup = true;
         }
         if (count(array_diff($assignedSalesChannels, $salesChannels)) > 0) {
@@ -66,27 +99,5 @@ class VisbilityProcessor
                 $this->productVisibilityRepository->delete([['id' => $assignedSalesChannel]], $context);
             }
         }
-    }
-    protected function getAssignedSalesChannels(string $productUuid, Context $context)
-    {
-        $criteria = new Criteria();
-        $criteria->addFilter(new EqualsFilter('productId', $productUuid));
-        return $this->productVisibilityRepository->searchIds($criteria, $context)->getIds();
-    }
-    protected function getSalesChannelByName(string $salesChannelName, Context $context)
-    {
-        $criteria = new Criteria();
-
-        // Bei default ist der Sales-Channel einfach leer.
-        if ($salesChannelName == 'default') {
-            $salesChannelName = null;
-        }
-        $criteria->addFilter(new EqualsFilter('name', $salesChannelName));
-
-        $salesChannelId = $this->salesChannelRepository->searchIds($criteria, $context)->firstId();
-        if (null == $salesChannelId) {
-            throw new InvalidSalesChannelNameException('There is no sales-channel [' . $salesChannelName . '] in the table sales_channel');
-        }
-        return $salesChannelId;
     }
 }

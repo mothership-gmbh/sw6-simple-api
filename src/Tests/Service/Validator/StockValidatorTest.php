@@ -2,9 +2,8 @@
 
 namespace MothershipSimpleApi\Tests\Service\Validator;
 
-use JsonException;
 use MothershipSimpleApi\Service\Validator\Exception\MissingStockException;
-use MothershipSimpleApi\Service\Validator\Exception\MissingTaxException;
+
 class StockValidatorTest extends AbstractValidatorTest
 {
     /**
@@ -16,7 +15,6 @@ class StockValidatorTest extends AbstractValidatorTest
      * @group SimpleApi_Product
      * @group SimpleApi_Product_Validator
      * @group SimpleApi_Product_Validator_Stock
-     * @throws JsonException
      */
     public function missingSkuWillThrowException(): void
     {

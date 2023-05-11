@@ -20,13 +20,13 @@ class CustomFieldProcessor
         $this->customFieldRepository = $customFieldRepository;
     }
 
-    public function process(array &$data, Product $request, string $productUuid, Context $context) : void
+    public function process(array &$data, Product $request, Context $context): void
     {
         $customFields = $request->getCustomFields();
         foreach ($customFields as $customFieldCode => $customFieldOptions) {
 
             $customFieldId = $this->generateCustomFieldId($customFieldCode);
-            $customField   = $this->getCustomFieldById($customFieldId, $context);
+            $customField = $this->getCustomFieldById($customFieldId, $context);
             if (null === $customField) {
                 $this->createCustomField($customFieldId, $customFieldCode, $customFieldOptions['type'], $context);
             }
@@ -37,102 +37,7 @@ class CustomFieldProcessor
         }
     }
 
-
-    /**
-     * @param string  $customFieldId
-     * @param string  $name
-     * @param string  $type
-     * @param Context $context
-     *
-     * @return void
-     */
-    private function createCustomField(string $customFieldId, string $name, string $type, Context $context) : void
-    {
-        $payload = $this->constructPayload($type);
-        $payload['id']   = $customFieldId;
-        $payload['name'] = $name;
-        $payload['translations'] = [
-            $context->getLanguageId() => [
-                'name' => $name,
-                'customFields' => ['code' => $name]
-            ]
-        ];
-
-        $this->customFieldRepository->create([$payload], $context);
-    }
-
-    private function constructPayload(string $type) : array
-    {
-        $payload = [
-            'type' => null,
-            'config' => []
-        ];
-        switch ($type)
-        {
-            case 'text':
-                $payload = [
-                  'type' => 'text',
-                  'config' => [
-                      'type' => 'text',
-                      'componentName' => 'sw-field',
-                      'customFieldType' => 'text'
-                  ]
-                ];
-                break;
-
-            case 'text_area':
-                $payload = [
-                    'type' => 'html',
-                    'config' => [
-                        'type' => 'text',
-                        'componentName' => 'sw-text-editor',
-                        'customFieldType' => 'textEditor'
-                    ]
-                ];
-                break;
-
-            case 'int':
-                $payload = [
-                    'type' => 'int',
-                    'config' => [
-                        'numberType' => 'int',
-                        'componentName' => 'sw-field',
-                        'customFieldType' => 'number',
-                        'min' => null,
-                        'max' => null
-                    ]
-                ];
-                break;
-
-            case 'float':
-                $payload = [
-                    'type' => 'float',
-                    'config' => [
-                        'numberType' => 'float',
-                        'componentName' => 'sw-field',
-                        'customFieldType' => 'number',
-                        'min' => null,
-                        'max' => null
-                    ]
-                ];
-                break;
-
-            case 'bool':
-                $payload = [
-                    'type' => 'bool',
-                    'config' => [
-                        'type' => 'switch',
-                        'componentName' => 'sw-field',
-                        'customFieldType' => 'switch',
-                    ]
-                ];
-                break;
-        }
-
-        return $payload;
-    }
-
-    private function generateCustomFieldId(string $customFieldCode)
+    private function generateCustomFieldId(string $customFieldCode): string
     {
         return Uuid::fromStringToHex($customFieldCode);
     }
@@ -142,5 +47,98 @@ class CustomFieldProcessor
         $criteria = new Criteria();
         $criteria->setIds([strtolower($customFieldId)]);
         return $this->customFieldRepository->search($criteria, $context)->first();
+    }
+
+    /**
+     * @param string  $customFieldId
+     * @param string  $name
+     * @param string  $type
+     * @param Context $context
+     *
+     * @return void
+     */
+    private function createCustomField(string $customFieldId, string $name, string $type, Context $context): void
+    {
+        $payload = $this->constructPayload($type);
+        $payload['id'] = $customFieldId;
+        $payload['name'] = $name;
+        $payload['translations'] = [
+            $context->getLanguageId() => [
+                'name'         => $name,
+                'customFields' => ['code' => $name],
+            ],
+        ];
+
+        $this->customFieldRepository->create([$payload], $context);
+    }
+
+    private function constructPayload(string $type): array
+    {
+        $payload = [
+            'type'   => null,
+            'config' => [],
+        ];
+        switch ($type) {
+            case 'text':
+                $payload = [
+                    'type'   => 'text',
+                    'config' => [
+                        'type'            => 'text',
+                        'componentName'   => 'sw-field',
+                        'customFieldType' => 'text',
+                    ],
+                ];
+                break;
+
+            case 'text_area':
+                $payload = [
+                    'type'   => 'html',
+                    'config' => [
+                        'type'            => 'text',
+                        'componentName'   => 'sw-text-editor',
+                        'customFieldType' => 'textEditor',
+                    ],
+                ];
+                break;
+
+            case 'int':
+                $payload = [
+                    'type'   => 'int',
+                    'config' => [
+                        'numberType'      => 'int',
+                        'componentName'   => 'sw-field',
+                        'customFieldType' => 'number',
+                        'min'             => null,
+                        'max'             => null,
+                    ],
+                ];
+                break;
+
+            case 'float':
+                $payload = [
+                    'type'   => 'float',
+                    'config' => [
+                        'numberType'      => 'float',
+                        'componentName'   => 'sw-field',
+                        'customFieldType' => 'number',
+                        'min'             => null,
+                        'max'             => null,
+                    ],
+                ];
+                break;
+
+            case 'bool':
+                $payload = [
+                    'type'   => 'bool',
+                    'config' => [
+                        'type'            => 'switch',
+                        'componentName'   => 'sw-field',
+                        'customFieldType' => 'switch',
+                    ],
+                ];
+                break;
+        }
+
+        return $payload;
     }
 }

@@ -8,7 +8,7 @@ use MothershipSimpleApi\Service\Definition\Product;
 
 class ActiveProcessor
 {
-    public function process(array &$data, Product $request) : void
+    public function process(array &$data, Product $request): void
     {
         $data['active'] = $request->getActive();
     }

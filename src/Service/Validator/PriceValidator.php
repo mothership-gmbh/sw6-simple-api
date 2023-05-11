@@ -9,6 +9,9 @@ use MothershipSimpleApi\Service\Validator\Exception\MissingPriceException;
 
 class PriceValidator implements IValidator
 {
+    /**
+     * @throws MissingPriceException
+     */
     public function validate(Product $product): void
     {
         $price = $product->getPrice();

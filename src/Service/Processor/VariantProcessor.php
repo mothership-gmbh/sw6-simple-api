@@ -6,7 +6,6 @@ namespace MothershipSimpleApi\Service\Processor;
 
 use MothershipSimpleApi\Service\Definition\Request;
 use MothershipSimpleApi\Service\Helper\BitwiseOperations;
-use Shopware\Core\Content\Product\Aggregate\ProductConfiguratorSetting\ProductConfiguratorSettingCollection;
 use Shopware\Core\Content\Product\ProductEntity;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
@@ -27,24 +26,24 @@ class VariantProcessor
     // array &$data,
     public function process(Request $request, Context $context): void
     {
-        $parentUuid =  Uuid::fromStringToHex($request->getProduct()->getSku());
+        $parentUuid = Uuid::fromStringToHex($request->getProduct()->getSku());
         $this->determineVariantsToBeDeleted($request, $context);
 
         foreach ($request->getVariants() as $variantProduct) {
             $variantUuid = Uuid::fromStringToHex($variantProduct->getSku());
-            $variant     = $this->loadEntityById($variantUuid, $context);
+            $this->loadEntityById($variantUuid, $context);
 
 
-            $productConfiguratorSettings = $this->loadProductConfiguratorSettingsByProductId($parentUuid, $context);
+            $this->loadProductConfiguratorSettingsByProductId($parentUuid, $context);
             $dataConfiguratorSettings = [
-                'id' => $parentUuid,
-                'configuratorSettings' => []
+                'id'                   => $parentUuid,
+                'configuratorSettings' => [],
             ];
 
             $dataOptions = [
                 'id'       => $variantUuid,
                 'parentId' => $parentUuid,
-                'options'  => []
+                'options'  => [],
             ];
 
             foreach ($variantProduct->getAxis() as $propertyGroupCode => $propertyOptions) {
@@ -58,11 +57,11 @@ class VariantProcessor
                     $propertyGroupOptionId = PropertyGroupProcessor::generatePropertyGroupOptionId($propertyGroupCode, $propertyOptionCode);
                     $dataConfiguratorSettings['configuratorSettings'][] = [
                         'optionId' => $propertyGroupOptionId,
-                        'id'       => BitwiseOperations::xorHex($parentUuid, $propertyGroupOptionId)
+                        'id'       => BitwiseOperations::xorHex($parentUuid, $propertyGroupOptionId),
 
                     ];
                     $dataOptions['options'][] = [
-                        'id' => $propertyGroupOptionId
+                        'id' => $propertyGroupOptionId,
                     ];
                 }
             }
@@ -72,9 +71,9 @@ class VariantProcessor
         }
     }
 
-    protected function determineVariantsToBeDeleted(Request $request, Context $context)
+    protected function determineVariantsToBeDeleted(Request $request, Context $context): void
     {
-        $parentUuid       =  Uuid::fromStringToHex($request->getProduct()->getSku());
+        $parentUuid = Uuid::fromStringToHex($request->getProduct()->getSku());
         $assignedVariants = $this->loadEntityById($parentUuid, $context)->getChildren();
         $expectedVariants = $request->getVariants();
         $expectedVariantsSku = [];
@@ -101,7 +100,7 @@ class VariantProcessor
         return $this->productRepository->search($criteria, $context)->first();
     }
 
-    protected function loadProductConfiguratorSettingsByProductId(string $productUuid, Context $context) : array
+    protected function loadProductConfiguratorSettingsByProductId(string $productUuid, Context $context): array
     {
         $criteria = new Criteria();
         $criteria->addAssociations(['configuratorSettings']);

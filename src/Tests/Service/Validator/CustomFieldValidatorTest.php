@@ -2,7 +2,6 @@
 
 namespace MothershipSimpleApi\Tests\Service\Validator;
 
-use JsonException;
 use MothershipSimpleApi\Service\Validator\Exception\CustomField\InvalidDefinitionException;
 use MothershipSimpleApi\Service\Validator\Exception\CustomField\InvalidIsoCodeException;
 use MothershipSimpleApi\Service\Validator\Exception\CustomField\MissingTypeDefinitionException;
@@ -21,18 +20,17 @@ class CustomFieldValidatorTest extends AbstractValidatorTest
      * @group SimpleApi_Product_Validator_CustomField
      * @group SimpleApi_Product_Validator_CustomField_1
      *
-     * @throws JsonException
      */
     public function invalidIsoCodeSchemaWillThrowException(): void
     {
         $definition = $this->getMinimalDefinition();
         $definition['custom_fields'] = [
             'ms_boolean' => [
-                'type' => 'boolean',
+                'type'   => 'boolean',
                 'values' => [
-                    'de_DE' => true
-                ]
-            ]
+                    'de_DE' => true,
+                ],
+            ],
         ];
         $this->expectException(InvalidIsoCodeException::class);
         $this->request->init($definition);
@@ -49,13 +47,12 @@ class CustomFieldValidatorTest extends AbstractValidatorTest
      * @group SimpleApi_Product_Validator_CustomField
      * @group SimpleApi_Product_Validator_CustomField_2
      *
-     * @throws JsonException
      */
     public function invalidDataTypeException(): void
     {
         $definition = $this->getMinimalDefinition();
         $definition['custom_fields'] = [
-            'ms_boolean' => 1
+            'ms_boolean' => 1,
         ];
         $this->expectException(InvalidDefinitionException::class);
         $this->request->init($definition);
@@ -72,7 +69,6 @@ class CustomFieldValidatorTest extends AbstractValidatorTest
      * @group SimpleApi_Product_Validator_CustomField
      * @group SimpleApi_Product_Validator_CustomField_3
      *
-     * @throws JsonException
      */
     public function missingTypeException(): void
     {
@@ -80,7 +76,7 @@ class CustomFieldValidatorTest extends AbstractValidatorTest
         $definition['custom_fields'] = [
             'ms_boolean' => [
 
-            ]
+            ],
         ];
         $this->expectException(MissingTypeDefinitionException::class);
         $this->request->init($definition);
@@ -97,7 +93,6 @@ class CustomFieldValidatorTest extends AbstractValidatorTest
      * @group SimpleApi_Product_Validator_CustomField
      * @group SimpleApi_Product_Validator_CustomField_4
      *
-     * @throws JsonException
      */
     public function missingValueException(): void
     {
@@ -105,7 +100,7 @@ class CustomFieldValidatorTest extends AbstractValidatorTest
         $definition['custom_fields'] = [
             'ms_boolean' => [
                 'type' => 'boolean',
-            ]
+            ],
         ];
         $this->expectException(MissingValuesException::class);
         $this->request->init($definition);
@@ -122,18 +117,17 @@ class CustomFieldValidatorTest extends AbstractValidatorTest
      * @group SimpleApi_Product_Validator_CustomField
      * @group SimpleApi_Product_Validator_CustomField_5
      *
-     * @throws JsonException
      */
     public function invalidIsoCodeException(): void
     {
         $definition = $this->getMinimalDefinition();
         $definition['custom_fields'] = [
             'ms_boolean' => [
-                'type' => 'boolean',
+                'type'   => 'boolean',
                 'values' => [
-                    'de_DE' => 1
-                ]
-            ]
+                    'de_DE' => 1,
+                ],
+            ],
         ];
         $this->expectException(InvalidIsoCodeException::class);
         $this->request->init($definition);

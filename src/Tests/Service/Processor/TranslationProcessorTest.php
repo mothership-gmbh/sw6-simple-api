@@ -1,9 +1,9 @@
 <?php
 
-namespace MothershipSimpleApi\Tests\Service\Traits;
+namespace MothershipSimpleApi\Tests\Service\Processor;
 
-use JsonException;
-use MothershipSimpleApi\Tests\Service\Processor\AbstractTranslationTestcase;
+use MothershipSimpleApi\Service\Exception\InvalidCurrencyCodeException;
+use MothershipSimpleApi\Service\Exception\InvalidTaxValueException;
 
 class TranslationProcessorTest extends AbstractTranslationTestcase
 {
@@ -18,11 +18,12 @@ class TranslationProcessorTest extends AbstractTranslationTestcase
      * @group SimpleApi_Product_Processor_Translation
      * @group SimpleApi_Product_Processor_Translation_1
      *
-     * @throws JsonException
+     * @throws InvalidTaxValueException
+     * @throws InvalidCurrencyCodeException
      */
     public function nameWillBeAdded(): void
     {
-        $productDefinition =  $this->getMinimalDefinition();
+        $productDefinition = $this->getMinimalDefinition();
         $productDefinition['name'] = [
             'en-GB' => 'T-Shirt EN',
             'de-DE' => 'T-Shirt DE',
@@ -50,11 +51,13 @@ class TranslationProcessorTest extends AbstractTranslationTestcase
      * @group SimpleApi_Product_Processor_Translation
      * @group SimpleApi_Product_Processor_Translation_2
      *
-     * @throws JsonException
+     * @throws InvalidTaxValueException
+     * @throws InvalidCurrencyCodeException
+     * @throws InvalidCurrencyCodeException
      */
     public function nameWillBeUpdated(): void
     {
-        $productDefinition =  $this->getMinimalDefinition();
+        $productDefinition = $this->getMinimalDefinition();
         $productDefinition['name'] = [
             'en-GB' => 'T-Shirt EN',
             'de-DE' => 'T-Shirt DE',
@@ -94,11 +97,12 @@ class TranslationProcessorTest extends AbstractTranslationTestcase
      * @group SimpleApi_Product_Processor_Translation
      * @group SimpleApi_Product_Processor_Translation_3
      *
-     * @throws JsonException
+     * @throws InvalidTaxValueException
+     * @throws InvalidCurrencyCodeException
      */
     public function descriptionWillBeAdded(): void
     {
-        $productDefinition =  $this->getMinimalDefinition();
+        $productDefinition = $this->getMinimalDefinition();
         $productDefinition['description'] = [
             'en-GB' => 'Description EN',
             'de-DE' => 'Beschreibung DE',
@@ -126,11 +130,12 @@ class TranslationProcessorTest extends AbstractTranslationTestcase
      * @group SimpleApi_Product_Processor_Translation
      * @group SimpleApi_Product_Processor_Translation_4
      *
-     * @throws JsonException
+     * @throws InvalidTaxValueException
+     * @throws InvalidCurrencyCodeException
      */
     public function keywordWillBeUpdated(): void
     {
-        $productDefinition =  $this->getMinimalDefinition();
+        $productDefinition = $this->getMinimalDefinition();
         $productDefinition['keywords'] = [
             'en-GB' => 'Keyword EN',
             'de-DE' => 'Keyword DE',
@@ -158,11 +163,12 @@ class TranslationProcessorTest extends AbstractTranslationTestcase
      * @group SimpleApi_Product_Processor_Translation
      * @group SimpleApi_Product_Processor_Translation_5
      *
-     * @throws JsonException
+     * @throws InvalidTaxValueException
+     * @throws InvalidCurrencyCodeException
      */
     public function metaTitleWillBeAdded(): void
     {
-        $productDefinition =  $this->getMinimalDefinition();
+        $productDefinition = $this->getMinimalDefinition();
         $productDefinition['meta_title'] = [
             'en-GB' => 'Keyword EN',
             'de-DE' => 'Keyword DE',
@@ -190,11 +196,12 @@ class TranslationProcessorTest extends AbstractTranslationTestcase
      * @group SimpleApi_Product_Processor_Translation
      * @group SimpleApi_Product_Processor_Translation_6
      *
-     * @throws JsonException
+     * @throws InvalidTaxValueException
+     * @throws InvalidCurrencyCodeException
      */
     public function metaDescriptionWillBeAdded(): void
     {
-        $productDefinition =  $this->getMinimalDefinition();
+        $productDefinition = $this->getMinimalDefinition();
         $productDefinition['meta_description'] = [
             'en-GB' => 'Description EN',
             'de-DE' => 'Description DE',

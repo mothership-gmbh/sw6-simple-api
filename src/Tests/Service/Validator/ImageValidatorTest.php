@@ -2,7 +2,6 @@
 
 namespace MothershipSimpleApi\Tests\Service\Validator;
 
-use JsonException;
 use MothershipSimpleApi\Service\Validator\Exception\Image\DuplicatedCoverAssignmentException;
 use MothershipSimpleApi\Service\Validator\Exception\Image\DuplicatedUrlException;
 use MothershipSimpleApi\Service\Validator\Exception\Image\InvalidDataTypeException;
@@ -20,13 +19,12 @@ class ImageValidatorTest extends AbstractValidatorTest
      * @group SimpleApi_Product_Validator
      * @group SimpleApi_Product_Validator_Image
      * @group SimpleApi_Product_Validator_Image_1
-     * @throws JsonException
      */
     public function imageConfigurationMissing(): void
     {
         $definition = $this->getMinimalDefinition();
         $definition['images'] = [
-            'url' => '123'
+            'url' => '123',
         ];
 
         $this->expectException(InvalidDataTypeException::class);
@@ -43,15 +41,14 @@ class ImageValidatorTest extends AbstractValidatorTest
      * @group SimpleApi_Product_Validator
      * @group SimpleApi_Product_Validator_Image
      * @group SimpleApi_Product_Validator_Image_2
-     * @throws JsonException
      */
     public function urlIsMissing(): void
     {
         $definition = $this->getMinimalDefinition();
         $definition['images'] = [
             'url' => [
-                'unnecessary_parameter' => 'i_am_not_required'
-            ]
+                'unnecessary_parameter' => 'i_am_not_required',
+            ],
         ];
 
         $this->expectException(MissingUrlKeyException::class);
@@ -68,7 +65,6 @@ class ImageValidatorTest extends AbstractValidatorTest
      * @group SimpleApi_Product_Validator
      * @group SimpleApi_Product_Validator_Image
      * @group SimpleApi_Product_Validator_Image_3
-     * @throws JsonException
      */
     public function duplicatedUrls(): void
     {
@@ -76,11 +72,11 @@ class ImageValidatorTest extends AbstractValidatorTest
         $definition['images'] = [
             [
                 'url'     => 'https://via.placeholder.com/50x50.png',
-                'isCover' => true
+                'isCover' => true,
             ],
             [
-                'url'     => 'https://via.placeholder.com/50x50.png'
-            ]
+                'url' => 'https://via.placeholder.com/50x50.png',
+            ],
         ];
 
         $this->expectException(DuplicatedUrlException::class);
@@ -97,7 +93,6 @@ class ImageValidatorTest extends AbstractValidatorTest
      * @group SimpleApi_Product_Validator
      * @group SimpleApi_Product_Validator_Image
      * @group SimpleApi_Product_Validator_Image_4
-     * @throws JsonException
      */
     public function duplicatedCoverIsNotPossible(): void
     {
@@ -105,12 +100,12 @@ class ImageValidatorTest extends AbstractValidatorTest
         $definition['images'] = [
             [
                 'url'     => 'https://via.placeholder.com/50x50.png',
-                'isCover' => true
+                'isCover' => true,
             ],
             [
                 'url'     => 'https://via.placeholder.com/51x51.png',
-                'isCover' => true
-            ]
+                'isCover' => true,
+            ],
         ];
 
         $this->expectException(DuplicatedCoverAssignmentException::class);

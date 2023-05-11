@@ -1,8 +1,9 @@
 <?php
 
-namespace MothershipSimpleApi\Tests\Service\Traits;
+namespace MothershipSimpleApi\Tests\Service\Processor;
 
-use JsonException;
+use MothershipSimpleApi\Service\Exception\InvalidCurrencyCodeException;
+use MothershipSimpleApi\Service\Exception\InvalidTaxValueException;
 use MothershipSimpleApi\Service\SimpleProductCreator;
 use MothershipSimpleApi\Tests\Service\AbstractTestCase;
 use Shopware\Core\Content\Product\Aggregate\ProductMedia\ProductMediaEntity;
@@ -10,16 +11,9 @@ use Shopware\Core\Content\Product\ProductEntity;
 
 class ImageProcessorTest extends AbstractTestCase
 {
-    CONST POS_COVER_IMAGE = 0;
+    public const POS_COVER_IMAGE = 0;
 
     protected SimpleProductCreator $simpleProductCreator;
-
-    protected function setUp(): void
-    {
-        $this->simpleProductCreator = $this->getContainer()->get(\MothershipSimpleApi\Service\SimpleProductCreator::class);
-        $this->cleanMedia();
-        $this->cleanProduct();
-    }
 
     /**
      * Fügt dem Produkt ein einzelnes Bild hinzu
@@ -32,16 +26,17 @@ class ImageProcessorTest extends AbstractTestCase
      * @group SimpleApi_Product_Processor_Image
      * @group SimpleApi_Product_Processor_Image_1
      *
-     * @throws JsonException
+     * @throws InvalidTaxValueException
+     * @throws InvalidCurrencyCodeException
      */
     public function singleImage(): void
     {
-        $productDefinition =  $this->getMinimalDefinition();
+        $productDefinition = $this->getMinimalDefinition();
         $productDefinition['images'] = [
             [
                 'url'     => 'https://via.placeholder.com/50x50.png',
-                'isCover' => true
-            ]
+                'isCover' => true,
+            ],
         ];
 
         $this->simpleProductCreator->createEntity($productDefinition, $this->getContext());
@@ -64,18 +59,19 @@ class ImageProcessorTest extends AbstractTestCase
      * @group SimpleApi_Product_Processor_Image
      * @group SimpleApi_Product_Processor_Image_2
      *
-     * @throws JsonException
+     * @throws InvalidTaxValueException
+     * @throws InvalidCurrencyCodeException
      */
     public function multipleImages(): void
     {
-        $productDefinition =  $this->getMinimalDefinition();
+        $productDefinition = $this->getMinimalDefinition();
         $productDefinition['images'] = [
             [
-                'url'     => 'https://via.placeholder.com/50x50.png',
+                'url' => 'https://via.placeholder.com/50x50.png',
             ],
             [
-                'url'     => 'https://via.placeholder.com/51x51.png',
-            ]
+                'url' => 'https://via.placeholder.com/51x51.png',
+            ],
         ];
 
         $this->simpleProductCreator->createEntity($productDefinition, $this->getContext());
@@ -99,27 +95,49 @@ class ImageProcessorTest extends AbstractTestCase
      * @group SimpleApi_Product_Processor_Image
      * @group SimpleApi_Product_Processor_Image_3
      *
-     * @throws JsonException
+     * @throws InvalidTaxValueException
+     * @throws InvalidCurrencyCodeException
      */
     public function addCoverImage(): void
     {
-        $productDefinition =  $this->getMinimalDefinition();
+        $productDefinition = $this->getMinimalDefinition();
         $productDefinition['images'] = [
             [
                 'url'     => 'https://via.placeholder.com/50x50.png',
-                'isCover' => true
+                'isCover' => true,
             ],
             [
-                'url'     => 'https://via.placeholder.com/51x51.png'
-            ]
+                'url' => 'https://via.placeholder.com/51x51.png',
+            ],
         ];
 
         $this->simpleProductCreator->createEntity($productDefinition, $this->getContext());
         $createdProduct = $this->getProductBySku($productDefinition['sku']);
 
         $coverImage = $this->getCoverImage($createdProduct);
-        $this->assertEquals('50x50',$coverImage->getMedia()->getFileName());
+        $this->assertEquals('50x50', $coverImage->getMedia()->getFileName());
         $this->assertEquals($createdProduct->getCoverId(), $coverImage->getId());
+    }
+
+    /**
+     * Das erste Bild ist IMMER das Cover-Bild. Diese Annahme ist nur bei uns im System so, da das Cover-Bild
+     * "intuitiv" immer das erste Bild sein sollte.
+     *
+     * Technisch gesehen muss das jedoch nicht der Fall sein. Wir implementieren hier unsere eigene Best-Practice
+     *
+     * @param ProductEntity $productEntity
+     *
+     * @return ?ProductMediaEntity
+     */
+    protected function getCoverImage(ProductEntity $productEntity): ?ProductMediaEntity
+    {
+        foreach ($productEntity->getMedia() as $productMediaEntity) {
+            if ($productMediaEntity->getPosition() === 1) {
+                return $productMediaEntity;
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -133,19 +151,20 @@ class ImageProcessorTest extends AbstractTestCase
      * @group SimpleApi_Product_Processor_Image
      * @group SimpleApi_Product_Processor_Image_4
      *
-     * @throws JsonException
+     * @throws InvalidTaxValueException
+     * @throws InvalidCurrencyCodeException
      */
     public function addCoverImageInBetween(): void
     {
-        $productDefinition =  $this->getMinimalDefinition();
+        $productDefinition = $this->getMinimalDefinition();
         $productDefinition['images'] = [
             [
-                'url'     => 'https://via.placeholder.com/50x50.png',
+                'url' => 'https://via.placeholder.com/50x50.png',
             ],
             [
                 'url'     => 'https://via.placeholder.com/51x51.png',
-                'isCover' => true
-            ]
+                'isCover' => true,
+            ],
         ];
 
         $this->simpleProductCreator->createEntity($productDefinition, $this->getContext());
@@ -157,7 +176,7 @@ class ImageProcessorTest extends AbstractTestCase
     }
 
     /**
-     * Es wird simuliert dass im zweiten Durchlauf das Cover-Bild die Position wechselt.
+     * Es wird simuliert, dass im zweiten Durchlauf das Cover-Bild die Position wechselt.
      *
      * @test
      *
@@ -167,19 +186,21 @@ class ImageProcessorTest extends AbstractTestCase
      * @group SimpleApi_Product_Processor_Image
      * @group SimpleApi_Product_Processor_Image_5
      *
-     * @throws JsonException
+     * @throws InvalidTaxValueException
+     * @throws InvalidCurrencyCodeException
+     * @throws InvalidCurrencyCodeException
      */
     public function swapCoverImage(): void
     {
-        $productDefinition =  $this->getMinimalDefinition();
+        $productDefinition = $this->getMinimalDefinition();
         $productDefinition['images'] = [
             [
-                'url'     => 'https://via.placeholder.com/50x50.png',
+                'url' => 'https://via.placeholder.com/50x50.png',
             ],
             [
                 'url'     => 'https://via.placeholder.com/51x51.png',
-                'isCover' => true
-            ]
+                'isCover' => true,
+            ],
         ];
 
         $this->simpleProductCreator->createEntity($productDefinition, $this->getContext());
@@ -194,11 +215,11 @@ class ImageProcessorTest extends AbstractTestCase
         $productDefinition['images'] = [
             [
                 'url'     => 'https://via.placeholder.com/50x50.png',
-                'isCover' => true
+                'isCover' => true,
             ],
             [
-                'url'     => 'https://via.placeholder.com/51x51.png',
-            ]
+                'url' => 'https://via.placeholder.com/51x51.png',
+            ],
         ];
         $this->simpleProductCreator->createEntity($productDefinition, $this->getContext());
         $createdProduct = $this->getProductBySku($productDefinition['sku']);
@@ -221,19 +242,21 @@ class ImageProcessorTest extends AbstractTestCase
      * @group SimpleApi_Product_Processor_Image
      * @group SimpleApi_Product_Processor_Image_6
      *
-     * @throws JsonException
+     * @throws InvalidTaxValueException
+     * @throws InvalidCurrencyCodeException
+     * @throws InvalidCurrencyCodeException
      */
     public function replaceImage(): void
     {
-        $productDefinition =  $this->getMinimalDefinition();
+        $productDefinition = $this->getMinimalDefinition();
         $productDefinition['images'] = [
             [
-                'url'     => 'https://via.placeholder.com/50x50.png',
+                'url' => 'https://via.placeholder.com/50x50.png',
             ],
             [
                 'url'     => 'https://via.placeholder.com/51x51.png',
-                'isCover' => true
-            ]
+                'isCover' => true,
+            ],
         ];
 
         $this->simpleProductCreator->createEntity($productDefinition, $this->getContext());
@@ -248,11 +271,11 @@ class ImageProcessorTest extends AbstractTestCase
         $productDefinition['images'] = [
             [
                 'url'     => 'https://via.placeholder.com/50x50.png',
-                'isCover' => true
+                'isCover' => true,
             ],
             [
-                'url'     => 'https://via.placeholder.com/52x52.png',
-            ]
+                'url' => 'https://via.placeholder.com/52x52.png',
+            ],
         ];
         $this->simpleProductCreator->createEntity($productDefinition, $this->getContext());
         $createdProduct = $this->getProductBySku($productDefinition['sku']);
@@ -264,22 +287,10 @@ class ImageProcessorTest extends AbstractTestCase
         $this->assertEquals(2, $createdProduct->getMedia()->count());
     }
 
-    /**
-     * Das erste Bild ist IMMER das Cover-Bild. Diese Annahme ist nur bei uns im System so, da das Cover-Bild
-     * "intuitiv" immer das erste Bild sein sollte.
-     *
-     * Technisch gesehen muss das jedoch nicht der Fall sein. Wir implementieren hier unsere eigene Best-Practice
-     *
-     * @param ProductEntity $productEntity
-     *
-     * @return ProductMediaEntity
-     */
-    protected function getCoverImage(ProductEntity $productEntity) : ProductMediaEntity
+    protected function setUp(): void
     {
-        foreach ($productEntity->getMedia() as $productMediaEntity) {
-            if ($productMediaEntity->getPosition() == 1) {
-                return $productMediaEntity;
-            }
-        }
+        $this->simpleProductCreator = $this->getContainer()->get(SimpleProductCreator::class);
+        $this->cleanMedia();
+        $this->cleanProduct();
     }
 }

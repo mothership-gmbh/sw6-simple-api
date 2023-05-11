@@ -6,9 +6,6 @@ namespace MothershipSimpleApi\Service\Processor;
 
 use Cocur\Slugify\Slugify;
 use MothershipSimpleApi\Service\Definition\Product;
-use MothershipSimpleApi\Service\Definition\Request;
-use MothershipSimpleApi\Service\Exception\InvalidSalesChannelNameException;
-use Shopware\Core\Content\Product\Aggregate\ProductVisibility\ProductVisibilityDefinition;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
@@ -21,9 +18,9 @@ class ManufacturerProcessor
     {
     }
 
-    public function process(array &$data, Product $request, Context $context) : void
+    public function process(array &$data, Product $request, Context $context): void
     {
-        $manufacturer    = $request->getManufacturer();
+        $manufacturer = $request->getManufacturer();
         $data['manufacturerId'] = null;
 
         if (null !== $manufacturer) {
@@ -35,21 +32,7 @@ class ManufacturerProcessor
         }
     }
 
-    protected function createManufacturer(string $manufacturerName, Context $context) : string
-    {
-        $code = Slugify::create()->slugify($manufacturerName);
-        $data = [
-            'id'   => Uuid::fromStringToHex($code),
-            'name' => $manufacturerName,
-            'customFields' => [
-                'code' => $code
-            ]
-        ];
-        $this->manufacturerRepository->create([$data], $context);
-        return $data['id'];
-    }
-
-    protected function getManufacturerByCode(string $manufacturerName, Context $context) : string|null
+    protected function getManufacturerByCode(string $manufacturerName, Context $context): string|null
     {
         $code = Slugify::create()->slugify($manufacturerName);
         $criteria = new Criteria();
@@ -57,5 +40,19 @@ class ManufacturerProcessor
 
         $manufacturerId = $this->manufacturerRepository->searchIds($criteria, $context)->firstId();
         return $manufacturerId ?? null;
+    }
+
+    protected function createManufacturer(string $manufacturerName, Context $context): string
+    {
+        $code = Slugify::create()->slugify($manufacturerName);
+        $data = [
+            'id'           => Uuid::fromStringToHex($code),
+            'name'         => $manufacturerName,
+            'customFields' => [
+                'code' => $code,
+            ],
+        ];
+        $this->manufacturerRepository->create([$data], $context);
+        return $data['id'];
     }
 }

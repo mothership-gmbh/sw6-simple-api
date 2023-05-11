@@ -1,10 +1,9 @@
 <?php
 
-namespace MothershipSimpleApi\Tests\Service\Traits;
+namespace MothershipSimpleApi\Tests\Service\Processor;
 
-use JsonException;
-use MothershipSimpleApi\Tests\Service\Processor\AbstractProcessorTest;
-use Shopware\Core\Content\Product\Aggregate\ProductVisibility\ProductVisibilityDefinition;
+use MothershipSimpleApi\Service\Exception\InvalidCurrencyCodeException;
+use MothershipSimpleApi\Service\Exception\InvalidTaxValueException;
 
 class ManufacturerProcessorTest extends AbstractProcessorTest
 {
@@ -19,11 +18,12 @@ class ManufacturerProcessorTest extends AbstractProcessorTest
      * @group SimpleApi_Product_Processor_Manufacturer
      * @group SimpleApi_Product_Processor_Manufacturer_1
      *
-     * @throws JsonException
+     * @throws InvalidTaxValueException
+     * @throws InvalidCurrencyCodeException
      */
     public function createProductWithManufacturer(): void
     {
-        $productDefinition =  $this->getMinimalDefinition();
+        $productDefinition = $this->getMinimalDefinition();
         $productDefinition['manufacturer'] = 'Aigner';
 
         $this->simpleProductCreator->createEntity($productDefinition, $this->getContext());
@@ -43,11 +43,13 @@ class ManufacturerProcessorTest extends AbstractProcessorTest
      * @group SimpleApi_Product_Processor_Manufacturer
      * @group SimpleApi_Product_Processor_Manufacturer_2
      *
-     * @throws JsonException
+     * @throws InvalidTaxValueException
+     * @throws InvalidCurrencyCodeException
+     * @throws InvalidCurrencyCodeException
      */
     public function manufacturerWillBeUnassigned(): void
     {
-        $productDefinition =  $this->getMinimalDefinition();
+        $productDefinition = $this->getMinimalDefinition();
         $productDefinition['manufacturer'] = 'Aigner';
 
         $this->simpleProductCreator->createEntity($productDefinition, $this->getContext());

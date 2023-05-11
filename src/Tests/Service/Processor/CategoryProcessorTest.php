@@ -1,10 +1,9 @@
 <?php
 
-namespace MothershipSimpleApi\Tests\Service\Traits;
+namespace MothershipSimpleApi\Tests\Service\Processor;
 
-use JsonException;
-use MothershipSimpleApi\Tests\Service\Processor\AbstractProcessorTest;
-use Shopware\Core\Content\Product\Aggregate\ProductVisibility\ProductVisibilityDefinition;
+use MothershipSimpleApi\Service\Exception\InvalidCurrencyCodeException;
+use MothershipSimpleApi\Service\Exception\InvalidTaxValueException;
 
 class CategoryProcessorTest extends AbstractProcessorTest
 {
@@ -19,12 +18,13 @@ class CategoryProcessorTest extends AbstractProcessorTest
      * @group SimpleApi_Product_Processor_Category
      * @group SimpleApi_Product_Processor_Category_1
      *
-     * @throws JsonException
+     * @throws InvalidTaxValueException
+     * @throws InvalidCurrencyCodeException
      */
     public function assignProductToCategory(): void
     {
         $this->createCategory('mothership_test', 'Test');
-        $productDefinition =  $this->getMinimalDefinition();
+        $productDefinition = $this->getMinimalDefinition();
         $productDefinition['categories'] = ['mothership_test'];
 
         $this->simpleProductCreator->createEntity($productDefinition, $this->getContext());
@@ -32,6 +32,19 @@ class CategoryProcessorTest extends AbstractProcessorTest
 
         $this->assertEquals('mothership_test', $createdProduct->getCategories()->first()->getCustomFields()['code']);
         $this->assertEquals(1, $createdProduct->getCategories()->count());
+    }
+
+    protected function createCategory(string $categoryCode, string $categoryName): void
+    {
+        $context = $this->getContext();
+        $category = $this->getRepository('category.repository');
+        $entity = [
+            'name'         => $categoryName,
+            'customFields' => [
+                'code' => $categoryCode,
+            ],
+        ];
+        $category->upsert([$entity], $context);
     }
 
     /**
@@ -45,15 +58,15 @@ class CategoryProcessorTest extends AbstractProcessorTest
      * @group SimpleApi_Product_Processor_Category
      * @group SimpleApi_Product_Processor_Category_2
      *
-     * @throws JsonException
+     * @throws InvalidTaxValueException
+     * @throws InvalidCurrencyCodeException
      */
     public function assignProductToMultipleCategories(): void
     {
         $this->createCategory('mothership_test_1', 'Test');
         $this->createCategory('mothership_test_2', 'Test');
-        $productDefinition =  $this->getMinimalDefinition();
+        $productDefinition = $this->getMinimalDefinition();
         $productDefinition['categories'] = ['mothership_test_1', 'mothership_test_2'];
-
         $this->simpleProductCreator->createEntity($productDefinition, $this->getContext());
         $createdProduct = $this->getProductBySku($productDefinition['sku']);
 
@@ -71,41 +84,27 @@ class CategoryProcessorTest extends AbstractProcessorTest
      * @group SimpleApi_Product_Processor_Category
      * @group SimpleApi_Product_Processor_Category_3
      *
-     * @throws JsonException
+     * @throws InvalidTaxValueException
+     * @throws InvalidCurrencyCodeException
+     * @throws InvalidCurrencyCodeException
      */
     public function assigendCategoryWillBeRemoved(): void
     {
         $this->createCategory('mothership_test_1', 'Test');
         $this->createCategory('mothership_test_2', 'Test');
-
-        $productDefinition =  $this->getMinimalDefinition();
+        $productDefinition = $this->getMinimalDefinition();
         $productDefinition['categories'] = ['mothership_test_1', 'mothership_test_2'];
-
         $this->simpleProductCreator->createEntity($productDefinition, $this->getContext());
         $createdProduct = $this->getProductBySku($productDefinition['sku']);
 
         $this->assertEquals(2, $createdProduct->getCategories()->count());
 
-        $productDefinition =  $this->getMinimalDefinition();
+        $productDefinition = $this->getMinimalDefinition();
         $productDefinition['categories'] = ['mothership_test_1'];
 
         $this->simpleProductCreator->createEntity($productDefinition, $this->getContext());
         $createdProduct = $this->getProductBySku($productDefinition['sku']);
 
         $this->assertEquals(1, $createdProduct->getCategories()->count());
-    }
-
-
-    protected function createCategory(string $categoryCode, string $categoryName)
-    {
-        $context = $this->getContext();
-        $category = $this->getRepository('category.repository');
-        $entity = [
-            'name' => $categoryName,
-            'customFields' => [
-                'code' => $categoryCode
-            ]
-        ];
-        $category->upsert([$entity], $context);
     }
 }

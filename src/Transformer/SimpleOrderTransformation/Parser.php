@@ -150,9 +150,10 @@ class Parser
      */
     private function getSalutation(
         string $salutationId,
-        array $response,
+        array  $response,
         string $addressType = 'billing'
-    ): string {
+    ): string
+    {
         $isoCodes = $this->getCountryIso($response);
 
         $customerTitle = 'Mr.';
@@ -458,8 +459,8 @@ class Parser
      *
      * @param array $orderLine
      * @param array $discountedItems
-     * @param float   $totalCartValue
-     * @param float   $totalDiscountableCart
+     * @param float $totalCartValue
+     * @param float $totalDiscountableCart
      * @param bool  $isDiscountAble
      *
      * @return array
@@ -470,8 +471,9 @@ class Parser
         array $discountedItems,
         float $totalCartValue,
         float $totalDiscountableCart,
-        bool $isDiscountAble = false
-    ): array {
+        bool  $isDiscountAble = false
+    ): array
+    {
         $partToDiscount = 0;
         if ($isDiscountAble) {
             $partToDiscount = $orderLine['attributes']['price']['totalPrice'] / $totalDiscountableCart * 100;

@@ -1,10 +1,10 @@
 <?php
 
-namespace MothershipSimpleApi\Tests\Service\Traits;
+namespace MothershipSimpleApi\Tests\Service\Processor;
 
-use JsonException;
+use MothershipSimpleApi\Service\Exception\InvalidCurrencyCodeException;
+use MothershipSimpleApi\Service\Exception\InvalidTaxValueException;
 use MothershipSimpleApi\Service\Processor\PropertyGroupProcessor;
-use MothershipSimpleApi\Tests\Service\Processor\AbstractProcessorTest;
 use Shopware\Core\Content\Product\ProductEntity;
 
 class PropertyGroupProcessorTest extends AbstractProcessorTest
@@ -21,13 +21,14 @@ class PropertyGroupProcessorTest extends AbstractProcessorTest
      * @group SimpleApi_Product_Processor_PropertyGroup
      * @group SimpleApi_Product_Processor_PropertyGroup_1
      *
-     * @throws JsonException
+     * @throws InvalidTaxValueException
+     * @throws InvalidCurrencyCodeException
      */
     public function productWithOneOption(): void
     {
-        $productDefinition =  $this->getMinimalDefinition();
+        $productDefinition = $this->getMinimalDefinition();
         $productDefinition['properties'] = [
-            'color' => ['red']
+            'color' => ['red'],
         ];
 
         $this->simpleProductCreator->createEntity($productDefinition, $this->getContext());
@@ -36,6 +37,39 @@ class PropertyGroupProcessorTest extends AbstractProcessorTest
 
         $this->assertProperties($productDefinition['properties']);
         $this->assertPropertyOptionIsAssignedToProduct($createdProduct, $productDefinition['properties']);
+    }
+
+    /**
+     * Helper, der prüft, dass alle Eigenschaften korrekt angelegt wurden.
+     *
+     * @param array $properties
+     *
+     * @return void
+     */
+    protected function assertProperties(array $properties): void
+    {
+        foreach ($properties as $propertyGroupCode => $propertyGroupOptions) {
+            $propertyGroup = $this->getPropertyGroupByCode($propertyGroupCode);
+            $this->assertEquals($propertyGroupCode, $propertyGroup->getName());
+
+            foreach ($propertyGroupOptions as $propertyGroupOptionCode) {
+                $propertyGroupOption = $this->getPropertyGroupOptionByCode($propertyGroupOptionCode);
+                $this->assertEquals($propertyGroupOptionCode, $propertyGroupOption->getName());
+            }
+        }
+    }
+
+    protected function assertPropertyOptionIsAssignedToProduct(ProductEntity $productEntity, array $properties): void
+    {
+        $assignedProperties = $productEntity->getProperties()->getIds();
+
+        foreach ($properties as $propertyGroupCode => $propertyGroupOptions) {
+            foreach ($propertyGroupOptions as $propertyGroupOptionCode) {
+
+                $propertyGroupOptionId = PropertyGroupProcessor::generatePropertyGroupOptionId($propertyGroupCode, $propertyGroupOptionCode);
+                $this->assertArrayHasKey($propertyGroupOptionId, $assignedProperties);
+            }
+        }
     }
 
     /**
@@ -49,14 +83,15 @@ class PropertyGroupProcessorTest extends AbstractProcessorTest
      * @group SimpleApi_Product_Processor_PropertyGroup
      * @group SimpleApi_Product_Processor_PropertyGroup_2
      *
-     * @throws JsonException
+     * @throws InvalidTaxValueException
+     * @throws InvalidCurrencyCodeException
      */
     public function productWithTwoOptions(): void
     {
-        $productDefinition =  $this->getMinimalDefinition();
+        $productDefinition = $this->getMinimalDefinition();
         $productDefinition['properties'] = [
             'color' => ['red', 'blue'],
-            'size' => ['l', 'xl']
+            'size'  => ['l', 'xl'],
         ];
 
         $this->simpleProductCreator->createEntity($productDefinition, $this->getContext());
@@ -78,13 +113,15 @@ class PropertyGroupProcessorTest extends AbstractProcessorTest
      * @group SimpleApi_Product_Processor_PropertyGroup
      * @group SimpleApi_Product_Processor_PropertyGroup_3
      *
-     * @throws JsonException
+     * @throws InvalidTaxValueException
+     * @throws InvalidCurrencyCodeException
+     * @throws InvalidCurrencyCodeException
      */
     public function productPropertiesWillBeRemoved(): void
     {
-        $productDefinition =  $this->getMinimalDefinition();
+        $productDefinition = $this->getMinimalDefinition();
         $productDefinition['properties'] = [
-            'color' => ['red', 'blue']
+            'color' => ['red', 'blue'],
         ];
 
         $this->simpleProductCreator->createEntity($productDefinition, $this->getContext());
@@ -98,9 +135,9 @@ class PropertyGroupProcessorTest extends AbstractProcessorTest
         $this->assertCount(2, $createdProduct->getProperties());
 
         // Und hier werden die Properties wieder entfernt
-        $productDefinition =  $this->getMinimalDefinition();
+        $productDefinition = $this->getMinimalDefinition();
         $productDefinition['properties'] = [
-            'color' => ['red']
+            'color' => ['red'],
         ];
 
         $this->simpleProductCreator->createEntity($productDefinition, $this->getContext());
@@ -108,38 +145,5 @@ class PropertyGroupProcessorTest extends AbstractProcessorTest
 
         // es gibt nur noch eine Option
         $this->assertCount(1, $createdProduct->getProperties());
-    }
-
-    protected function assertPropertyOptionIsAssignedToProduct(ProductEntity $productEntity, array $properties)
-    {
-        $assignedProperties = $productEntity->getProperties()->getIds();
-
-        foreach ($properties as $propertyGroupCode => $propertyGroupOptions) {
-            foreach ($propertyGroupOptions as $propertyGroupOptionCode) {
-
-                $propertyGroupOptionId = PropertyGroupProcessor::generatePropertyGroupOptionId($propertyGroupCode, $propertyGroupOptionCode);
-                $this->assertArrayHasKey($propertyGroupOptionId, $assignedProperties);
-            }
-        }
-    }
-
-    /**
-     * Helper, der prüft, dass alle Eigenschaften korrekt angelegt wurden.
-     *
-     * @param array $properties
-     *
-     * @return void
-     */
-    protected function assertProperties(array $properties)
-    {
-        foreach ($properties as $propertyGroupCode => $propertyGroupOptions) {
-            $propertyGroup = $this->getPropertyGroupByCode($propertyGroupCode);
-            $this->assertEquals($propertyGroupCode, $propertyGroup->getName());
-
-            foreach ($propertyGroupOptions as $propertyGroupOptionCode) {
-                $propertyGroupOption = $this->getPropertyGroupOptionByCode($propertyGroupOptionCode);
-                $this->assertEquals($propertyGroupOptionCode, $propertyGroupOption->getName());
-            }
-        }
     }
 }

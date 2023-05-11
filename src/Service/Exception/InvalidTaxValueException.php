@@ -2,7 +2,9 @@
 
 namespace MothershipSimpleApi\Service\Exception;
 
-class InvalidTaxValueException extends \Exception
+use Exception;
+
+class InvalidTaxValueException extends Exception
 {
 
 }

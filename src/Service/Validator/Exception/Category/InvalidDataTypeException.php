@@ -2,7 +2,9 @@
 
 namespace MothershipSimpleApi\Service\Validator\Exception\Category;
 
-class InvalidDataTypeException extends \Exception
+use Exception;
+
+class InvalidDataTypeException extends Exception
 {
 
 }

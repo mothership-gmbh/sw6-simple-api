@@ -2,7 +2,9 @@
 
 namespace MothershipSimpleApi\Service\Validator\Exception\CustomField;
 
-class MissingValuesException extends \Exception
+use Exception;
+
+class MissingValuesException extends Exception
 {
 
 }
