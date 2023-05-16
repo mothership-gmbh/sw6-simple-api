@@ -1,0 +1,29 @@
+### Login. Run with 'local' environment to login, see http-client.env.json
+POST {{baseUrl}}/api/oauth/token
+Accept: application/json
+Content-Type: application/json
+Cache-Control: no-cache
+
+{
+    "client_id": "administration",
+    "grant_type": "password",
+    "scopes": "write",
+    "username": "{{username}}",
+    "password": "{{password}}"
+}
+
+> {%
+    client.global.set("access_token", response.body.access_token);
+%}
+
+### Simple coupon create
+POST {{baseUrl}}/api/mothership/coupon
+Accept: application/json
+Content-Type: application/json
+Cache-Control: no-cache
+Authorization: Bearer {{access_token}}
+
+{
+  "value": 10,
+  "valid_until": "2023-08-01"
+}

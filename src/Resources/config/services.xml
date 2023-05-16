@@ -129,5 +129,25 @@
         <service id="MothershipSimpleApi\Service\Validator\CategoryValidator" public="true" />
         <service id="MothershipSimpleApi\Service\Validator\ManufacturerValidator" public="true" />
 
+        <!-- Alles zu der Simple Coupon API -->
+        <service id="MothershipSimpleApi\Api\CouponActionController" public="true">
+            <argument type="service" id="MothershipSimpleApi\Service\SimpleCouponCreator"/>
+            <call method="setContainer">
+                <argument type="service" id="service_container"/>
+            </call>
+        </service>
+        <service id="MothershipSimpleApi\Service\SimpleCouponCreator">
+            <argument type="service" id="MothershipSimpleApi\Service\Processor\Promotion\PromotionProcessor"/>
+            <argument type="service" id="MothershipSimpleApi\Service\Processor\Promotion\PromotionCodeProcessor"/>
+        </service>
+        <service id="MothershipSimpleApi\Service\Processor\Promotion\PromotionProcessor">
+            <argument type="service" id="promotion.repository"/>
+            <argument type="service" id="sales_channel.repository"/>
+        </service>
+        <service id="MothershipSimpleApi\Service\Processor\Promotion\PromotionCodeProcessor">
+            <argument type="service" id="promotion_individual_code.repository"/>
+            <argument type="service" id="Shopware\Core\Checkout\Promotion\Util\PromotionCodeService"/>
+        </service>
+
     </services>
 </container>
