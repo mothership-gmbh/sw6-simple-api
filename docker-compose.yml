@@ -14,7 +14,7 @@ services:
     networks:
       - sw6-simple-api
     environment:
-      - PHP_VERSION=8.0
+      - PHP_VERSION=8.1
       - XDEBUG_ENABLED=1
       - XDEBUG_MODE=debug,coverage
 

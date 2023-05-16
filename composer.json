@@ -20,8 +20,13 @@
       "MothershipSimpleApi\\": "src/"
     }
   },
+  "autoload-dev": {
+    "psr-4": {
+      "MothershipSimpleApiTests\\": "tests/"
+    }
+  },
   "require": {
-    "php": "^8.0",
+    "php": "^8.1",
     "ext-fileinfo": "*",
     "shopware/core": "~6.4.0"
   },
