@@ -321,8 +321,32 @@ Produkt ist also ein vollständiger Payload notwendig.
 
 
 
-# Testing
+## Tests
 
-````
-./vendor/bin/phpunit -c custom/plugins/MothershipSimpleApi/phpunit.xml.dist  --group SimpleOrderTransformation
+Es gibt mehrere Wege, die Tests auszuführen. Empfohlen ist die Einrichtung in PHPStorm, jedoch sind auch alternative
+Wege unten beschrieben.
+
+
+### Ausführung innerhalb PHPStorm
+
+1. Richte in den Einstellungen Docker ein
+2. Für PHP-Cli füge einen Remote PHP command hinzu ("From Docker...", "docker-compose", Service "shop", Executable "php")
+3. In den Einstellungen PHP / Test Framework füge „PHPUnit by Remote Interpreter“ hinzu
+4. Setze:
+    - *Composer autoloader* = `/var/www/html/custom/plugins/sw6/vendor/autoload.php`
+    - *Default configuration file* = `/var/www/html/custom/plugins/sw6/phpunit.xml`
+5. Rechtsklick auf die `phpunit.xml` und führe „Run phpunit.xml“ aus (wichtig!)
+6. Sofern Xdebug korrekt in PHPStorm konfiguriert wurde, sollte auch Debugging und Coverage korrekt funktionieren
+
+Falls es nach diesen Schritten noch nicht funktionieren sollte, prüfe zusätzlich folgendes:
+
+7. Öffne die Run-Configuration für die Testsuite (dort wo die "Default Configuration File" gesetzt wurde)
+8. Suche "Custom Working Directory" und setze hier den Pfad zum Application-Root (z.B. `/var/www/html/)
+9. In den Einstellungen für den Command Line Interpreter, wähle "connect to existing Container" anstelle von "always start a new Container"
+10. Falls es immer noch nicht funktionieren sollte, lösche die Testsuite und führe Schritt 5 anstelle von Schritt 3 aus und gehe die Schritte erneut durch
+
+### Manuelle Ausführung
+
+```
+docker exec shop bash -c './custom/plugins/sw6/vendor/phpunit/phpunit/phpunit -c ./custom/plugins/sw6/phpunit.xml'
 ```
