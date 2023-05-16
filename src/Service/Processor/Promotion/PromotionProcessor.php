@@ -6,6 +6,7 @@ namespace MothershipSimpleApi\Service\Processor\Promotion;
 
 use BadMethodCallException;
 use MothershipSimpleApi\Service\Definition\PromotionCode;
+use MothershipSimpleApi\Service\Validator\MissingValueException;
 use Shopware\Core\Checkout\Promotion\PromotionEntity;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
@@ -24,8 +25,12 @@ class PromotionProcessor implements PromotionProcessorInterface
     {
     }
 
+    /**
+     * @throws MissingValueException
+     */
     public function process(PromotionCode $promotionCode, array $requestData, Context $context): void
     {
+        $this->validate($requestData);
         $promotion = $this->searchPromotion($requestData, $context);
         if ($promotion === null) {
             $this->createPromotion($requestData, $context);
@@ -35,8 +40,9 @@ class PromotionProcessor implements PromotionProcessorInterface
         $this->mapPromotionToPromotionCode($promotion, $promotionCode);
     }
 
-    private function getFilterForField(string $field, string $type, mixed $value): Filter
+    private function getFilterForField(string $field, string $type, ?string $association, mixed $value): Filter
     {
+        $field = $association === null ? $field : $association . '.' . $field;
         return match ($type) {
             'bool'     => new EqualsFilter($field, (bool)$value),
             'datetime' => new PrefixFilter($field, (string)$value),
@@ -60,12 +66,8 @@ class PromotionProcessor implements PromotionProcessorInterface
         foreach ($requestData as $property => $value) {
             if (isset(PromotionCode::PROPERTY_DEFINITION[$property])) {
                 $fieldOptions = PromotionCode::PROPERTY_DEFINITION[$property];
-                $filter = $this->getFilterForField($fieldOptions['field'], $fieldOptions['type'], $value);
-                if (isset($fieldOptions['association'])) {
-                    $criteria->getAssociation($fieldOptions['association'])->addFilter($filter);
-                } else {
-                    $criteria->addFilter($filter);
-                }
+                $filter = $this->getFilterForField($fieldOptions['field'], $fieldOptions['type'], $fieldOptions['association'], $value);
+                $criteria->addFilter($filter);
             }
         }
 
@@ -98,9 +100,9 @@ class PromotionProcessor implements PromotionProcessorInterface
         // Set fixed values
         $value = (int)$requestData['value'];
         $promotionData['id'] = Uuid::randomHex();
-        $promotionData['name'] = "$value € Promotion";
-        $promotionData['individualCodePattern'] = $this->createCodePatternByRequest($requestData);
-        $promotionData['salesChannels'] = array_map(static fn ($id) => ['salesChannelId' => $id, 'priority' => 1], $salesChannelIds);
+        $promotionData['name'] = $requestData['name'] ?? "$value € Promotion";
+        $promotionData['individualCodePattern'] = $requestData['individual_code_pattern'] ?? $this->createCodePatternByRequest($requestData);
+        $promotionData['salesChannels'] = array_map(static fn($id) => ['salesChannelId' => $id, 'priority' => 1], $salesChannelIds);
 
         $this->promotionRepository->upsert([$promotionData], $context);
     }
@@ -132,8 +134,20 @@ class PromotionProcessor implements PromotionProcessorInterface
     private function mapPromotionToPromotionCode(PromotionEntity $promotion, PromotionCode $promotionCode): void
     {
         $promotionCode->assign($promotion->getVars());
-        $promotionCode->assign($promotion->getDiscounts()?->first()?->getVars(), 'discounts');
+        $promotionCode->assign($promotion->getDiscounts()?->first()?->getVars() ?? [], 'discounts');
         $promotionCode->set('code_blacklist', $promotion->getIndividualCodes()?->getCodeArray() ?? []);
         $promotionCode->set('sales_channel', $promotion->getSalesChannels()?->getIds());
+    }
+
+    /**
+     * @param array $requestData
+     * @return void
+     * @throws MissingValueException
+     */
+    private function validate(array $requestData): void
+    {
+        if (!isset($requestData['value'])) {
+            throw new MissingValueException('Required parameter missing: value');
+        }
     }
 }

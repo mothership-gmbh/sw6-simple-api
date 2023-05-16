@@ -22,6 +22,7 @@
     <coverage processUncoveredFiles="true">
         <include>
             <directory suffix=".php">src</directory>
+            <directory suffix=".php">custom/plugins/sw6/src</directory>
         </include>
     </coverage>
 </phpunit>
