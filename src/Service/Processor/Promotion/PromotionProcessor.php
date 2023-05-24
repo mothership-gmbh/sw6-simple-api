@@ -108,22 +108,23 @@ class PromotionProcessor implements PromotionProcessorInterface
     }
 
     /**
-     * Pattern has to be unique per promotion object! Shopware won't allow shared code patterns.
+     * Pattern has to be unique per promotion object! Shopware won't allow shared code patterns. This method tries
+     * to generate a unique hash from request data via crc32 and converts it to an alphanumeric suffix added to a
+     * pattern.
      *
      * @param array $requestData
      * @return string
      */
     private function createCodePatternByRequest(array $requestData): string
     {
-        $suffix = '';
-        if (isset($requestData['valid_until'])) {
-            // Create a short unique suffix based on the days from 2000 until 'valid_until' and convert it to base 36
-            $daysSinceDawnOfTime = round((strtotime($requestData['valid_until']) - strtotime('2000-01-01')) / 60 / 60 / 24);
-            $suffix .= strtoupper(base_convert((string)$daysSinceDawnOfTime, 10, 36));
+        $suffix = strtoupper(base_convert(hash('crc32b', serialize($requestData)), 16, 36));
+        // crc32 max value is X'ffffffff', therefore base_convert max value will be '1z141z3'. Since the first character
+        // is always '1' when having 7 characters, let's remove it so coupon code is a bit smaller.
+        if (strlen($suffix) > 6) {
+            $suffix = substr($suffix, -6);
         }
 
-        $value = (int)$requestData['value'];
-        return "CB{$value}%s%s%s%s{$suffix}";
+        return "CB%s%s%s%s{$suffix}";
     }
 
     /**
