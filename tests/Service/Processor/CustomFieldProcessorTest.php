@@ -228,6 +228,8 @@ class CustomFieldProcessorTest extends AbstractTranslationTestcase
     }
 
     /**
+     * Testet den Nebeneffekt, dass Änderungen an der custom_field-Tabelle vorgenommen werden.
+     *
      * Ein existierendes customField wird gefunden und nicht neu erstellt.
      * CustomField kann anhand der erwarteten nachvollziehbaren UUID gefunden werden, weil es neu erstellt
      * wurde mit generierter UUID.
@@ -245,6 +247,11 @@ class CustomFieldProcessorTest extends AbstractTranslationTestcase
      */
     public function existingCustomFieldWithGeneratedUUIDWillBeFound(): void
     {
+        $this->cleanCustomFields();
+        $customFieldRepository = $this->getRepository('custom_field.repository');
+        $criteria = new Criteria();
+        $this->assertEquals(0, $customFieldRepository->search($criteria, $this->getContext())->count());
+
         $productDefinition = $this->getMinimalDefinition();
         $productDefinition['custom_fields'] = [
             'ms_boolean' => [
@@ -256,6 +263,10 @@ class CustomFieldProcessorTest extends AbstractTranslationTestcase
         ];
 
         $this->simpleProductCreator->createEntity($productDefinition, $this->getContext());
+
+        $criteria->addFilter(new EqualsFilter('name', 'ms_boolean'));
+        // Das CustomField wurde neu erstellt.
+        $this->assertEquals(1, $customFieldRepository->search($criteria, $this->getContext())->count());
 
         $productDefinition = $this->getMinimalDefinition();
         $productDefinition['custom_fields'] = [
@@ -269,15 +280,13 @@ class CustomFieldProcessorTest extends AbstractTranslationTestcase
 
         $this->simpleProductCreator->createEntity($productDefinition, $this->getContext());
 
-        $customFieldRepository = $this->getRepository('custom_field.repository');
-
-        $criteria = new Criteria();
-        $criteria->addFilter(new EqualsFilter('name', 'ms_boolean'));
         // Das CustomField wurde nur 1 Mal erstellt.
         $this->assertEquals(1, $customFieldRepository->search($criteria, $this->getContext())->count());
     }
 
     /**
+     * Testet den Nebeneffekt, dass Änderungen an der custom_field-Tabelle vorgenommen werden.
+     *
      * Ein existierendes customField wird gefunden und nicht neu erstellt.
      * Das bestehende CustomField muss anhand des codes gefunden werden, da es eine zufällig generierte UUID hat.
      *
@@ -316,10 +325,6 @@ class CustomFieldProcessorTest extends AbstractTranslationTestcase
 
         $this->simpleProductCreator->createEntity($productDefinition, $this->getContext());
 
-        $customFieldRepository = $this->getRepository('custom_field.repository');
-
-        $criteria = new Criteria();
-        $criteria->addFilter(new EqualsFilter('name', 'ms_boolean'));
         // Das CustomField wurde nur 1 Mal erstellt.
         $this->assertEquals(1, $customFieldRepository->search($criteria, $this->getContext())->count());
     }
