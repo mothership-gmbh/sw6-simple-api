@@ -6,6 +6,8 @@ use MothershipSimpleApi\Service\Exception\InvalidCurrencyCodeException;
 use MothershipSimpleApi\Service\Exception\InvalidSalesChannelNameException;
 use MothershipSimpleApi\Service\Exception\InvalidTaxValueException;
 use Shopware\Core\Content\Product\ProductEntity;
+use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
+use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 
 class CustomFieldProcessorTest extends AbstractTranslationTestcase
 {
@@ -223,5 +225,102 @@ class CustomFieldProcessorTest extends AbstractTranslationTestcase
         $createdProduct = $this->getProductBySku($productDefinition['sku']);
         $this->assertCustomFieldExists($productDefinition['custom_fields']);
         $this->assertCustomFieldsSetInProduct($productDefinition['custom_fields'], $createdProduct);
+    }
+
+    /**
+     * Ein existierendes customField wird gefunden und nicht neu erstellt.
+     * CustomField kann anhand der erwarteten nachvollziehbaren UUID gefunden werden, weil es neu erstellt
+     * wurde mit generierter UUID.
+     *
+     * @test
+     *
+     * @group SimpleApi
+     * @group SimpleApi_Product
+     * @group SimpleApi_Product_Processor
+     * @group SimpleApi_Product_Processor_CustomField
+     * @group SimpleApi_Product_Processor_CustomField_5
+     * @throws InvalidCurrencyCodeException
+     * @throws InvalidSalesChannelNameException
+     * @throws InvalidTaxValueException
+     */
+    public function existingCustomFieldWithGeneratedUUIDWillBeFound(): void
+    {
+        $productDefinition = $this->getMinimalDefinition();
+        $productDefinition['custom_fields'] = [
+            'ms_boolean' => [
+                'type'   => 'bool',
+                'values' => [
+                    'de-DE' => true,
+                ],
+            ],
+        ];
+
+        $this->simpleProductCreator->createEntity($productDefinition, $this->getContext());
+
+        $productDefinition = $this->getMinimalDefinition();
+        $productDefinition['custom_fields'] = [
+            'ms_boolean' => [
+                'type'   => 'bool',
+                'values' => [
+                    'de-DE' => false,
+                ],
+            ],
+        ];
+
+        $this->simpleProductCreator->createEntity($productDefinition, $this->getContext());
+
+        $customFieldRepository = $this->getRepository('custom_field.repository');
+
+        $criteria = new Criteria();
+        $criteria->addFilter(new EqualsFilter('name', 'ms_boolean'));
+        // Das CustomField wurde nur 1 Mal erstellt.
+        $this->assertEquals(1, $customFieldRepository->search($criteria, $this->getContext())->count());
+    }
+
+    /**
+     * Ein existierendes customField wird gefunden und nicht neu erstellt.
+     * Das bestehende CustomField muss anhand des codes gefunden werden, da es eine zufällig generierte UUID hat.
+     *
+     * @test
+     *
+     * @group SimpleApi
+     * @group SimpleApi_Product
+     * @group SimpleApi_Product_Processor
+     * @group SimpleApi_Product_Processor_CustomField
+     * @group SimpleApi_Product_Processor_CustomField_6
+     * @throws InvalidCurrencyCodeException
+     * @throws InvalidSalesChannelNameException
+     * @throws InvalidTaxValueException
+     */
+    public function existingCustomFieldWithRandomUUIDWillBeFound(): void
+    {
+        $this->cleanCustomFields();
+
+        $customFieldRepository = $this->getRepository('custom_field.repository');
+        $customFieldRepository->create([['name' => 'ms_boolean', 'type' => 'bool']], $this->getContext());
+
+        $criteria = new Criteria();
+        $criteria->addFilter(new EqualsFilter('name', 'ms_boolean'));
+        // Das CustomField wurde korrekt erstellt.
+        $this->assertEquals(1, $customFieldRepository->search($criteria, $this->getContext())->count());
+
+        $productDefinition = $this->getMinimalDefinition();
+        $productDefinition['custom_fields'] = [
+            'ms_boolean' => [
+                'type'   => 'bool',
+                'values' => [
+                    'de-DE' => false,
+                ],
+            ],
+        ];
+
+        $this->simpleProductCreator->createEntity($productDefinition, $this->getContext());
+
+        $customFieldRepository = $this->getRepository('custom_field.repository');
+
+        $criteria = new Criteria();
+        $criteria->addFilter(new EqualsFilter('name', 'ms_boolean'));
+        // Das CustomField wurde nur 1 Mal erstellt.
+        $this->assertEquals(1, $customFieldRepository->search($criteria, $this->getContext())->count());
     }
 }

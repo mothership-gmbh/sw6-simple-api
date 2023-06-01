@@ -8,6 +8,7 @@ use MothershipSimpleApi\Service\Definition\Product;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
+use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\Framework\Uuid\Uuid;
 use Shopware\Core\System\CustomField\CustomFieldEntity;
 
@@ -26,7 +27,7 @@ class CustomFieldProcessor
         foreach ($customFields as $customFieldCode => $customFieldOptions) {
 
             $customFieldId = $this->generateCustomFieldId($customFieldCode);
-            $customField = $this->getCustomFieldById($customFieldId, $context);
+            $customField = $this->getExistingData($customFieldId, $customFieldCode, $context);
             if (null === $customField) {
                 $this->createCustomField($customFieldId, $customFieldCode, $customFieldOptions['type'], $context);
             }
@@ -35,6 +36,22 @@ class CustomFieldProcessor
                 $data['translations'][$isoCode]['customFields'][$customFieldCode] = $value;
             }
         }
+    }
+
+    /**
+     * Prüft, ob ein customField bereits in Shopware existiert.
+     * Zunächst anhand der erwarteten nachvollziehbaren UUID.
+     * Bestehende customField wurden jedoch mit randomisierten, nicht nachvollziehbaren, UUIDs angelegt.
+     * Daher prüfen wir auch anhand des customFieldCodes.
+     */
+    protected function getExistingData(string $customFieldId, string $customFieldCode, Context $context): CustomFieldEntity|null
+    {
+        $customField = $this->getCustomFieldById($customFieldId, $context);
+        if (null === $customField) {
+            $customField = $this->getCustomFieldByCode($customFieldCode, $context);
+        }
+
+        return $customField;
     }
 
     private function generateCustomFieldId(string $customFieldCode): string
@@ -46,6 +63,13 @@ class CustomFieldProcessor
     {
         $criteria = new Criteria();
         $criteria->setIds([strtolower($customFieldId)]);
+        return $this->customFieldRepository->search($criteria, $context)->first();
+    }
+
+    protected function getCustomFieldByCode(string $customFieldCode, Context $context): CustomFieldEntity|null
+    {
+        $criteria = new Criteria();
+        $criteria->addFilter(new EqualsFilter('name', $customFieldCode));
         return $this->customFieldRepository->search($criteria, $context)->first();
     }
 

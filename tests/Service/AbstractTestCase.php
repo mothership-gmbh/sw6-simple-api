@@ -76,6 +76,21 @@ abstract class AbstractTestCase extends TestCase
         }
     }
 
+    protected function cleanCustomFields(): void
+    {
+        /* @var EntityRepository $mediaRepository */
+        $customFieldRepository = $this->getContainer()->get('custom_field.repository');
+
+        $criteria = new Criteria();
+        foreach ($customFieldRepository?->search($criteria, $this->getContext())->getElements() as $element) {
+            try {
+                $customFieldRepository?->delete([['id' => $element->getId()]], $this->getContext());
+            } catch (Exception) {
+                // Es soll einfach versucht werden, alles zu löschen.
+            }
+        }
+    }
+
     protected function cleanCategories(): void
     {
         /* @var EntityRepository $categoryRepository */
