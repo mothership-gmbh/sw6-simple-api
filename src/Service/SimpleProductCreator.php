@@ -155,16 +155,40 @@ class SimpleProductCreator
     protected function setPrice(array $prices, float $taxRate, Context $context): array
     {
         $data = [];
-        foreach ($prices as $currencyIsoCode => $grossPrice) {
+        foreach ($prices as $currencyIsoCode => $price) {
             $currencyId = $this->getCurrencyIdByIsoCode($currencyIsoCode, $context);
-            $data[] = [
-                'currencyId' => $currencyId,
-                'gross'      => $grossPrice,
-                'net'        => $grossPrice / (100 + $taxRate) * 100,
-                'linked'     => true,
-            ];
+            if (array_key_exists('sale', $price)) {
+                $data[] = $this->setSalePrice($taxRate, $currencyId, $price['regular'], $price['sale']);
+            } else {
+                $data[] = [
+                    'currencyId' => $currencyId,
+                    'gross'      => $price['regular'],
+                    'net'        => $price['regular'] / (100 + $taxRate) * 100,
+                    'linked'     => true,
+                ];
+            }
         }
         return $data;
+    }
+
+    protected function setSalePrice(float $taxRate, string $currencyId, float $priceGross, float $salePriceGross = 0.00): array
+    {
+        $salePriceNet = $salePriceGross / (100 + $taxRate) * 100;
+        $priceNet        = $priceGross / (100 + $taxRate) * 100;
+
+        return [
+            'currencyId' => $currencyId,
+            'gross'      => $salePriceGross,
+            'net'        => $salePriceNet,
+            'linked'     => true,
+            // wird dann als durchgestrichener "Streichpreis" angezeigt
+            'listPrice'  => [
+                'currencyId' => $currencyId,
+                'gross'      => $priceGross,
+                'net'        => $priceNet,
+                'linked'     => true,
+            ]
+        ];
     }
 
     /**

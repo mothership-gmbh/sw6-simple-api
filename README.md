@@ -290,7 +290,10 @@ erlaubt jede beliebe Kombination von Produkt-Optionen.
         "en-GB": "Super-Shirt"
     },
     "price": {
-        "EUR": 20.00
+        "EUR": {
+            "regular": 20.00,
+            "sale": 15.00
+        }
     },
     "tax": 19.00,
     "stock": 20,

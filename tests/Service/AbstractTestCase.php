@@ -51,10 +51,10 @@ abstract class AbstractTestCase extends TestCase
         $productRepository = $this->getContainer()->get('product.repository');
 
         $criteria = new Criteria();
-        foreach ($productRepository->search($criteria, $this->getContext())->getElements() as $element) {
+        foreach ($productRepository?->search($criteria, $this->getContext())->getElements() as $element) {
             /** @var ProductEntity $element */
             try {
-                $productRepository->delete([['id' => $element->getId()]], $this->getContext());
+                $productRepository?->delete([['id' => $element->getId()]], $this->getContext());
             } catch (Exception) {
                 // Es soll einfach versucht werden, alles zu löschen.
             }
@@ -67,9 +67,9 @@ abstract class AbstractTestCase extends TestCase
         $propertyGroupRepository = $this->getContainer()->get('property_group.repository');
 
         $criteria = new Criteria();
-        foreach ($propertyGroupRepository->search($criteria, $this->getContext())->getElements() as $element) {
+        foreach ($propertyGroupRepository?->search($criteria, $this->getContext())->getElements() as $element) {
             try {
-                $propertyGroupRepository->delete([['id' => $element->getId()]], $this->getContext());
+                $propertyGroupRepository?->delete([['id' => $element->getId()]], $this->getContext());
             } catch (Exception) {
                 // Es soll einfach versucht werden, alles zu löschen.
             }
@@ -106,7 +106,7 @@ abstract class AbstractTestCase extends TestCase
             ],
             'price' => [
                 // Wert in EUR
-                'EUR' => 20,
+                'EUR' => ['regular' => 20],
             ],
             'tax'   => 19,
             'stock' => 1,
@@ -122,18 +122,21 @@ abstract class AbstractTestCase extends TestCase
     {
         return [
             'sku'           => 'ms-123',
-            'name'          => 'T-Shirt',
+            'name'          => ['en-GB' => 'T-Shirt', 'de-DE' => 'T-Shirt'],
             'price'         => [
                 // Wert in EUR
-                'EUR' => 20,
+                'EUR' => [
+                    'regular' => 20,
+                    'sale'    => 15,
+                ],
             ],
             'tax'           => 19,
             'stock'         => 1,
             'sales_channel' => [
                 // Muss kein Key sein
-                'default' => 'all',
+                'Storefront' => 'all',
                 // ProductVisibilityDefinition::VISIBILITY_ALL
-                'club'    => 'all',
+                'Headless'   => 'all',
             ],
         ];
     }
