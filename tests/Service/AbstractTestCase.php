@@ -136,23 +136,27 @@ abstract class AbstractTestCase extends TestCase
     protected function getMaximalDefinition(): array
     {
         return [
-            'sku'           => 'ms-123',
-            'name'          => ['en-GB' => 'T-Shirt', 'de-DE' => 'T-Shirt'],
-            'price'         => [
+            'sku'                 => 'ms-123',
+            'name'                => ['en-GB' => 'T-Shirt', 'de-DE' => 'T-Shirt'],
+            'description'         => ['en-GB' => 'Damn son where did you find this?', 'de-DE' => 'Durchaus ansehnlich.'],
+            'price'               => [
                 // Wert in EUR
                 'EUR' => [
                     'regular' => 20,
                     'sale'    => 15,
                 ],
             ],
-            'tax'           => 19,
-            'stock'         => 1,
-            'sales_channel' => [
+            'tax'                 => 19,
+            'stock'               => 1,
+            'sales_channel'       => [
                 // Muss kein Key sein
                 'Storefront' => 'all',
                 // ProductVisibilityDefinition::VISIBILITY_ALL
                 'Headless'   => 'all',
             ],
+            'ean'                 => '1234567891011',
+            'release_date'        => '2038-01-19 00:00:00',
+            'manufacturer_number' => '123-Test-ABC',
         ];
     }
 

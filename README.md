@@ -59,14 +59,14 @@ Features:
 - [x] Price
 - [x] Stock
 - [x] Translatable
-- [] EAN
+- [x] EAN
 - [x] Manufacturer
-- [] ReleaseDate
+- [x] ReleaseDate
 - [x] CustomFields
 - [x] Category
 - [x] Tax
 - [x] ProductNumber
-- [] ManufacturerNumber
+- [x] ManufacturerNumber
 - [x] Properties
 - [x] SalesChannel
 - [x] CmsPageId
@@ -90,8 +90,8 @@ Die Pflichtfelder sind wie folgt:
         "en-GB": "Mothership Name"
     },
     "price": {
-        "EUR": 20.00,
-        "CHF": 25.00
+        "EUR": {"regular": 20.00},
+        "CHF": {"regular": 25.00}
     },
     "tax": 19.00,
     "sales_channel": {
@@ -100,6 +100,16 @@ Die Pflichtfelder sind wie folgt:
     },
     "stock": 1
 }
+```
+
+### Shopware Attribute
+Einige Attribute kann man direkt an Shopware übergeben, da diese standardmäßig zu einer `product`-Entität gehören.
+Zum Setzen des Release Date muss ein String in einem kompatiblen Datumsformat übergeben werden.
+
+```
+   "ean": "1234567891011",
+   "release_date": "2038-01-19 00:00:00",
+   "manufacturerNumber": "123-Test-ABC" 
 ```
 
 ### Translations
@@ -136,7 +146,7 @@ Preise müssen immer mit der Angabe der Währung angelegt werden. Eine unabhäng
 
 ```
   "price": {
-        "EUR": 20.00
+        "EUR": {"regular": 20.00, "sale": 15}
     },
    "tax": 19.00
 ```
