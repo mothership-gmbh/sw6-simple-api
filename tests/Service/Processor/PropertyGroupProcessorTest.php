@@ -9,6 +9,7 @@ use MothershipSimpleApi\Service\Processor\PropertyGroupProcessor;
 use Shopware\Core\Content\Product\ProductEntity;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
+use Shopware\Core\Framework\Uuid\Uuid;
 
 class PropertyGroupProcessorTest extends AbstractProcessorTest
 {
@@ -155,8 +156,7 @@ class PropertyGroupProcessorTest extends AbstractProcessorTest
     /**
      * Testet den Nebeneffekt, dass Änderungen an der property_group-Tabelle vorgenommen werden.
      *
-     * Eine neue existierende propertyGroup wird erstellt.
-     * Die bestehende Property muss anhand des codes gefunden werden, da es eine zufällig generierte UUID hat.
+     * Eine neue propertyGroup wird erstellt.
      *
      * @test
      *
@@ -175,8 +175,8 @@ class PropertyGroupProcessorTest extends AbstractProcessorTest
         $propertyGroupRepository = $this->getRepository('property_group.repository');
         $criteria = new Criteria();
         $criteria->addFilter(new EqualsFilter('customFields.code', 'ms-color'));
-        // Das CustomField wurde korrekt erstellt.
-        $this->assertEquals(0, $propertyGroupRepository->search($criteria, $this->getContext())->count());
+        // Aktuell sollte es noch keine PropertyGroup geben
+        $this->assertCount(0, $propertyGroupRepository->search($criteria, $this->getContext())->getEntities()->getElements());
 
         $productDefinition = $this->getMinimalDefinition();
         $productDefinition['properties'] = [
@@ -185,15 +185,18 @@ class PropertyGroupProcessorTest extends AbstractProcessorTest
 
         $this->simpleProductCreator->createEntity($productDefinition, $this->getContext());
 
-        // Das CustomField wurde korrekt erstellt.
-        $this->assertEquals(1, $propertyGroupRepository->search($criteria, $this->getContext())->count());
+        // Die PropertyGroup wurde korrekt erstellt.
+        $this->assertCount(1, $propertyGroupRepository->search($criteria, $this->getContext())->getEntities()->getElements());
     }
 
     /**
      * Testet den Nebeneffekt, dass Änderungen an der property_group-Tabelle vorgenommen werden.
      *
-     * Eine existierende propertyGroup wird gefunden und nicht neu erstellt.
-     * Die bestehende Property muss anhand des codes gefunden werden, da es eine zufällig generierte UUID hat.
+     * Eine existierende PropertyGroup wird gefunden und nicht neu erstellt.
+     * Die bestehende PropertyGroup muss anhand des codes gefunden werden, da sie eine zufällig generierte UUID hat.
+     *
+     * Ebenso wird eine existierende PropertyGroupOption gefunden und nicht neu erstellt.
+     * Die bestehende PropertyGroupOption muss anhand des codes gefunden werden, da sie eine zufällig generierte UUID hat.
      *
      * @test
      *
@@ -203,24 +206,68 @@ class PropertyGroupProcessorTest extends AbstractProcessorTest
      * @group SimpleApi_Product_Processor_PropertyGroup
      * @group SimpleApi_Product_Processor_PropertyGroup_5
      */
-    public function existingPropertyGroupWillNotBeCreatedAgain(): void
+    public function existingPropertyWillNotBeCreatedAgain(): void
     {
+        // Zunächst hinterlegen wir schonmal eine PropertyGroup samt PropertyGroupOption
         $propertyGroupRepository = $this->getRepository('property_group.repository');
-        $propertyGroupRepository->create(
-            [['name' => 'msColor', 'displayType' => 'text', 'sortingType' => 'alphanumeric', 'customFields' => ['code' => 'msColor']]],
-            $this->getContext()
-        );
+        $propertyGroupId = Uuid::randomHex();
+        $propertyGroupRepository->create([
+            [
+                'id'           => $propertyGroupId,
+                'translations' => [
+                    $this->getContext()->getLanguageId() => [
+                        'name'         => 'msColor',
+                        'customFields' => ['code' => 'msColor'],
+                    ],
+                ],
+            ],
+        ], $this->getContext());
+        $propertyGroupOptionRepository = $this->getRepository('property_group_option.repository');
+        $propertyGroupOptionId = Uuid::randomHex();
+        $propertyGroupOptionRepository->create([
+            [
+                'id'           => $propertyGroupOptionId,
+                'translations' => [
+                    $this->getContext()->getLanguageId() => [
+                        'name'         => 'red',
+                        'customFields' => ['code' => 'red'],
+                    ],
+                ],
+                'groupId'      => $propertyGroupId,
+            ],
+        ], $this->getContext());
 
         $criteria = new Criteria();
         $criteria->addFilter(new EqualsFilter('customFields.code', 'msColor'));
-        $this->assertEquals(1, $propertyGroupRepository->search($criteria, $this->getContext())->count());
+        $this->assertCount(
+            1,
+            $propertyGroupRepository->search($criteria, $this->getContext())->getEntities()->getElements()
+        );
+        $optionCriteria = new Criteria();
+        $optionCriteria->addFilter(new EqualsFilter('customFields.code', 'red'), new EqualsFilter('groupId', $propertyGroupId));
+        $this->assertCount(
+            1,
+            $propertyGroupOptionRepository->search($optionCriteria, $this->getContext())->getEntities()->getElements()
+        );
 
         $productDefinition = $this->getMinimalDefinition();
         $productDefinition['properties'] = [
             'msColor' => ['red'],
         ];
-
+        /*
+        Das Erstellen des Produkts kann unter Umständen zur Folge haben, dass neue Properties erstellt werden
+        {@see PropertyGroupProcessorTest::propertyGroupWillBeCreated}.
+        Das soll hier nicht passieren, weil die Property bereits in der db vorhanden ist.
+        */
         $this->simpleProductCreator->createEntity($productDefinition, $this->getContext());
-        $this->assertEquals(1, $propertyGroupRepository->search($criteria, $this->getContext())->count());
+
+        $this->assertCount(
+            1,
+            $propertyGroupRepository->search($criteria, $this->getContext())->getEntities()->getElements()
+        );
+        $this->assertCount(
+            1,
+            $propertyGroupOptionRepository->search($optionCriteria, $this->getContext())->getEntities()->getElements()
+        );
     }
 }

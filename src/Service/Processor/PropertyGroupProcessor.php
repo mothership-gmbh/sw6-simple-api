@@ -159,7 +159,7 @@ class PropertyGroupProcessor
         /* @var $product ProductEntity */
         $product = $this->productRepository->search($criteria, $context)->first();
 
-        return $product->getProperties()->getIds();
+        return $product->getProperties()?->getIds();
     }
 
     protected function getPropertyGroupOptionByCode(string $propertyGroupOptionCode, Context $context): PropertyGroupOptionEntity|null
