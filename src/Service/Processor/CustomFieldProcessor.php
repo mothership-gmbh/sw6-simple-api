@@ -41,8 +41,8 @@ class CustomFieldProcessor
     /**
      * Prüft, ob ein customField bereits in Shopware existiert.
      * Zunächst anhand der erwarteten nachvollziehbaren UUID.
-     * Bestehende customField wurden jedoch mit randomisierten, nicht nachvollziehbaren, UUIDs angelegt.
-     * Daher prüfen wir auch anhand des customFieldCodes.
+     * Bestehende customFields wurden jedoch mit randomisierten, nicht nachvollziehbaren, UUIDs angelegt.
+     * Daher prüfen wir auch anhand des customField-Codes.
      */
     protected function getExistingData(string $customFieldId, string $customFieldCode, Context $context): CustomFieldEntity|null
     {
