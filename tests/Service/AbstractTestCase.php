@@ -51,10 +51,10 @@ abstract class AbstractTestCase extends TestCase
         $productRepository = $this->getContainer()->get('product.repository');
 
         $criteria = new Criteria();
-        foreach ($productRepository->search($criteria, $this->getContext())->getElements() as $element) {
+        foreach ($productRepository?->search($criteria, $this->getContext())->getElements() as $element) {
             /** @var ProductEntity $element */
             try {
-                $productRepository->delete([['id' => $element->getId()]], $this->getContext());
+                $productRepository?->delete([['id' => $element->getId()]], $this->getContext());
             } catch (Exception) {
                 // Es soll einfach versucht werden, alles zu löschen.
             }
@@ -67,9 +67,24 @@ abstract class AbstractTestCase extends TestCase
         $propertyGroupRepository = $this->getContainer()->get('property_group.repository');
 
         $criteria = new Criteria();
-        foreach ($propertyGroupRepository->search($criteria, $this->getContext())->getElements() as $element) {
+        foreach ($propertyGroupRepository?->search($criteria, $this->getContext())->getElements() as $element) {
             try {
-                $propertyGroupRepository->delete([['id' => $element->getId()]], $this->getContext());
+                $propertyGroupRepository?->delete([['id' => $element->getId()]], $this->getContext());
+            } catch (Exception) {
+                // Es soll einfach versucht werden, alles zu löschen.
+            }
+        }
+    }
+
+    protected function cleanCustomFields(): void
+    {
+        /* @var EntityRepository $mediaRepository */
+        $customFieldRepository = $this->getContainer()->get('custom_field.repository');
+
+        $criteria = new Criteria();
+        foreach ($customFieldRepository?->search($criteria, $this->getContext())->getElements() as $element) {
+            try {
+                $customFieldRepository?->delete([['id' => $element->getId()]], $this->getContext());
             } catch (Exception) {
                 // Es soll einfach versucht werden, alles zu löschen.
             }
@@ -106,7 +121,7 @@ abstract class AbstractTestCase extends TestCase
             ],
             'price' => [
                 // Wert in EUR
-                'EUR' => 20,
+                'EUR' => ['regular' => 20],
             ],
             'tax'   => 19,
             'stock' => 1,
@@ -121,20 +136,27 @@ abstract class AbstractTestCase extends TestCase
     protected function getMaximalDefinition(): array
     {
         return [
-            'sku'           => 'ms-123',
-            'name'          => 'T-Shirt',
-            'price'         => [
+            'sku'                 => 'ms-123',
+            'name'                => ['en-GB' => 'T-Shirt', 'de-DE' => 'T-Shirt'],
+            'description'         => ['en-GB' => 'Damn son where did you find this?', 'de-DE' => 'Durchaus ansehnlich.'],
+            'price'               => [
                 // Wert in EUR
-                'EUR' => 20,
+                'EUR' => [
+                    'regular' => 20,
+                    'sale'    => 15,
+                ],
             ],
-            'tax'           => 19,
-            'stock'         => 1,
-            'sales_channel' => [
+            'tax'                 => 19,
+            'stock'               => 1,
+            'sales_channel'       => [
                 // Muss kein Key sein
-                'default' => 'all',
+                'Storefront' => 'all',
                 // ProductVisibilityDefinition::VISIBILITY_ALL
-                'club'    => 'all',
+                'Headless'   => 'all',
             ],
+            'ean'                 => '1234567891011',
+            'release_date'        => '2038-01-19 00:00:00',
+            'manufacturer_number' => '123-Test-ABC',
         ];
     }
 

@@ -9,10 +9,13 @@ use MothershipSimpleApi\Service\Validator\ActiveValidator;
 use MothershipSimpleApi\Service\Validator\CategoryValidator;
 use MothershipSimpleApi\Service\Validator\CmsPageIdValidator;
 use MothershipSimpleApi\Service\Validator\CustomFieldValidator;
+use MothershipSimpleApi\Service\Validator\EanValidator;
 use MothershipSimpleApi\Service\Validator\ImageValidator;
+use MothershipSimpleApi\Service\Validator\ManufacturerNumberValidator;
 use MothershipSimpleApi\Service\Validator\ManufacturerValidator;
 use MothershipSimpleApi\Service\Validator\PriceValidator;
 use MothershipSimpleApi\Service\Validator\PropertyValidator;
+use MothershipSimpleApi\Service\Validator\ReleaseDateValidator;
 use MothershipSimpleApi\Service\Validator\SalesChannelValidator;
 use MothershipSimpleApi\Service\Validator\SkuValidator;
 use MothershipSimpleApi\Service\Validator\StockValidator;
@@ -29,19 +32,22 @@ class Request
     protected array $variants = [];
 
     public function __construct(
-        protected PriceValidator        $priceValidator,
-        protected SkuValidator          $skuValidator,
-        protected TaxValidator          $taxValidator,
-        protected StockValidator        $stockValidator,
-        protected SalesChannelValidator $salesChannelValidator,
-        protected ImageValidator        $imageValidator,
-        protected PropertyValidator     $propertyValidator,
-        protected CustomFieldValidator  $customFieldValidator,
-        protected TranslationValidator  $translationValidator,
-        protected CmsPageIdValidator    $cmsPageIdValidator,
-        protected ActiveValidator       $activeValidator,
-        protected CategoryValidator     $categoryValidator,
-        protected ManufacturerValidator $manufacturerValidator
+        protected PriceValidator                $priceValidator,
+        protected SkuValidator                  $skuValidator,
+        protected TaxValidator                  $taxValidator,
+        protected StockValidator                $stockValidator,
+        protected SalesChannelValidator         $salesChannelValidator,
+        protected ImageValidator                $imageValidator,
+        protected PropertyValidator             $propertyValidator,
+        protected CustomFieldValidator          $customFieldValidator,
+        protected TranslationValidator          $translationValidator,
+        protected CmsPageIdValidator            $cmsPageIdValidator,
+        protected EanValidator                  $eanValidator,
+        protected ReleaseDateValidator          $releaseDateValidator,
+        protected ManufacturerNumberValidator   $manufacturerNumberValidator,
+        protected ActiveValidator               $activeValidator,
+        protected CategoryValidator             $categoryValidator,
+        protected ManufacturerValidator         $manufacturerValidator
     )
     {
     }
@@ -84,6 +90,9 @@ class Request
             $this->customFieldValidator,
             $this->translationValidator,
             $this->cmsPageIdValidator,
+            $this->eanValidator,
+            $this->releaseDateValidator,
+            $this->manufacturerNumberValidator,
             $this->activeValidator,
             $this->categoryValidator,
             $this->manufacturerValidator,

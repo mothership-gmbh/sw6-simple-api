@@ -38,7 +38,7 @@ class VariantProcessorTest extends AbstractProcessorTest
                 ],
                 'price' => [
                     // Wert in EUR
-                    'EUR' => 20,
+                    'EUR' => ['regular' => 20],
                 ],
                 'tax'   => 19,
                 'stock' => 1,
@@ -129,7 +129,7 @@ class VariantProcessorTest extends AbstractProcessorTest
                 ],
                 'price' => [
                     // Wert in EUR
-                    'EUR' => 20,
+                    'EUR' => ['regular' => 20],
                 ],
                 'tax'   => 19,
                 'stock' => 1,
@@ -151,7 +151,7 @@ class VariantProcessorTest extends AbstractProcessorTest
                 ],
                 'price' => [
                     // Wert in EUR
-                    'EUR' => 20,
+                    'EUR' => ['regular' => 20],
                 ],
                 'tax'   => 19,
                 'stock' => 1,
@@ -200,7 +200,7 @@ class VariantProcessorTest extends AbstractProcessorTest
                 ],
                 'price' => [
                     // Wert in EUR
-                    'EUR' => 20,
+                    'EUR' => ['regular' => 20],
                 ],
                 'tax'   => 19,
                 'stock' => 1,
@@ -251,7 +251,7 @@ class VariantProcessorTest extends AbstractProcessorTest
                 ],
                 'price'      => [
                     // Wert in EUR
-                    'EUR' => 20,
+                    'EUR' => ['regular' => 20],
                 ],
                 'tax'        => 19,
                 'stock'      => 1,
@@ -271,7 +271,7 @@ class VariantProcessorTest extends AbstractProcessorTest
                 ],
                 'price'      => [
                     // Wert in EUR
-                    'EUR' => 20,
+                    'EUR' => ['regular' => 20],
                 ],
                 'tax'        => 19,
                 'stock'      => 1,
@@ -299,7 +299,7 @@ class VariantProcessorTest extends AbstractProcessorTest
                 ],
                 'price'      => [
                     // Wert in EUR
-                    'EUR' => 20,
+                    'EUR' => ['regular' => 20],
                 ],
                 'tax'        => 19,
                 'stock'      => 1,

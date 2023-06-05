@@ -7,6 +7,9 @@ use MothershipSimpleApi\Service\Exception\InvalidSalesChannelNameException;
 use MothershipSimpleApi\Service\Exception\InvalidTaxValueException;
 use MothershipSimpleApi\Service\Processor\PropertyGroupProcessor;
 use Shopware\Core\Content\Product\ProductEntity;
+use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
+use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
+use Shopware\Core\Framework\Uuid\Uuid;
 
 class PropertyGroupProcessorTest extends AbstractProcessorTest
 {
@@ -148,5 +151,123 @@ class PropertyGroupProcessorTest extends AbstractProcessorTest
 
         // es gibt nur noch eine Option
         $this->assertCount(1, $createdProduct->getProperties());
+    }
+
+    /**
+     * Testet den Nebeneffekt, dass Änderungen an der property_group-Tabelle vorgenommen werden.
+     *
+     * Eine neue propertyGroup wird erstellt.
+     *
+     * @test
+     *
+     * @group SimpleApi
+     * @group SimpleApi_Product
+     * @group SimpleApi_Product_Processor
+     * @group SimpleApi_Product_Processor_PropertyGroup
+     * @group SimpleApi_Product_Processor_PropertyGroup_4
+     *
+     * @throws InvalidCurrencyCodeException
+     * @throws InvalidSalesChannelNameException
+     * @throws InvalidTaxValueException
+     */
+    public function propertyGroupWillBeCreated(): void
+    {
+        $propertyGroupRepository = $this->getRepository('property_group.repository');
+        $criteria = new Criteria();
+        $criteria->addFilter(new EqualsFilter('customFields.code', 'msColor'));
+        // Aktuell sollte es noch keine PropertyGroup geben
+        $this->assertCount(0, $propertyGroupRepository->search($criteria, $this->getContext())->getEntities()->getElements());
+
+        $productDefinition = $this->getMinimalDefinition();
+        $productDefinition['properties'] = [
+            'msColor' => ['red'],
+        ];
+
+        $this->simpleProductCreator->createEntity($productDefinition, $this->getContext());
+
+        // Die PropertyGroup wurde korrekt erstellt.
+        $this->assertCount(1, $propertyGroupRepository->search($criteria, $this->getContext())->getEntities()->getElements());
+    }
+
+    /**
+     * Testet den Nebeneffekt, dass Änderungen an der property_group-Tabelle vorgenommen werden.
+     *
+     * Eine existierende PropertyGroup wird gefunden und nicht neu erstellt.
+     * Die bestehende PropertyGroup muss anhand des codes gefunden werden, da sie eine zufällig generierte UUID hat.
+     *
+     * Ebenso wird eine existierende PropertyGroupOption gefunden und nicht neu erstellt.
+     * Die bestehende PropertyGroupOption muss anhand des codes gefunden werden, da sie eine zufällig generierte UUID hat.
+     *
+     * @test
+     *
+     * @group SimpleApi
+     * @group SimpleApi_Product
+     * @group SimpleApi_Product_Processor
+     * @group SimpleApi_Product_Processor_PropertyGroup
+     * @group SimpleApi_Product_Processor_PropertyGroup_5
+     */
+    public function existingPropertyWillNotBeCreatedAgain(): void
+    {
+        // Zunächst hinterlegen wir schonmal eine PropertyGroup samt PropertyGroupOption
+        $propertyGroupRepository = $this->getRepository('property_group.repository');
+        $propertyGroupId = Uuid::randomHex();
+        $propertyGroupRepository->create([
+            [
+                'id'           => $propertyGroupId,
+                'translations' => [
+                    $this->getContext()->getLanguageId() => [
+                        'name'         => 'ms_color',
+                        'customFields' => ['code' => 'ms_color'],
+                    ],
+                ],
+            ],
+        ], $this->getContext());
+        $propertyGroupOptionRepository = $this->getRepository('property_group_option.repository');
+        $propertyGroupOptionId = Uuid::randomHex();
+        $propertyGroupOptionRepository->create([
+            [
+                'id'           => $propertyGroupOptionId,
+                'translations' => [
+                    $this->getContext()->getLanguageId() => [
+                        'name'         => 'red',
+                        'customFields' => ['code' => 'red'],
+                    ],
+                ],
+                'groupId'      => $propertyGroupId,
+            ],
+        ], $this->getContext());
+
+        $criteria = new Criteria();
+        $criteria->addFilter(new EqualsFilter('customFields.code', 'ms_color'));
+        $this->assertCount(
+            1,
+            $propertyGroupRepository->search($criteria, $this->getContext())->getEntities()->getElements()
+        );
+        $optionCriteria = new Criteria();
+        $optionCriteria->addFilter(new EqualsFilter('customFields.code', 'red'), new EqualsFilter('groupId', $propertyGroupId));
+        $this->assertCount(
+            1,
+            $propertyGroupOptionRepository->search($optionCriteria, $this->getContext())->getEntities()->getElements()
+        );
+
+        $productDefinition = $this->getMinimalDefinition();
+        $productDefinition['properties'] = [
+            'ms_color' => ['red'],
+        ];
+        /*
+        Das Erstellen des Produkts kann unter Umständen zur Folge haben, dass neue Properties erstellt werden
+        {@see PropertyGroupProcessorTest::propertyGroupWillBeCreated}.
+        Das soll hier nicht passieren, weil die Property bereits in der db vorhanden ist.
+        */
+        $this->simpleProductCreator->createEntity($productDefinition, $this->getContext());
+
+        $this->assertCount(
+            1,
+            $propertyGroupRepository->search($criteria, $this->getContext())->getEntities()->getElements()
+        );
+        $this->assertCount(
+            1,
+            $propertyGroupOptionRepository->search($optionCriteria, $this->getContext())->getEntities()->getElements()
+        );
     }
 }

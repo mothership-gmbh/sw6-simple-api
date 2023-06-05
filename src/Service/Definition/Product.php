@@ -98,6 +98,21 @@ class Product
         return $this->getPropertyByKey('manufacturer');
     }
 
+    public function getEan()
+    {
+        return $this->getPropertyByKey('ean');
+    }
+
+    public function getReleaseDate()
+    {
+        return $this->getPropertyByKey('release_date');
+    }
+
+    public function getManufacturerNumber()
+    {
+        return $this->getPropertyByKey('manufacturer_number');
+    }
+
     public function getAxis(): array
     {
         $axis = $this->getPropertyByKey('axis');
@@ -121,7 +136,6 @@ class Product
         $customFields = $this->getPropertyByKey('custom_fields');
         return $customFields ?? [];
     }
-
     protected function getPropertyByKey(string $key): mixed
     {
         return $this->data[$key] ?? null;

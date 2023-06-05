@@ -59,14 +59,14 @@ Features:
 - [x] Price
 - [x] Stock
 - [x] Translatable
-- [] EAN
+- [x] EAN
 - [x] Manufacturer
-- [] ReleaseDate
+- [x] ReleaseDate
 - [x] CustomFields
 - [x] Category
 - [x] Tax
 - [x] ProductNumber
-- [] ManufacturerNumber
+- [x] ManufacturerNumber
 - [x] Properties
 - [x] SalesChannel
 - [x] CmsPageId
@@ -90,8 +90,8 @@ Die Pflichtfelder sind wie folgt:
         "en-GB": "Mothership Name"
     },
     "price": {
-        "EUR": 20.00,
-        "CHF": 25.00
+        "EUR": {"regular": 20.00},
+        "CHF": {"regular": 25.00}
     },
     "tax": 19.00,
     "sales_channel": {
@@ -100,6 +100,16 @@ Die Pflichtfelder sind wie folgt:
     },
     "stock": 1
 }
+```
+
+### Shopware Attribute
+Einige Attribute kann man direkt an Shopware übergeben, da diese standardmäßig zu einer `product`-Entität gehören.
+Zum Setzen des Release Date muss ein String in einem kompatiblen Datumsformat übergeben werden.
+
+```
+   "ean": "1234567891011",
+   "release_date": "2038-01-19 00:00:00",
+   "manufacturerNumber": "123-Test-ABC" 
 ```
 
 ### Translations
@@ -136,7 +146,7 @@ Preise müssen immer mit der Angabe der Währung angelegt werden. Eine unabhäng
 
 ```
   "price": {
-        "EUR": 20.00
+        "EUR": {"regular": 20.00, "sale": 15}
     },
    "tax": 19.00
 ```
@@ -290,7 +300,10 @@ erlaubt jede beliebe Kombination von Produkt-Optionen.
         "en-GB": "Super-Shirt"
     },
     "price": {
-        "EUR": 20.00
+        "EUR": {
+            "regular": 20.00,
+            "sale": 15.00
+        }
     },
     "tax": 19.00,
     "stock": 20,
@@ -325,6 +338,8 @@ Produkt ist also ein vollständiger Payload notwendig.
 
 Es gibt mehrere Wege, die Tests auszuführen. Empfohlen ist die Einrichtung in PHPStorm, jedoch sind auch alternative
 Wege unten beschrieben.
+Wichtig ist zunächst nicht nur im Hauptverzeichnis die Abhängigkeiten zu installieren, sondern auch im Plugin-Verzeichnis 
+`custom/plugins/sw6` ein `composer install` auszuführen.
 
 
 ### Ausführung innerhalb PHPStorm
@@ -350,3 +365,12 @@ Falls es nach diesen Schritten noch nicht funktionieren sollte, prüfe zusätzli
 ```
 docker exec shop bash -c './custom/plugins/sw6/vendor/phpunit/phpunit/phpunit -c ./custom/plugins/sw6/phpunit.xml'
 ```
+
+### Troubleshooting
+Falls die Klassen der SimpleApi nicht gefunden werden, kann die Ursache sein, dass das SimpleApi-Plugin in der Shopware-Test-Instanz nicht installiert ist.
+Das findet man nicht über `bin/console plugin:list`, raus weil dieser Command sich auf die Live-Instanz bezieht.
+Man kann aber direkt in der Test-Datenbank nachschauen, ob das Plugin in der `plugin`-Tabelle gelistet wird.
+Lösung: In der tests/bootstrap.php den Methodenaufruf `->setForceInstallPlugins(true)` hinzufügen.
+Dadurch wird das Plugin auch in der Test-Instanz installiert.
+Nachdem das Plugin nun in der Test-Instanz installiert und die Tests erfolgreich aufgerufen werden konnten, sollte man
+den Methodenaufruf wieder aus der tests/bootstrap.php entfernen damit die Test-Performance besser ist.

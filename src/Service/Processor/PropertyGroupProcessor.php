@@ -99,9 +99,8 @@ class PropertyGroupProcessor
 
     protected function getPropertyGroupByCode(string $propertyGroupCode, Context $context): PropertyGroupEntity|null
     {
-        $code = Slugify::create()->slugify($propertyGroupCode);
         $criteria = new Criteria();
-        $criteria->addFilter(new EqualsFilter('customFields.code', $code));
+        $criteria->addFilter(new EqualsFilter('customFields.code', $propertyGroupCode));
 
         return $this->propertyGroupRepository->search($criteria, $context)->first();
     }
@@ -159,7 +158,7 @@ class PropertyGroupProcessor
         /* @var $product ProductEntity */
         $product = $this->productRepository->search($criteria, $context)->first();
 
-        return $product->getProperties()->getIds();
+        return $product->getProperties()?->getIds();
     }
 
     protected function getPropertyGroupOptionByCode(string $propertyGroupOptionCode, Context $context): PropertyGroupOptionEntity|null

@@ -36,7 +36,7 @@ class ProductCreatorTest extends AbstractTestCase
         $this->assertInstanceOf(ProductEntity::class, $createdProduct);
         $this->assertEquals($productDefinition['sku'], $createdProduct->getProductNumber());
         $this->assertEquals($productDefinition['tax'], $createdProduct->getTax()->getTaxRate());
-        $this->assertEquals($productDefinition['price']['EUR'], $createdProduct->getPrice()->first()->getGross());
+        $this->assertEquals($productDefinition['price']['EUR']['regular'], $createdProduct->getPrice()->first()->getGross());
         $this->assertEquals($productDefinition['stock'], $createdProduct->getStock());
         $this->assertEquals($productDefinition['name']['en-GB'], $createdProduct->getName());
     }
@@ -83,7 +83,7 @@ class ProductCreatorTest extends AbstractTestCase
 
         // Wir setzen eine Währung, die nicht existiert.
         $productDefinition['price'] = [
-            'INVALID_CURRENCY_CODE' => 50,
+            'INVALID_CURRENCY_CODE' => ['regular' => 50],
         ];
         $this->expectException(InvalidCurrencyCodeException::class);
         $this->simpleProductCreator->createEntity($productDefinition, $this->getContext());
@@ -107,14 +107,38 @@ class ProductCreatorTest extends AbstractTestCase
         $productDefinition = $this->getMinimalDefinition();
 
         // Es wird GBP hinzugefügt.
-        $productDefinition['price']['GBP'] = 50;
-        $productDefinition['price']['EUR'] = 50;
+        $productDefinition['price']['GBP']['regular'] = 50;
+        $productDefinition['price']['EUR']['regular'] = 50;
 
         $this->simpleProductCreator->createEntity($productDefinition, $this->getContext());
         $createdProduct = $this->getProductBySku($productDefinition['sku']);
 
-        $this->assertEquals($productDefinition['price']['EUR'], $createdProduct->getPrice()->getAt(0)->getGross());
-        $this->assertEquals($productDefinition['price']['GBP'], $createdProduct->getPrice()->getAt(1)->getGross());
+        $this->assertEquals($productDefinition['price']['EUR']['regular'], $createdProduct->getPrice()->getAt(0)->getGross());
+        $this->assertEquals($productDefinition['price']['GBP']['regular'], $createdProduct->getPrice()->getAt(1)->getGross());
+    }
+
+    /**
+     * Anlage von einem Produkt mit einem reduzierten Sale Preis ist auch möglich
+     *
+     * @test
+     *
+     * @group SimpleApi
+     * @group SimpleApi_Product
+     * @group SimpleApi_Product_Entity
+     * @group SimpleApi_Product_Entity_5
+     * @throws InvalidCurrencyCodeException
+     * @throws InvalidSalesChannelNameException
+     * @throws InvalidTaxValueException
+     */
+    public function productHasSalePrice(): void
+    {
+        $productDefinition = $this->getMaximalDefinition();
+
+        $this->simpleProductCreator->createEntity($productDefinition, $this->getContext());
+        $createdProduct = $this->getProductBySku($productDefinition['sku']);
+
+        $this->assertEquals($productDefinition['price']['EUR']['sale'], $createdProduct->getPrice()->getAt(0)->getGross());
+        $this->assertEquals($productDefinition['price']['EUR']['regular'], $createdProduct->getPrice()->getAt(0)->getListPrice()->getGross());
     }
 
     /**
@@ -126,7 +150,7 @@ class ProductCreatorTest extends AbstractTestCase
      * @group SimpleApi
      * @group SimpleApi_Product
      * @group SimpleApi_Product_Entity
-     * @group SimpleApi_Product_Entity_5
+     * @group SimpleApi_Product_Entity_6
      * @throws InvalidCurrencyCodeException
      * @throws InvalidSalesChannelNameException
      * @throws InvalidTaxValueException
