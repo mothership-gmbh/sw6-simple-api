@@ -174,13 +174,13 @@ class PropertyGroupProcessorTest extends AbstractProcessorTest
     {
         $propertyGroupRepository = $this->getRepository('property_group.repository');
         $criteria = new Criteria();
-        $criteria->addFilter(new EqualsFilter('customFields.code', 'ms-color'));
+        $criteria->addFilter(new EqualsFilter('customFields.code', 'msColor'));
         // Aktuell sollte es noch keine PropertyGroup geben
         $this->assertCount(0, $propertyGroupRepository->search($criteria, $this->getContext())->getEntities()->getElements());
 
         $productDefinition = $this->getMinimalDefinition();
         $productDefinition['properties'] = [
-            'ms-color' => ['red'],
+            'msColor' => ['red'],
         ];
 
         $this->simpleProductCreator->createEntity($productDefinition, $this->getContext());
@@ -216,8 +216,8 @@ class PropertyGroupProcessorTest extends AbstractProcessorTest
                 'id'           => $propertyGroupId,
                 'translations' => [
                     $this->getContext()->getLanguageId() => [
-                        'name'         => 'msColor',
-                        'customFields' => ['code' => 'msColor'],
+                        'name'         => 'ms_color',
+                        'customFields' => ['code' => 'ms_color'],
                     ],
                 ],
             ],
@@ -238,7 +238,7 @@ class PropertyGroupProcessorTest extends AbstractProcessorTest
         ], $this->getContext());
 
         $criteria = new Criteria();
-        $criteria->addFilter(new EqualsFilter('customFields.code', 'msColor'));
+        $criteria->addFilter(new EqualsFilter('customFields.code', 'ms_color'));
         $this->assertCount(
             1,
             $propertyGroupRepository->search($criteria, $this->getContext())->getEntities()->getElements()
@@ -252,7 +252,7 @@ class PropertyGroupProcessorTest extends AbstractProcessorTest
 
         $productDefinition = $this->getMinimalDefinition();
         $productDefinition['properties'] = [
-            'msColor' => ['red'],
+            'ms_color' => ['red'],
         ];
         /*
         Das Erstellen des Produkts kann unter Umständen zur Folge haben, dass neue Properties erstellt werden

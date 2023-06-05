@@ -338,6 +338,8 @@ Produkt ist also ein vollständiger Payload notwendig.
 
 Es gibt mehrere Wege, die Tests auszuführen. Empfohlen ist die Einrichtung in PHPStorm, jedoch sind auch alternative
 Wege unten beschrieben.
+Wichtig ist zunächst nicht nur im Hauptverzeichnis die Abhängigkeiten zu installieren, sondern auch im Plugin-Verzeichnis 
+`custom/plugins/sw6` ein `composer install` auszuführen.
 
 
 ### Ausführung innerhalb PHPStorm
@@ -363,3 +365,12 @@ Falls es nach diesen Schritten noch nicht funktionieren sollte, prüfe zusätzli
 ```
 docker exec shop bash -c './custom/plugins/sw6/vendor/phpunit/phpunit/phpunit -c ./custom/plugins/sw6/phpunit.xml'
 ```
+
+### Troubleshooting
+Falls die Klassen der SimpleApi nicht gefunden werden, kann die Ursache sein, dass das SimpleApi-Plugin in der Shopware-Test-Instanz nicht installiert ist.
+Das findet man nicht über `bin/console plugin:list`, raus weil dieser Command sich auf die Live-Instanz bezieht.
+Man kann aber direkt in der Test-Datenbank nachschauen, ob das Plugin in der `plugin`-Tabelle gelistet wird.
+Lösung: In der tests/bootstrap.php den Methodenaufruf `->setForceInstallPlugins(true)` hinzufügen.
+Dadurch wird das Plugin auch in der Test-Instanz installiert.
+Nachdem das Plugin nun in der Test-Instanz installiert und die Tests erfolgreich aufgerufen werden konnten, sollte man
+den Methodenaufruf wieder aus der tests/bootstrap.php entfernen damit die Test-Performance besser ist.

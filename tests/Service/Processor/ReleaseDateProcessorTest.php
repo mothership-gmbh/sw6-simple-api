@@ -29,7 +29,10 @@ class ReleaseDateProcessorTest extends AbstractProcessorTest
         $this->simpleProductCreator->createEntity($productDefinition, $this->getContext());
         $createdProduct = $this->getProductBySku($productDefinition['sku']);
 
-        $this->assertEquals($productDefinition['release_date'], $createdProduct->getReleaseDate());
+        $this->assertEquals(
+            date_create_immutable_from_format('Y-m-d H:i:s', $productDefinition['release_date']),
+            $createdProduct->getReleaseDate()
+        );
     }
 
     /**
