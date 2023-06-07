@@ -374,3 +374,9 @@ Lösung: In der tests/bootstrap.php den Methodenaufruf `->setForceInstallPlugins
 Dadurch wird das Plugin auch in der Test-Instanz installiert.
 Nachdem das Plugin nun in der Test-Instanz installiert und die Tests erfolgreich aufgerufen werden konnten, sollte man
 den Methodenaufruf wieder aus der tests/bootstrap.php entfernen damit die Test-Performance besser ist.
+Das MothershipSimpleApi-Plugin muss danach wahrscheinlich noch installiert und aktiviert werden.
+```
+bin/console plugin:refresh
+bin/console plugin:install MothershipSimpleApi -a
+bin/console cache:clear 
+```
