@@ -244,7 +244,7 @@ class PropertyGroupProcessorTest extends AbstractProcessorTest
             $propertyGroupRepository->search($criteria, $this->getContext())->getEntities()->getElements()
         );
         $optionCriteria = new Criteria();
-        $optionCriteria->addFilter(new EqualsFilter('customFields.code', 'red'), new EqualsFilter('groupId', $propertyGroupId));
+        $optionCriteria->addFilter(new EqualsFilter('customFields.code', 'red_color'), new EqualsFilter('groupId', $propertyGroupId));
         $this->assertCount(
             1,
             $propertyGroupOptionRepository->search($optionCriteria, $this->getContext())->getEntities()->getElements()

@@ -5,8 +5,13 @@ namespace MothershipSimpleApiTests\Service;
 use MothershipSimpleApi\Service\Exception\InvalidCurrencyCodeException;
 use MothershipSimpleApi\Service\Exception\InvalidSalesChannelNameException;
 use MothershipSimpleApi\Service\Exception\InvalidTaxValueException;
+use MothershipSimpleApi\Service\Exception\ProductNotFoundException;
+use MothershipSimpleApi\Service\Exception\PropertyGroupOptionNotFoundException;
 use MothershipSimpleApi\Service\SimpleProductCreator;
 use Shopware\Core\Content\Product\ProductEntity;
+use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
+use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
+use Shopware\Core\Framework\Uuid\Uuid;
 
 class ProductCreatorTest extends AbstractTestCase
 {
@@ -24,6 +29,8 @@ class ProductCreatorTest extends AbstractTestCase
      * @throws InvalidCurrencyCodeException
      * @throws InvalidSalesChannelNameException
      * @throws InvalidTaxValueException
+     * @throws ProductNotFoundException
+     * @throws PropertyGroupOptionNotFoundException
      */
     public function createBasicProduct(): void
     {
@@ -54,6 +61,8 @@ class ProductCreatorTest extends AbstractTestCase
      * @throws InvalidCurrencyCodeException
      * @throws InvalidSalesChannelNameException
      * @throws InvalidTaxValueException
+     * @throws ProductNotFoundException
+     * @throws PropertyGroupOptionNotFoundException
      */
     public function invalidTaxWillThrowException(): void
     {
@@ -76,6 +85,8 @@ class ProductCreatorTest extends AbstractTestCase
      * @throws InvalidCurrencyCodeException
      * @throws InvalidSalesChannelNameException
      * @throws InvalidTaxValueException
+     * @throws ProductNotFoundException
+     * @throws PropertyGroupOptionNotFoundException
      */
     public function invalidCurrencyWillThrowException(): void
     {
@@ -101,6 +112,8 @@ class ProductCreatorTest extends AbstractTestCase
      * @throws InvalidCurrencyCodeException
      * @throws InvalidSalesChannelNameException
      * @throws InvalidTaxValueException
+     * @throws ProductNotFoundException
+     * @throws PropertyGroupOptionNotFoundException
      */
     public function productHasMultipleCurrencies(): void
     {
@@ -129,6 +142,8 @@ class ProductCreatorTest extends AbstractTestCase
      * @throws InvalidCurrencyCodeException
      * @throws InvalidSalesChannelNameException
      * @throws InvalidTaxValueException
+     * @throws ProductNotFoundException
+     * @throws PropertyGroupOptionNotFoundException
      */
     public function productHasSalePrice(): void
     {
@@ -154,6 +169,8 @@ class ProductCreatorTest extends AbstractTestCase
      * @throws InvalidCurrencyCodeException
      * @throws InvalidSalesChannelNameException
      * @throws InvalidTaxValueException
+     * @throws ProductNotFoundException
+     * @throws PropertyGroupOptionNotFoundException
      */
     public function addSalesChannel(): void
     {
@@ -166,6 +183,64 @@ class ProductCreatorTest extends AbstractTestCase
         $createdProduct = $this->getProductBySku($productDefinition['sku']);
 
         $this->assertEquals(30, $createdProduct->getVisibilities()->first()->getVisibility());
+    }
+
+    /**
+     * Wenn es bereits ein Produkt in der Datenbank gibt, dessen UUID nicht von der SimpleApi generiert wurde,
+     * soll trotzdem das bestehende Produkt aktualisiert werden.
+     * Es soll entsprechend explizit kein neues Produkt erstellt werden in diesem Fall.
+     *
+     * @test
+     *
+     * @group SimpleApi
+     * @group SimpleApi_Product
+     * @group SimpleApi_Product_Entity
+     * @group SimpleApi_Product_Entity_7
+     * @throws InvalidCurrencyCodeException
+     * @throws InvalidSalesChannelNameException
+     * @throws InvalidTaxValueException
+     * @throws ProductNotFoundException
+     * @throws PropertyGroupOptionNotFoundException
+     */
+    public function existingProductWithRandomUUIDWillBeUpdated(): void
+    {
+        $productRepository = $this->getRepository('product.repository');
+        $taxRepository = $this->getRepository('tax.repository');
+        $taxCriteria = new Criteria();
+        $taxCriteria->addFilter(new EqualsFilter('taxRate', 19));
+        $taxId = $taxRepository->searchIds($taxCriteria, $this->getContext())->firstId();
+        $currencyRepository = $this->getRepository('currency.repository');
+        $currencyCriteria = new Criteria();
+        $currencyCriteria->addFilter(new EqualsFilter('factor', '1'));
+        $currencyId = $currencyRepository->searchIds($currencyCriteria, $this->getContext())->firstId();
+        $parentUuid = Uuid::randomHex();
+        $productRepository->create(
+            [
+                [
+                    'id' => $parentUuid,
+                    'productNumber' => 'ms-123',
+                    'taxId' => $taxId,
+                    'price' => [['currencyId' => $currencyId, 'gross' => 119, 'net' => 100, 'linked' => true]],
+                    'stock' => 0,
+                    'translations' => [$this->getContext()->getLanguageId() => ['name' => 'T-Shirt']],
+                ],
+            ],
+            $this->getContext()
+        );
+
+        $criteria = new Criteria();
+        $criteria->addFilter(new EqualsFilter('productNumber', 'ms-123'));
+        $this->assertCount(
+            1,
+            $productRepository->search($criteria, $this->getContext())->getEntities()->getElements()
+        );
+
+        $productDefinition = $this->getMinimalDefinition();
+        $this->simpleProductCreator->createEntity($productDefinition, $this->getContext());
+        $this->assertCount(
+            1,
+            $productRepository->search($criteria, $this->getContext())->getEntities()->getElements()
+        );
     }
 
     protected function setUp(): void
