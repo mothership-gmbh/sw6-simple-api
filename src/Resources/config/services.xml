@@ -121,6 +121,7 @@
         <service id="MothershipSimpleApi\Service\Processor\VariantProcessor" public="true">
             <argument type="service" id="product.repository"/>
             <argument type="service" id="product_configurator_setting.repository"/>
+            <argument type="service" id="property_group_option.repository"/>
         </service>
 
         <!-- Validator -->

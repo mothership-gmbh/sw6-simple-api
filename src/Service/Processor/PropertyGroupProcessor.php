@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace MothershipSimpleApi\Service\Processor;
 
-use Cocur\Slugify\Slugify;
 use MothershipSimpleApi\Service\Definition\Product;
 use MothershipSimpleApi\Service\Helper\BitwiseOperations;
 use Shopware\Core\Content\Product\ProductEntity;
@@ -163,9 +162,8 @@ class PropertyGroupProcessor
 
     protected function getPropertyGroupOptionByCode(string $propertyGroupOptionCode, Context $context): PropertyGroupOptionEntity|null
     {
-        $code = Slugify::create()->slugify($propertyGroupOptionCode);
         $criteria = new Criteria();
-        $criteria->addFilter(new EqualsFilter('customFields.code', $code));
+        $criteria->addFilter(new EqualsFilter('customFields.code', $propertyGroupOptionCode));
 
         return $this->propertyGroupOptionRepository->search($criteria, $context)->first();
     }
