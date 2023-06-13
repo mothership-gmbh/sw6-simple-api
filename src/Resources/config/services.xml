@@ -24,6 +24,9 @@
 
         <service id="MothershipSimpleApi\Api\ProductActionController" public="true">
             <argument type="service" id="MothershipSimpleApi\Service\SimpleProductCreator"/>
+            <argument type="service" id="MothershipSimpleApi\Service\SimpleProductSender"/>
+            <argument type="service" id="ms_simple_api_payload.repository"/>
+
             <call method="setContainer">
                 <argument type="service" id="service_container"/>
             </call>
@@ -161,6 +164,25 @@
             <argument type="service" id="promotion_individual_code.repository"/>
             <argument type="service" id="Shopware\Core\Checkout\Promotion\Util\PromotionCodeService"/>
         </service>
+
+        <service id="MothershipSimpleApi\Service\SimpleProductSender" public="true">
+            <argument type="service" id="Symfony\Component\Messenger\MessageBusInterface"/>
+        </service>
+
+        <!-- Message Handler -->
+        <service id="MothershipSimpleApi\MessageQueue\Handler\SimpleApiPayloadHandler" public="true">
+            <argument type="service" id="MothershipSimpleApi\Service\SimpleProductCreator"/>
+            <argument type="service" id="Shopware\Core\System\SalesChannel\Context\SalesChannelContextFactory"/>
+            <argument type="service" id="ms_simple_api_payload.repository"/>
+
+            <tag name="messenger.message_handler" />
+        </service>
+
+        <!-- Entities -->
+        <service id="MothershipSimpleApi\Content\Entity\SimpleApiPayloadDefinition">
+            <tag name="shopware.entity.definition" entity="ms_simple_api_payload" />
+        </service>
+
 
     </services>
 </container>
