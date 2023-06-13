@@ -38,10 +38,9 @@ class ImageImport
     public function __construct(
         EntityRepositoryInterface $mediaRepository,
         EntityRepositoryInterface $mediaFolderRepository,
-        MediaService              $mediaService,
-        FileSaver                 $fileSaver
-    )
-    {
+        MediaService $mediaService,
+        FileSaver $fileSaver
+    ) {
         $this->mediaRepository = $mediaRepository;
         $this->mediaFolderRepository = $mediaFolderRepository;
 
@@ -129,15 +128,14 @@ class ImageImport
         //get additional info on the file
         $fileSize = filesize($filePath);
         $mimeType = mime_content_type($filePath);
-        $hash = hash_file('sha1', $filePath);
+        $hash     = hash_file('sha1', $filePath);
 
         // Die Medien-ID ist immer unique
-        $mediaId = $this->generateMediaId($fileName, $fileExtension);
+        $mediaId = $this->getMediaId($fileName, $fileExtension, $context);
 
         // Prüfen, ob es das Bild überhaupt gibt
         $mediaEntity = $this->getMediaEntityById($mediaId, $context);
-        $mediaFile = new MediaFile($filePath, $mimeType, $fileExtension, $fileSize, $hash);
-
+        $mediaFile   = new MediaFile($filePath, $mimeType, $fileExtension, $fileSize, $hash);
 
         if (null === $mediaEntity) {
             // Es existiert kein Eintrag in der Tabelle 'media'. Ein neuer Eintrag sollte also angelegt werden
@@ -168,11 +166,34 @@ class ImageImport
      *
      * @return string
      */
+    private function getMediaId(string $fileName, string $fileExtension, Context $context): string
+    {
+        $criteria = new Criteria();
+        $criteria->addFilter(new EqualsFilter('fileName', $fileName));
+        $criteria->addFilter(new EqualsFilter('fileExtension', $fileExtension));
+        $mediaEntity =  $this->mediaRepository->search($criteria, $context)->first();
+
+        if (null !== $mediaEntity) {
+            return $mediaEntity->getId();
+        }
+        // Die Medien-ID ist immer unique
+        return Uuid::fromStringToHex($fileName . $fileExtension);
+    }
+
+    /**
+     * Erstellt eine eindeutige UUID basierend auf dem Dateinamen und der Endung.
+     *
+     * @param string $fileName
+     * @param string $fileExtension
+     *
+     * @return string
+     */
     private function generateMediaId(string $fileName, string $fileExtension): string
     {
         // Die Medien-ID ist immer unique
         return Uuid::fromStringToHex($fileName . $fileExtension);
     }
+
 
     protected function getMediaEntityById(string $mediaId, Context $context): MediaEntity|null
     {
@@ -193,6 +214,5 @@ class ImageImport
             ],
             $context
         );
-
     }
 }
