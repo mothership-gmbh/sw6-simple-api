@@ -5,23 +5,24 @@ declare(strict_types=1);
 namespace MothershipSimpleApi\Service\Processor;
 
 use MothershipSimpleApi\Service\Definition\Product;
+use MothershipSimpleApi\Service\Helper\BitwiseOperations;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\Framework\Uuid\Uuid;
+use Shopware\Core\System\CustomField\Aggregate\CustomFieldSet\CustomFieldSetEntity;
 use Shopware\Core\System\CustomField\CustomFieldEntity;
 
 class CustomFieldProcessor
 {
-    protected EntityRepositoryInterface $customFieldRepository;
+    public function __construct(
+        protected readonly EntityRepositoryInterface $customFieldRepository,
+        protected readonly EntityRepositoryInterface $customFieldSetRepository,
+        protected readonly EntityRepositoryInterface $customFieldSetRelationRepository,
+    ) {}
 
-    public function __construct(EntityRepositoryInterface $customFieldRepository)
-    {
-        $this->customFieldRepository = $customFieldRepository;
-    }
-
-    public function process(array &$data, Product $request, Context $context): void
+    public function process(array &$data, Product $request, string $productUuid, Context $context): void
     {
         $customFields = $request->getCustomFields();
         foreach ($customFields as $customFieldCode => $customFieldOptions) {
@@ -29,7 +30,7 @@ class CustomFieldProcessor
             $customFieldId = $this->generateCustomFieldId($customFieldCode);
             $customField = $this->getExistingData($customFieldId, $customFieldCode, $context);
             if (null === $customField) {
-                $this->createCustomField($customFieldId, $customFieldCode, $customFieldOptions['type'], $context);
+                $this->createCustomField($customFieldId, $customFieldCode, $customFieldOptions, $productUuid, $context);
             }
 
             foreach ($customFieldOptions['values'] as $isoCode => $value) {
@@ -73,17 +74,39 @@ class CustomFieldProcessor
         return $this->customFieldRepository->search($criteria, $context)->first();
     }
 
+    protected function getCustomFieldSetById(string $customFieldSetId, Context $context): CustomFieldSetEntity|null
+    {
+        $criteria = new Criteria();
+        $criteria->setIds([strtolower($customFieldSetId)]);
+        return $this->customFieldSetRepository->search($criteria, $context)->first();
+    }
+
+    protected function getCustomFieldSetByName(string $customFieldSetName, Context $context): CustomFieldSetEntity|null
+    {
+        $criteria = new Criteria();
+        $criteria->addFilter(new EqualsFilter('name', $customFieldSetName));
+        return $this->customFieldSetRepository->search($criteria, $context)->first();
+    }
+
     /**
+     * In Shopware werden CustomFields über ein CustomFieldSet mit einem Produkt verbunden.
+     * Daher müssen wir zunächst ein customFieldSet erstellen das mit der Produkt-Entität verbunden ist.
+     * Im weiteren Verlauf können wir dann die neuen customFields dem customFieldSet hinzufügen.
+     * Erst dann sind sie auch mit der Produkt-Entität verknüpft.
+     *
      * @param string  $customFieldId
      * @param string  $name
      * @param string  $type
+     * @param string  $productUuid
      * @param Context $context
      *
      * @return void
      */
-    private function createCustomField(string $customFieldId, string $name, string $type, Context $context): void
+    private function createCustomField(string $customFieldId, string $name, array $customFieldData, string $productUuid, Context $context): void
     {
-        $payload = $this->constructPayload($type);
+        $customFieldSetId = $this->getCustomFieldSetId($productUuid, $customFieldData, $context);
+
+        $payload = $this->constructPayload($customFieldData, $name);
         $payload['id'] = $customFieldId;
         $payload['name'] = $name;
         $payload['translations'] = [
@@ -92,17 +115,65 @@ class CustomFieldProcessor
                 'customFields' => ['code' => $name],
             ],
         ];
+        $payload['customFieldSetId'] = $customFieldSetId;
 
         $this->customFieldRepository->create([$payload], $context);
     }
 
-    private function constructPayload(string $type): array
+    /**
+     * Generiert eine nachvollziehbare UUID für das CustomFieldSet.
+     * Dann wird geprüft, ob es bereits ein CustomFieldSet mit dieser UUID in der Datenbank gibt.
+     * Das CustomFieldSet sollte eigentlich nur durch SimpleAPI angelegt werden.
+     * Als Fallback (und für Kompatibilität zwischen unterschiedlichen Versionen) wird auch noch anhand des Namens
+     * geprüft, ob das CustomFieldSet schonmal erstellt wurde.
+     * Sollte das CustomFieldSet schon vorhanden sein, wird dessen UUID zurückgegeben.
+     */
+    protected function getCustomFieldSetId(string $productUuid, array $customFieldData, Context $context): string
+    {
+        $setName = 'product_details_simple_api';
+        $setId = Uuid::fromStringToHex($setName);
+        $customFieldSet = $this->getCustomFieldSetById($setId, $context);
+        if (null === $customFieldSet) {
+            $customFieldSet = $this->getCustomFieldSetByName($setName, $context);
+            if (null === $customFieldSet) {
+                $this->createCustomFieldSet($setId, $setName, $productUuid, $customFieldData, $context);
+            } else {
+                $setId = $customFieldSet->getId();
+            }
+        }
+        return $setId;
+    }
+
+    protected function createCustomFieldSet(string $setId, string $setName, string $productUuid, array $customFieldData, Context $context): void
+    {
+        $payload = [
+            'id' => $setId,
+            'name' => $setName,
+            'config' => ['label' => []]
+        ];
+        // Für alle Sprachen, für die ein Wert für das CustomField übergeben wurde, soll auch das Label des CustomFieldSet gesetzt werden.
+        foreach ($customFieldData['values'] as $isoCode => $customFieldValue) {
+            $payload['config']['label'][$isoCode] = 'Details (Simple API)';
+        }
+
+        $this->customFieldSetRepository->create([$payload], $context);
+
+        // Wir müssen das neue CustomFieldSet noch mit der Produkt-Entität verknüpfen
+        $payload = [
+            'id' => BitwiseOperations::xorHex($productUuid, $setId),
+            'customFieldSetId' => $setId,
+            'entityName' => 'product'
+        ];
+        $this->customFieldSetRelationRepository->create([$payload], $context);
+    }
+
+    private function constructPayload(array $customFieldData, string $name): array
     {
         $payload = [
             'type'   => null,
             'config' => [],
         ];
-        switch ($type) {
+        switch ($customFieldData['type']) {
             case 'text':
                 $payload = [
                     'type'   => 'text',
@@ -161,6 +232,24 @@ class CustomFieldProcessor
                     ],
                 ];
                 break;
+        }
+
+        /*
+        Im Payload der SimpleAPI kann direkt ein Label für ein customField mitgegeben werden.
+        Das Label kann in unterschiedlichen Sprachen vorliegen.
+        */
+        if (array_key_exists('labels', $customFieldData)) {
+            foreach ($customFieldData['labels'] as $isoCode => $label) {
+                $payload['config']['label'][$isoCode] = $label;
+            }
+        /*
+        Fallback: wurde kein Label explizit übergeben, wird der customField-Code als Label verwendet.
+        Das ist wichtig, weil in der Shopware Administration ein customField ohne Label nicht so gut dargestellt werden kann.
+        */
+        } else {
+            foreach ($customFieldData['values'] as $isoCode => $data) {
+                $payload['config']['label'][$isoCode] = $name;
+            }
         }
 
         return $payload;

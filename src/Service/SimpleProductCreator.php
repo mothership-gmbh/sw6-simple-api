@@ -141,7 +141,7 @@ class SimpleProductCreator
         $customFieldData = [
             'id' => $productUuid,
         ];
-        $this->customFieldProcessor->process($customFieldData, $product, $context);
+        $this->customFieldProcessor->process($customFieldData, $product, $productUuid, $context);
         $this->productRepository->update([$customFieldData], $context);
     }
 

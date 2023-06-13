@@ -91,6 +91,36 @@ abstract class AbstractTestCase extends TestCase
         }
     }
 
+    protected function cleanCustomFieldSets(): void
+    {
+        /* @var EntityRepository $mediaRepository */
+        $customFieldSetRepository = $this->getContainer()->get('custom_field_set.repository');
+
+        $criteria = new Criteria();
+        foreach ($customFieldSetRepository?->search($criteria, $this->getContext())->getElements() as $element) {
+            try {
+                $customFieldSetRepository?->delete([['id' => $element->getId()]], $this->getContext());
+            } catch (Exception) {
+                // Es soll einfach versucht werden, alles zu löschen.
+            }
+        }
+    }
+
+    protected function cleanCustomFieldSetRelations(): void
+    {
+        /* @var EntityRepository $mediaRepository */
+        $customFieldSetRelationRepository = $this->getContainer()->get('custom_field_set_relation.repository');
+
+        $criteria = new Criteria();
+        foreach ($customFieldSetRelationRepository?->search($criteria, $this->getContext())->getElements() as $element) {
+            try {
+                $customFieldSetRelationRepository?->delete([['id' => $element?->getId()]], $this->getContext());
+            } catch (Exception) {
+                // Es soll einfach versucht werden, alles zu löschen.
+            }
+        }
+    }
+
     protected function cleanCategories(): void
     {
         /* @var EntityRepository $categoryRepository */
