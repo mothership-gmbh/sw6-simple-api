@@ -174,7 +174,7 @@ class ImageProcessorTest extends AbstractProcessorTest
         $this->simpleProductCreator->createEntity($productDefinition, $this->getContext());
         $createdProduct = $this->getProductBySku($productDefinition['sku']);
 
-        $coverImage = $this->getCoverImage($createdProduct);
+        $coverImage = $this->getMediaByFileName($createdProduct, '51x51');
         $this->assertEquals('51x51', $coverImage->getMedia()->getFileName());
         $this->assertEquals($createdProduct->getCoverId(), $coverImage->getId());
     }
@@ -210,7 +210,7 @@ class ImageProcessorTest extends AbstractProcessorTest
         $this->simpleProductCreator->createEntity($productDefinition, $this->getContext());
         $createdProduct = $this->getProductBySku($productDefinition['sku']);
 
-        $coverImage = $this->getCoverImage($createdProduct);
+        $coverImage = $this->getMediaByFileName($createdProduct, '51x51');
         $this->assertEquals('51x51', $coverImage->getMedia()->getFileName());
         $this->assertEquals($createdProduct->getCoverId(), $coverImage->getId());
         $this->assertEquals(2, $createdProduct->getMedia()->count());
@@ -228,7 +228,7 @@ class ImageProcessorTest extends AbstractProcessorTest
         $this->simpleProductCreator->createEntity($productDefinition, $this->getContext());
         $createdProduct = $this->getProductBySku($productDefinition['sku']);
 
-        $coverImage = $this->getCoverImage($createdProduct);
+        $coverImage = $this->getMediaByFileName($createdProduct, '50x50');
         $this->assertEquals('50x50', $coverImage->getMedia()->getFileName());
         $this->assertEquals($createdProduct->getCoverId(), $coverImage->getId());
         // Wichtig: Es sind nicht mehr als zwei Bilder dem Produkt zugeordnet
@@ -266,7 +266,7 @@ class ImageProcessorTest extends AbstractProcessorTest
         $this->simpleProductCreator->createEntity($productDefinition, $this->getContext());
         $createdProduct = $this->getProductBySku($productDefinition['sku']);
 
-        $coverImage = $this->getCoverImage($createdProduct);
+        $coverImage = $this->getMediaByFileName($createdProduct, '51x51');
         $this->assertEquals('51x51', $coverImage->getMedia()->getFileName());
         $this->assertEquals($createdProduct->getCoverId(), $coverImage->getId());
         $this->assertEquals(2, $createdProduct->getMedia()->count());
@@ -289,5 +289,79 @@ class ImageProcessorTest extends AbstractProcessorTest
         $this->assertEquals($createdProduct->getCoverId(), $coverImage->getId());
         // Wichtig: Es sind nicht mehr als zwei Bilder dem Produkt zugeordnet
         $this->assertEquals(2, $createdProduct->getMedia()->count());
+    }
+
+    /**
+     * Die Reihenfolge der importierten Produkte kann sich auch ändern.
+     *
+     * @test
+     *
+     * @group SimpleApi
+     * @group SimpleApi_Product
+     * @group SimpleApi_Product_Processor
+     * @group SimpleApi_Product_Processor_Image
+     * @group SimpleApi_Product_Processor_Image_7
+     *
+     * @throws InvalidCurrencyCodeException
+     * @throws InvalidSalesChannelNameException
+     * @throws InvalidTaxValueException
+     */
+    public function changeImageOrder()
+    {
+
+        $productDefinition = $this->getMinimalDefinition();
+        $productDefinition['images'] = [
+            [
+                'url' => 'https://via.placeholder.com/50x50.png',
+            ],
+            [
+                'url'     => 'https://via.placeholder.com/51x51.png',
+                'isCover' => true,
+            ],
+            [
+                'url'     => 'https://via.placeholder.com/52x52.png',
+            ],
+        ];
+
+        $this->simpleProductCreator->createEntity($productDefinition, $this->getContext());
+        $createdProduct = $this->getProductBySku($productDefinition['sku']);
+
+        self::assertEquals(1, $this->getMediaByFileName($createdProduct, '50x50')->getPosition());
+        self::assertEquals(2, $this->getMediaByFileName($createdProduct, '51x51')->getPosition());
+        self::assertEquals(3, $this->getMediaByFileName($createdProduct, '52x52')->getPosition());
+
+
+        // Ändere die Reihenfolge.
+        $productDefinition = $this->getMinimalDefinition();
+        $productDefinition['images'] = [
+            [
+                'url'     => 'https://via.placeholder.com/51x51.png',
+                'isCover' => true,
+            ],
+            [
+                'url' => 'https://via.placeholder.com/50x50.png',
+            ],
+
+            [
+                'url'     => 'https://via.placeholder.com/52x52.png',
+            ],
+        ];
+
+        $this->simpleProductCreator->createEntity($productDefinition, $this->getContext());
+        $createdProduct = $this->getProductBySku($productDefinition['sku']);
+
+        self::assertEquals(2, $this->getMediaByFileName($createdProduct, '50x50')->getPosition());
+        // Hier hat sich die Reihenfolge der Bilder geändert.
+        self::assertEquals(1, $this->getMediaByFileName($createdProduct, '51x51')->getPosition());
+        self::assertEquals(3, $this->getMediaByFileName($createdProduct, '52x52')->getPosition());
+    }
+
+    protected function getMediaByFileName(ProductEntity $productEntity, string $filename)
+    {
+        foreach ($productEntity->getMedia() as $media) {
+            if ($media->getMedia()->getFileName() === $filename) {
+                return $media;
+            }
+        }
     }
 }
