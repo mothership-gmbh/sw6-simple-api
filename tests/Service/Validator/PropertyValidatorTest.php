@@ -69,7 +69,7 @@ class PropertyValidatorTest extends AbstractValidatorTest
     {
         $definition = $this->getMinimalDefinition();
         $definition['properties'] = [
-            'colorProp' => ['red'],
+            'ColorProp' => ['red'],
         ];
 
         $this->expectException(InvalidCodeFormatException::class);
