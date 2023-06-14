@@ -22,7 +22,7 @@ class CustomFieldProcessor
         protected readonly EntityRepositoryInterface $customFieldSetRelationRepository,
     ) {}
 
-    public function process(array &$data, Product $request, string $productUuid, Context $context): void
+    public function process(array &$data, Product $request, Context $context): void
     {
         $customFields = $request->getCustomFields();
         foreach ($customFields as $customFieldCode => $customFieldOptions) {
@@ -30,7 +30,7 @@ class CustomFieldProcessor
             $customFieldId = $this->generateCustomFieldId($customFieldCode);
             $customField = $this->getExistingData($customFieldId, $customFieldCode, $context);
             if (null === $customField) {
-                $this->createCustomField($customFieldId, $customFieldCode, $customFieldOptions, $productUuid, $context);
+                $this->createCustomField($customFieldId, $customFieldCode, $customFieldOptions, $context);
             }
 
             foreach ($customFieldOptions['values'] as $isoCode => $value) {
@@ -96,15 +96,14 @@ class CustomFieldProcessor
      *
      * @param string  $customFieldId
      * @param string  $name
-     * @param string  $type
-     * @param string  $productUuid
+     * @param array   $customFieldData
      * @param Context $context
      *
      * @return void
      */
-    private function createCustomField(string $customFieldId, string $name, array $customFieldData, string $productUuid, Context $context): void
+    private function createCustomField(string $customFieldId, string $name, array $customFieldData, Context $context): void
     {
-        $customFieldSetId = $this->getCustomFieldSetId($productUuid, $customFieldData, $context);
+        $customFieldSetId = $this->getCustomFieldSetId($customFieldData, $context);
 
         $payload = $this->constructPayload($customFieldData, $name);
         $payload['id'] = $customFieldId;
@@ -128,7 +127,7 @@ class CustomFieldProcessor
      * geprüft, ob das CustomFieldSet schonmal erstellt wurde.
      * Sollte das CustomFieldSet schon vorhanden sein, wird dessen UUID zurückgegeben.
      */
-    protected function getCustomFieldSetId(string $productUuid, array $customFieldData, Context $context): string
+    protected function getCustomFieldSetId(array $customFieldData, Context $context): string
     {
         $setName = 'product_details_simple_api';
         $setId = Uuid::fromStringToHex($setName);
@@ -136,7 +135,7 @@ class CustomFieldProcessor
         if (null === $customFieldSet) {
             $customFieldSet = $this->getCustomFieldSetByName($setName, $context);
             if (null === $customFieldSet) {
-                $this->createCustomFieldSet($setId, $setName, $productUuid, $customFieldData, $context);
+                $this->createCustomFieldSet($setId, $setName, $customFieldData, $context);
             } else {
                 $setId = $customFieldSet->getId();
             }
@@ -144,7 +143,7 @@ class CustomFieldProcessor
         return $setId;
     }
 
-    protected function createCustomFieldSet(string $setId, string $setName, string $productUuid, array $customFieldData, Context $context): void
+    protected function createCustomFieldSet(string $setId, string $setName, array $customFieldData, Context $context): void
     {
         $payload = [
             'id' => $setId,
@@ -158,9 +157,15 @@ class CustomFieldProcessor
 
         $this->customFieldSetRepository->create([$payload], $context);
 
-        // Wir müssen das neue CustomFieldSet noch mit der Produkt-Entität verknüpfen
+        /*
+        Wir müssen das neue CustomFieldSet noch mit der Produkt-Entität verknüpfen.
+        Das geschieht über einen Eintrag in der custom_field_relation-Tabelle.
+        Dabei generieren wir eine nachvollziehbare UUID für den Eintrag aus dem Wort 'product'
+        (in custom_field_relation-Tabelle ist der entity_name als Wort hinterlegt)
+        sowie der UUID des neuen CustomFieldSets.
+        */
         $payload = [
-            'id' => BitwiseOperations::xorHex($productUuid, $setId),
+            'id' => BitwiseOperations::xorHex(Uuid::fromStringToHex('product'), $setId),
             'customFieldSetId' => $setId,
             'entityName' => 'product'
         ];

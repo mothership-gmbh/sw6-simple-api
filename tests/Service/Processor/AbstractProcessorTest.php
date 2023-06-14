@@ -12,9 +12,12 @@ abstract class AbstractProcessorTest extends AbstractTestCase
     protected function setUp(): void
     {
         $this->simpleProductCreator = $this->getContainer()->get(SimpleProductCreator::class);
-        $this->cleanMedia();
-        $this->cleanProduct();
-        $this->cleanProperties();
-        $this->cleanCategories();
+        $this->clearRepository('media.repository');
+        $this->clearRepository('product.repository');
+        $this->clearRepository('category.repository');
+        $this->clearRepository('property_group.repository');
+        $this->clearRepository('custom_field.repository');
+        $this->clearRepository('custom_field_set.repository');
+        $this->clearRepository('custom_field_set_relation.repository');
     }
 }

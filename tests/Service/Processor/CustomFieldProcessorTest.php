@@ -257,7 +257,6 @@ class CustomFieldProcessorTest extends AbstractTranslationTestcase
      */
     public function existingCustomFieldWithGeneratedUUIDWillBeFound(): void
     {
-        $this->cleanCustomFields();
         $customFieldRepository = $this->getRepository('custom_field.repository');
         $criteria = new Criteria();
         $this->assertEquals(0, $customFieldRepository->search($criteria, $this->getContext())->count());
@@ -315,8 +314,6 @@ class CustomFieldProcessorTest extends AbstractTranslationTestcase
      */
     public function existingCustomFieldWithRandomUUIDWillBeFound(): void
     {
-        $this->cleanCustomFields();
-
         $customFieldRepository = $this->getRepository('custom_field.repository');
         $customFieldRepository->create([['name' => 'ms_boolean', 'type' => 'bool']], $this->getContext());
 
@@ -363,16 +360,13 @@ class CustomFieldProcessorTest extends AbstractTranslationTestcase
      */
     public function newCustomFieldSetWillBeCreatedIfCustomFieldDoesntExist(): void
     {
-        $this->cleanCustomFields();
-        $this->cleanCustomFieldSets();
-        $this->cleanCustomFieldSetRelations();
-
         $customFieldSetRepository = $this->getRepository('custom_field_set.repository');
         $setName = 'product_details_simple_api';
         $setId = Uuid::fromStringToHex($setName);
 
         $criteria = new Criteria();
-        // Das CustomField wurde korrekt erstellt.
+
+        // Die custom_field_set & custom_field_set_relation-Tabellen sollten leer sein.
         $this->assertCount(0, $customFieldSetRepository->search($criteria, $this->getContext()));
         $customFieldSetRelationRepository = $this->getRepository('custom_field_set_relation.repository');
         $this->assertCount(0, $customFieldSetRelationRepository->search($criteria, $this->getContext()));
@@ -386,23 +380,23 @@ class CustomFieldProcessorTest extends AbstractTranslationTestcase
                 ],
             ],
         ];
-
         $this->simpleProductCreator->createEntity($productDefinition, $this->getContext());
+
+        // Das CustomFieldSet wurde erstellt.
         $criteria->addFilter(new EqualsFilter('name', $setName));
-        // Das CustomField wurde nur 1 Mal erstellt.
         $customFieldSets = $customFieldSetRepository->search($criteria, $this->getContext());
         $this->assertCount(1, $customFieldSets);
+        // Das erstellte CustomFieldSet hat die generierte UUID & ist aktiv.
         $this->assertEquals($setId, $customFieldSets->first()->getId());
-        $this->assertEquals($setName, $customFieldSets->first()->getName());
-        $this->assertEquals(['label' => ['de-DE' => 'Details (Simple API)']], $customFieldSets->first()->getConfig());
         $this->assertEquals(1, $customFieldSets->first()->isActive());
+
+        // Die CustomFieldSetRelation wurde erstellt.
         $criteria = new Criteria();
         $criteria->addFilter(new EqualsFilter('customFieldSetId', $setId));
         $customFieldSetRelations = $customFieldSetRelationRepository->search($criteria, $this->getContext());
         $this->assertCount(1, $customFieldSetRelations);
-        $createdProduct = $this->getProductBySku($productDefinition['sku']);
-        $productUuid = $createdProduct->getId();
-        $customFieldSetRelationId = BitwiseOperations::xorHex($productUuid, $setId);
+        // Die CustomFieldSetRelation enthält die erwarteten Werte.
+        $customFieldSetRelationId = BitwiseOperations::xorHex(Uuid::fromStringToHex('product'), $setId);
         $this->assertEquals($customFieldSetRelationId, $customFieldSetRelations->first()->getId());
         $this->assertEquals($setId, $customFieldSetRelations->first()->getCustomFieldSetId());
         $this->assertEquals('product', $customFieldSetRelations->first()->getEntityName());
@@ -431,10 +425,6 @@ class CustomFieldProcessorTest extends AbstractTranslationTestcase
      */
     public function existingCustomFieldSetWillBeUsed(): void
     {
-        $this->cleanCustomFields();
-        $this->cleanCustomFieldSets();
-        $this->cleanCustomFieldSetRelations();
-
         $customFieldSetRepository = $this->getRepository('custom_field_set.repository');
         $customFieldSetRelationRepository = $this->getRepository('custom_field_set_relation.repository');
         $setName = 'product_details_simple_api';
@@ -450,6 +440,8 @@ class CustomFieldProcessorTest extends AbstractTranslationTestcase
             ],
         ];
         $this->simpleProductCreator->createEntity($productDefinition, $this->getContext());
+
+        // Wir erstellen direkt noch ein neues Produkt mit einem customField, das es noch nicht gibt.
         $productDefinition = $this->getMinimalDefinition();
         $productDefinition['custom_fields'] = [
             'ms_integer' => [
@@ -461,20 +453,22 @@ class CustomFieldProcessorTest extends AbstractTranslationTestcase
         ];
         $this->simpleProductCreator->createEntity($productDefinition, $this->getContext());
 
+        // Das CustomFieldSet wurde nur 1 Mal erstellt.
         $criteria = new Criteria();
         $criteria->addFilter(new EqualsFilter('name', $setName));
-        // Das CustomFieldSet wurde nur 1 Mal erstellt.
         $this->assertCount(1, $customFieldSetRepository->search($criteria, $this->getContext()));
+        // Die CustomFieldSetRelation wurde nur 1 Mal erstellt.
         $criteria = new Criteria();
         $criteria->addFilter(new EqualsFilter('customFieldSetId', $setId));
-        // Die CustomFieldSetRelation wurde nur 1 Mal erstellt.
         $this->assertCount(1, $customFieldSetRelationRepository->search($criteria, $this->getContext()));
     }
 
     /**
-     * Wird im Payload nicht explizit übergeben welche Labels das customField haben soll,
-     * wird der customField-Code als Label übernommen.
-     * Das ist wichtig, weil in der Shopware Administration ein customField ohne Label nicht so gut dargestellt werden kann.
+     * Testet den Nebeneffekt, dass Änderungen an den custom_field_set-Tabelle vorgenommen werden.
+     *
+     * Damit ein CustomField erstellt und auch in den Produktdaten angezeigt werden kann, muss ein CustomFieldSet erstellt werden.
+     * Das neu erstellte CustomFieldSet bekommt als Label einen Standardwert.
+     * Dieser Standardwert wird für jede Sprache gesetzt, für die auch ein Wert im CustomField übergeben wurde.
      *
      * @test
      *
@@ -489,12 +483,49 @@ class CustomFieldProcessorTest extends AbstractTranslationTestcase
      * @throws ProductNotFoundException
      * @throws PropertyGroupOptionNotFoundException
      */
+    public function customFieldSetWillHaveLabels(): void
+    {
+        $customFieldSetRepository = $this->getRepository('custom_field_set.repository');
+
+        $productDefinition = $this->getMinimalDefinition();
+        $productDefinition['custom_fields'] = [
+            'ms_boolean' => [
+                'type'   => 'bool',
+                'values' => [
+                    'de-DE' => false,
+                    'en-GB' => false
+                ],
+            ],
+        ];
+        $this->simpleProductCreator->createEntity($productDefinition, $this->getContext());
+
+        // Das CustomFieldSet hat die erwarteten Labels.
+        $criteria = new Criteria();
+        $this->assertEquals(['label' => ['de-DE' => 'Details (Simple API)', 'en-GB' => 'Details (Simple API)']],
+            $customFieldSetRepository->search($criteria, $this->getContext())->first()->getConfig());
+    }
+
+    /**
+     * Wird im Payload nicht explizit übergeben welche Labels das customField haben soll,
+     * wird der customField-Code als Label übernommen.
+     * Das ist wichtig, weil in der Shopware Administration ein customField ohne Label nicht so gut dargestellt werden kann.
+     * Das Label wird in jeder Sprache gesetzt, für die auch ein Wert beim CustomField übergeben wurde.
+     *
+     * @test
+     *
+     * @group SimpleApi
+     * @group SimpleApi_Product
+     * @group SimpleApi_Product_Processor
+     * @group SimpleApi_Product_Processor_CustomField
+     * @group SimpleApi_Product_Processor_CustomField_10
+     * @throws InvalidCurrencyCodeException
+     * @throws InvalidSalesChannelNameException
+     * @throws InvalidTaxValueException
+     * @throws ProductNotFoundException
+     * @throws PropertyGroupOptionNotFoundException
+     */
     public function customFieldCodeWillBeSetAsLabel(): void
     {
-        $this->cleanCustomFields();
-        $this->cleanCustomFieldSets();
-        $this->cleanCustomFieldSetRelations();
-
         $customFieldRepository = $this->getRepository('custom_field.repository');
 
         $productDefinition = $this->getMinimalDefinition();
@@ -507,13 +538,12 @@ class CustomFieldProcessorTest extends AbstractTranslationTestcase
                 ],
             ],
         ];
-
         $this->simpleProductCreator->createEntity($productDefinition, $this->getContext());
 
+        // Das neue CustomField enthält die erwarteten Labels.
         $criteria = new Criteria();
         $criteria->addFilter(new EqualsFilter('name', 'ms_boolean'));
         $customFields = $customFieldRepository->search($criteria, $this->getContext());
-
         $this->assertEquals([
             'type'            => 'switch',
             'componentName'   => 'sw-field',
@@ -531,7 +561,7 @@ class CustomFieldProcessorTest extends AbstractTranslationTestcase
      * @group SimpleApi_Product
      * @group SimpleApi_Product_Processor
      * @group SimpleApi_Product_Processor_CustomField
-     * @group SimpleApi_Product_Processor_CustomField_10
+     * @group SimpleApi_Product_Processor_CustomField_11
      * @throws InvalidCurrencyCodeException
      * @throws InvalidSalesChannelNameException
      * @throws InvalidTaxValueException
@@ -540,10 +570,6 @@ class CustomFieldProcessorTest extends AbstractTranslationTestcase
      */
     public function customFieldLabelWillBeSetAsLabel(): void
     {
-        $this->cleanCustomFields();
-        $this->cleanCustomFieldSets();
-        $this->cleanCustomFieldSetRelations();
-
         $customFieldRepository = $this->getRepository('custom_field.repository');
 
         $productDefinition = $this->getMinimalDefinition();
@@ -562,10 +588,10 @@ class CustomFieldProcessorTest extends AbstractTranslationTestcase
 
         $this->simpleProductCreator->createEntity($productDefinition, $this->getContext());
 
+        // Das neue CustomField enthält die erwarteten Labels.
         $criteria = new Criteria();
         $criteria->addFilter(new EqualsFilter('name', 'ms_boolean'));
         $customFields = $customFieldRepository->search($criteria, $this->getContext());
-
         $this->assertEquals([
             'type'            => 'switch',
             'componentName'   => 'sw-field',
