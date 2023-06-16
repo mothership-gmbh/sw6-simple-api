@@ -14,17 +14,12 @@ class SimpleApiPayloadEntity extends Entity
 {
     use EntityIdTrait;
 
-    protected array $data;
+    protected array $payload;
     protected string $status;
 
-    public function getData(): array
+    public function getPayload(): array
     {
-        return $this->data;
-    }
-
-    public function setData(array $data): void
-    {
-        $this->data = $data;
+        return $this->payload;
     }
 
     public function getApiAlias(): string

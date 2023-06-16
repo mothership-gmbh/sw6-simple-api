@@ -39,7 +39,7 @@ class ProductActionController extends AbstractController
      *
      * @Since("6.0.0.0")
      * @Route(
-     *     "/api/mothership/product",
+     *     "/api/_action/mothership/product",
      *     name="api.mothership.product.create",
      *     methods={"POST"}
      * )
@@ -69,7 +69,7 @@ class ProductActionController extends AbstractController
      *
      * @Since("6.0.0.0")
      * @Route(
-     *     "/api/mothership/product-sync",
+     *     "/api/_action/mothership/product-sync",
      *     name="api.mothership.product.sync",
      *     methods={"POST"}
      * )
@@ -87,12 +87,16 @@ class ProductActionController extends AbstractController
      */
     public function syncProduct(Request $request, Context $context): JsonResponse
     {
-        $payload = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        $payloads = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
 
-        $event = $this->simpleApiPayloadRepository->create([['payload' => $payload, 'status' => 'created']], $context);
-        $keys = $event->getPrimaryKeys('ms_simple_api_payload');
+        foreach ($payloads as $payload) {
 
-        $this->simpleProductSender->sendMessage($payload, $keys[0]);
-        return new JsonResponse(['Payload wurde zur Queue hinzugefügt']);
+            $event = $this->simpleApiPayloadRepository->create([['payload' => $payload, 'status' => 'new']], $context);
+            $keys  = $event->getPrimaryKeys('ms_simple_api_payload');
+
+            $this->simpleProductSender->sendMessage($payload, $keys[0]);
+        }
+
+        return new JsonResponse([count($payloads) . ' Payload(s) wurde(n) zur Queue hinzugefügt']);
     }
 }

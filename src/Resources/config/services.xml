@@ -15,6 +15,16 @@
         www/vendor/shopware/core/Framework/DependencyInjection/api.xml
         -->
 
+        <service id="MothershipSimpleApi\Api\ProductActionController" public="true">
+            <argument type="service" id="MothershipSimpleApi\Service\SimpleProductCreator"/>
+            <argument type="service" id="MothershipSimpleApi\Service\SimpleProductSender"/>
+            <argument type="service" id="ms_simple_api_payload.repository"/>
+
+            <call method="setContainer">
+                <argument type="service" id="service_container"/>
+            </call>
+        </service>
+
         <service id="MothershipSimpleApi\Service\SimpleProductCreator" public="true">
             <argument type="service" id="product.repository"/>
             <argument type="service" id="tax.repository"/>
