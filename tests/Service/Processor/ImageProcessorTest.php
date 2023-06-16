@@ -356,6 +356,8 @@ class ImageProcessorTest extends AbstractProcessorTest
         self::assertEquals(3, $this->getMediaByFileName($createdProduct, '52x52')->getPosition());
     }
 
+
+
     protected function getMediaByFileName(ProductEntity $productEntity, string $filename)
     {
         foreach ($productEntity->getMedia() as $media) {

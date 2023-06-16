@@ -26,20 +26,14 @@ use Shopware\Core\Framework\Uuid\Uuid;
 class ImageImport
 {
     public const TEMP_NAME = 'image-import-from-url';      //prefix for temporary files, downloaded from URL
-    public const MEDIA_DIR = '/public/media/';             //relative path to Shopware's media directory
     public const MEDIA_FOLDER = 'product';
     protected ?string $mediaFolderId = null;
 
-    protected EntityRepositoryInterface $mediaRepository;
-    protected EntityRepositoryInterface $mediaFolderRepository;
-    protected MediaService $mediaService;
-    protected FileSaver $fileSaver;
-
     public function __construct(
-        EntityRepositoryInterface $mediaRepository,
-        EntityRepositoryInterface $mediaFolderRepository,
-        MediaService $mediaService,
-        FileSaver $fileSaver
+        protected EntityRepositoryInterface $mediaRepository,
+        protected EntityRepositoryInterface $mediaFolderRepository,
+        protected MediaService $mediaService,
+        protected FileSaver $fileSaver
     ) {
         $this->mediaRepository = $mediaRepository;
         $this->mediaFolderRepository = $mediaFolderRepository;
@@ -51,14 +45,19 @@ class ImageImport
     /**
      * Method, that downloads a file from a URL and returns an ID of a newly created media, based on it
      *
-     * @param string  $resource
-     * @param Context $context
+     * @param string      $resource
+     * @param Context     $context
+     * @param string|null $mediaFolderId
      *
      * @return string
      */
-    public function addImageToMediaFromResource(string $resource, Context $context): string
+    public function addImageToMediaFromResource(string $resource, Context $context, string $mediaFolderName = null): string
     {
-        $this->init($context);
+        if (null === $mediaFolderName) {
+            $this->mediaFolderId = $this->getMediaDefaultFolderId(self::MEDIA_FOLDER, $context);
+        } else {
+            $this->mediaFolderId = $this->getMediaFolderIdByName($mediaFolderName, $context);
+        }
 
         $mediaId = null;
 
@@ -82,11 +81,18 @@ class ImageImport
         return $mediaId;
     }
 
-    protected function init(Context $context): void
+    protected function getMediaFolderIdByName(string $mediaFolderName, Context $context): string
     {
-        if (null === $this->mediaFolderId) {
-            $this->mediaFolderId = $this->getMediaDefaultFolderId(self::MEDIA_FOLDER, $context);
+        $criteria = new Criteria();
+        $criteria->addFilter(new EqualsFilter('media_folder.name', $mediaFolderName));
+        $criteria->setLimit(1);
+        $defaultFolder = $this->mediaFolderRepository->search($criteria, $context);
+        $defaultFolderId = null;
+        if ($defaultFolder->count() === 1) {
+            $defaultFolderId = $defaultFolder->first()->getId();
         }
+
+        return $defaultFolderId;
     }
 
     /**
@@ -179,21 +185,6 @@ class ImageImport
         // Die Medien-ID ist immer unique
         return Uuid::fromStringToHex($fileName . $fileExtension);
     }
-
-    /**
-     * Erstellt eine eindeutige UUID basierend auf dem Dateinamen und der Endung.
-     *
-     * @param string $fileName
-     * @param string $fileExtension
-     *
-     * @return string
-     */
-    private function generateMediaId(string $fileName, string $fileExtension): string
-    {
-        // Die Medien-ID ist immer unique
-        return Uuid::fromStringToHex($fileName . $fileExtension);
-    }
-
 
     protected function getMediaEntityById(string $mediaId, Context $context): MediaEntity|null
     {
