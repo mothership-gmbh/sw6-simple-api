@@ -30,7 +30,7 @@ class MediaActionController extends AbstractController
      *
      * @Since("6.0.0.0")
      * @Route(
-     *     "/api/_sync/mothership/media",
+     *     "/api/_action/mothership/media",
      *     name="api.mothership.media.create",
      *     methods={"POST"}
      * )

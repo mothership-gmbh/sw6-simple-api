@@ -20,6 +20,7 @@ class Migration1686142349CreatePayloadTable extends MigrationStep
             `payload` JSON NOT NULL,
             `status` VARCHAR(255) NOT NULL,
             `error` VARCHAR(255) NULL,
+            `source` VARCHAR(255) NOT NULL,
             `created_at` DATETIME(3) NOT NULL,
             `updated_at` DATETIME(3) NULL,
             PRIMARY KEY (`id`),

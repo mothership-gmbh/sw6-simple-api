@@ -15,6 +15,22 @@
         www/vendor/shopware/core/Framework/DependencyInjection/api.xml
         -->
 
+        <service id="MothershipSimpleApi\Command\CleanupPayloadsCommand">
+            <argument type="service" id="MothershipSimpleApi\Service\SimpleProductCreator"/>
+            <argument type="service" id="Shopware\Core\System\SalesChannel\Context\SalesChannelContextFactory"/>
+            <argument type="service" id="ms_simple_api_payload.repository"/>
+
+            <tag name="console.command"/>
+        </service>
+
+        <service id="MothershipSimpleApi\Command\ProcessPayloadsCommand">
+            <argument type="service" id="MothershipSimpleApi\Service\SimpleProductCreator"/>
+            <argument type="service" id="Shopware\Core\System\SalesChannel\Context\SalesChannelContextFactory"/>
+            <argument type="service" id="ms_simple_api_payload.repository"/>
+
+            <tag name="console.command"/>
+        </service>
+
         <service id="MothershipSimpleApi\Api\ProductActionController" public="true">
             <argument type="service" id="MothershipSimpleApi\Service\SimpleProductCreator"/>
             <argument type="service" id="MothershipSimpleApi\Service\SimpleProductSender"/>

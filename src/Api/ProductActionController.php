@@ -91,7 +91,12 @@ class ProductActionController extends AbstractController
 
         foreach ($payloads as $payload) {
 
-            $event = $this->simpleApiPayloadRepository->create([['payload' => $payload, 'status' => 'new']], $context);
+            $event = $this->simpleApiPayloadRepository->create([
+                [
+                    'payload' => $payload,
+                    'status' => 'new',
+                    'source' => 'ProductActionController:syncProduct']
+            ], $context);
             $keys  = $event->getPrimaryKeys('ms_simple_api_payload');
 
             $this->simpleProductSender->sendMessage($payload, $keys[0]);

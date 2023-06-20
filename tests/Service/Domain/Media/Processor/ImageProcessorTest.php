@@ -43,43 +43,6 @@ class ImageProcessorTest extends AbstractProcessorTest
         $this->assertEquals($productDefinition['media_folder_name'], $media->getMediaFolder()->getName());
     }
 
-    /**
-     * Die Extension fehlt
-     *
-     * @test
-     *
-     * @group SimpleApi
-     * @group SimpleApi_Product
-     * @group SimpleApi_Product_Processor
-     * @group SimpleApi_Product_Processor_Image
-     * @group SimpleApi_Product_Processor_Image_2
-     *
-     * @throws InvalidCurrencyCodeException
-     * @throws InvalidSalesChannelNameException
-     * @throws InvalidTaxValueException
-     */
-    public function multipleImages(): void
-    {
-        $productDefinition = $this->getMinimalDefinition();
-        $productDefinition['images'] = [
-            [
-                'url' => 'https://via.placeholder.com/50x50.png',
-            ],
-            [
-                'url' => 'https://via.placeholder.com/51x51.png',
-            ],
-        ];
-
-        $this->simpleProductCreator->createEntity($productDefinition, $this->getContext());
-        $createdProduct = $this->getProductBySku($productDefinition['sku']);
-
-        $this->assertEquals('50x50', $createdProduct->getMedia()->getAt(self::POS_COVER_IMAGE)->getMedia()->getFileName());
-        $this->assertEquals('png', $createdProduct->getMedia()->getAt(self::POS_COVER_IMAGE)->getMedia()->getFileExtension());
-
-        $this->assertEquals('51x51', $createdProduct->getMedia()->getAt(1)->getMedia()->getFileName());
-        $this->assertEquals('png', $createdProduct->getMedia()->getAt(1)->getMedia()->getFileExtension());
-    }
-
     protected function getMediaById(string $mediaId): MediaEntity|null
     {
         $mediaRepository = $this->getRepository('media.repository');

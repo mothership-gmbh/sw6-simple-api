@@ -37,6 +37,7 @@ class SimpleApiPayloadDefinition extends EntityDefinition
             (new JsonField('payload', 'payload'))->addFlags(new ApiAware(), new Required()),
             (new StringField('status', 'status'))->addFlags(new ApiAware(), new Required()),
             (new StringField('error', 'error'))->addFlags(new ApiAware()),
+            (new StringField('source', 'source'))->addFlags(new ApiAware()),
         ]);
     }
 }

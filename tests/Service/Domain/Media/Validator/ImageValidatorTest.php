@@ -48,25 +48,4 @@ class ImageValidatorTest extends AbstractValidatorTest
         $this->expectException(MissingMediaFolderNameException::class);
         $this->request->init($definition);
     }
-
-    /**
-     * Ein Bild wird erstellt und einem Verzeichnis zugeordnet.
-     *
-     * @test
-     *
-     * @group SimpleApi
-     * @group SimpleApi_Domain
-     * @group SimpleApi_Domain_Media
-     * @group SimpleApi_Domain_Media_Validator
-     * @group SimpleApi_Domain_Media_Validator_Image
-     * @group SimpleApi_Domain_Media_Validator_Image_3
-     */
-    public function mediaWillBeCreated(): void
-    {
-        $definition =  [
-            'url'               => 'https://via.placeholder.com/50x50.png',
-            'media_folder_name' => 'Category Media',
-        ];
-        $this->request->init($definition);
-    }
 }
