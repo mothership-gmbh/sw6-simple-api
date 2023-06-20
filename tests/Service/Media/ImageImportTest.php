@@ -7,6 +7,7 @@ use MothershipSimpleApiTests\Service\AbstractTestCase;
 use Shopware\Core\Content\Media\MediaService;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
+use Shopware\Core\Framework\Uuid\Uuid;
 
 class ImageImportTest extends AbstractTestCase
 {
@@ -85,6 +86,34 @@ class ImageImportTest extends AbstractTestCase
         $mediaId = $this->imageImport->addImageToMediaFromResource($url, $this->getContext());
         $this->assertHashEquals($url, $mediaId);
         $this->assertFileEuals($url, $mediaId);
+    }
+
+    /**
+     * Ein Bild wird einem bestimmten Ordner zugeordnet.
+     *
+     * @test
+     *
+     * @group SimpleApi
+     * @group SimpleApi_Product
+     * @group SimpleApi_Product_Service
+     * @group SimpleApi_Product_Service_Media
+     * @group SimpleApi_Product_Service_Media_ImageImport
+     * @group SimpleApi_Product_Service_Media_ImageImport_3
+     */
+    public function uploadAndAssignImageToSpecificMediaFolderId()
+    {
+        $url = __DIR__ . '/fixtures/team_wanderung.jpeg';
+
+        $mediaId = $this->imageImport->addImageToMediaFromResource($url, $this->getContext(), 'Category Media');
+        $this->assertHashEquals($url, $mediaId);
+        $this->assertFileEuals($url, $mediaId);
+
+        // Das Bild ist nun dem Ordner "Category Media" zugeordnet.
+        $criteria = new Criteria();
+        $criteria->setIds([strtolower($mediaId)]);
+        $criteria->addAssociation('mediaFolder');
+        $media = $this->mediaRepository->search($criteria, $this->getContext())->first();
+        self::assertEquals('Category Media', $media->getMediaFolder()->getName());
     }
 
     protected function setUp(): void

@@ -78,7 +78,7 @@ class ImageProcessor
         }
 
         // Das Cover wird explizit über den Eintrag cover-ID gesetzt und muss daher aus den array entfernt werden.
-        unset($images[$this->coverImageId]);
+        // unset($images[$this->coverImageId]);
 
         /* Prüft, ob es Änderungen gibt. Falls ja, werden alle Zuordnungen entfernt
          */
@@ -89,7 +89,7 @@ class ImageProcessor
             'cover' => [
                 'id'       => $this->coverImageMediaId,
                 'mediaId'  => $this->coverImageId,
-                'position' => 1,
+                 // 'position' => 1,
             ],
             'media' => $this->applyPositions($images),
         ];
@@ -127,7 +127,7 @@ class ImageProcessor
 
     protected function applyPositions(array $images): array
     {
-        $i = 2;
+        $i = 1;
         foreach ($images as $mediaUuid => $image) {
             $images[$mediaUuid]['position'] = $i;
             $i++;

@@ -109,7 +109,7 @@ Zum Setzen des Release Date muss ein String in einem kompatiblen Datumsformat ü
 ```
    "ean": "1234567891011",
    "release_date": "2038-01-19 00:00:00",
-   "manufacturerNumber": "123-Test-ABC" 
+   "manufacturer_number": "123-Test-ABC" 
 ```
 
 ### Translations
@@ -157,8 +157,16 @@ Custom-Fields sind in Shopware Felder, die sich nicht filtern lassen. Es ist wic
 zwingend angegeben werden muss. Hintergrund: Bei der Anlage von Produkten wird geprüft, ob ein bestimmtes Custom-Field existiert und falls dies
 nicht der Fall sein sollte, so wird es angelegt.
 
+Falls ein customField neu angelegt wird, wird auch ein zugehöriges customFieldSet 'Details (Simple API)' automatisch erstellt und mit der Produkt-Entität verknüpft.
+Das Label des customFieldSet wird dabei in jeder Sprache gesetzt für die unter 'values' beim ersten neuen customField ein Wert übergeben wird.
+
 Theoretisch könnte die Implementierung also so umgebaut werden, dass eine Anlage von custom fields während der Produkt-Anlage nicht notwendig ist,
 widerspricht aber der Idee der Simple-API, dass ein Produkt alle Informationen enthalten soll, um angelegt werden zu können.
+
+Es können explizit Labels angegeben werden, die das CustomField benennen. Das ist vor allem relevant, wenn das CustomField durch die Simple-API neu erstellt werden soll.
+In diesem Fall wird das Label ausschließlich in den explizit übergeben Sprachen gesetzt,
+Werden keine Labels explizit übergeben, wird einfach der Code (im folgenden Beispiel-Payload 'ms_boolean') auch als Label gesetzt.
+In diesem Fall wird der Code automatisch in den Sprachen als Label übernommen, die im Feld 'values' genannt werden.
 
 ```
 
@@ -167,6 +175,9 @@ widerspricht aber der Idee der Simple-API, dass ein Produkt alle Informationen e
             "type": "boolean",
             "values": {
                 "de-DE": true
+            },
+            "labels: {
+               "de-DE": "Boolean Feld"
             }
         },
         "ms_integer": {
@@ -374,3 +385,9 @@ Lösung: In der tests/bootstrap.php den Methodenaufruf `->setForceInstallPlugins
 Dadurch wird das Plugin auch in der Test-Instanz installiert.
 Nachdem das Plugin nun in der Test-Instanz installiert und die Tests erfolgreich aufgerufen werden konnten, sollte man
 den Methodenaufruf wieder aus der tests/bootstrap.php entfernen damit die Test-Performance besser ist.
+Das MothershipSimpleApi-Plugin muss danach wahrscheinlich noch installiert und aktiviert werden.
+```
+bin/console plugin:refresh
+bin/console plugin:install MothershipSimpleApi -a
+bin/console cache:clear 
+```

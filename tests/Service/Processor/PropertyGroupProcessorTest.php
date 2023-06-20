@@ -229,8 +229,8 @@ class PropertyGroupProcessorTest extends AbstractProcessorTest
                 'id'           => $propertyGroupOptionId,
                 'translations' => [
                     $this->getContext()->getLanguageId() => [
-                        'name'         => 'red',
-                        'customFields' => ['code' => 'red'],
+                        'name'         => 'red_color',
+                        'customFields' => ['code' => 'red_color'],
                     ],
                 ],
                 'groupId'      => $propertyGroupId,
@@ -244,7 +244,7 @@ class PropertyGroupProcessorTest extends AbstractProcessorTest
             $propertyGroupRepository->search($criteria, $this->getContext())->getEntities()->getElements()
         );
         $optionCriteria = new Criteria();
-        $optionCriteria->addFilter(new EqualsFilter('customFields.code', 'red'), new EqualsFilter('groupId', $propertyGroupId));
+        $optionCriteria->addFilter(new EqualsFilter('customFields.code', 'red_color'), new EqualsFilter('groupId', $propertyGroupId));
         $this->assertCount(
             1,
             $propertyGroupOptionRepository->search($optionCriteria, $this->getContext())->getEntities()->getElements()
@@ -252,7 +252,7 @@ class PropertyGroupProcessorTest extends AbstractProcessorTest
 
         $productDefinition = $this->getMinimalDefinition();
         $productDefinition['properties'] = [
-            'ms_color' => ['red'],
+            'ms_color' => ['red_color'],
         ];
         /*
         Das Erstellen des Produkts kann unter Umständen zur Folge haben, dass neue Properties erstellt werden

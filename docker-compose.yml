@@ -17,6 +17,8 @@ services:
       - PHP_VERSION=8.1
       - XDEBUG_ENABLED=1
       - XDEBUG_MODE=debug,coverage
+      # Für Remote-Setup benötigt: hier müsste IP des Laptops eingetragen werden
+      # - XDEBUG_REMOTE_HOST=
 
 networks:
   sw6-simple-api:

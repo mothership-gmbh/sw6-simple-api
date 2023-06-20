@@ -1,0 +1,34 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services https://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+
+        <service id="MothershipSimpleApi\Api\MediaActionController" public="true">
+            <argument type="service" id="MothershipSimpleApi\Service\Domain\Media\MediaCreator"/>
+
+            <call method="setContainer">
+                <argument type="service" id="service_container"/>
+            </call>
+        </service>
+
+        <service id="MothershipSimpleApi\Service\Domain\Media\MediaRequest" public="true">
+            <argument type="service" id="MothershipSimpleApi\Service\Domain\Media\Validator\ImageValidator"/>
+        </service>
+
+        <service id="MothershipSimpleApi\Service\Domain\Media\MediaCreator" public="true">
+            <argument type="service" id="MothershipSimpleApi\Service\Domain\Media\Processor\ImageProcessor"/>
+            <argument type="service" id="MothershipSimpleApi\Service\Domain\Media\MediaRequest"/>
+        </service>
+
+        <!-- Processor -->
+        <service id="MothershipSimpleApi\Service\Domain\Media\Processor\ImageProcessor" public="true" >
+            <argument type="service" id="MothershipSimpleApi\Service\Media\ImageImport"/>
+        </service>
+
+        <!-- Validator -->
+        <service id="MothershipSimpleApi\Service\Domain\Media\Validator\ImageValidator" public="true" />
+    </services>
+</container>

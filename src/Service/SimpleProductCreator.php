@@ -9,6 +9,8 @@ use MothershipSimpleApi\Service\Definition\Product\Request;
 use MothershipSimpleApi\Service\Exception\InvalidCurrencyCodeException;
 use MothershipSimpleApi\Service\Exception\InvalidSalesChannelNameException;
 use MothershipSimpleApi\Service\Exception\InvalidTaxValueException;
+use MothershipSimpleApi\Service\Exception\ProductNotFoundException;
+use MothershipSimpleApi\Service\Exception\PropertyGroupOptionNotFoundException;
 use MothershipSimpleApi\Service\Processor\ActiveProcessor;
 use MothershipSimpleApi\Service\Processor\CategoryProcessor;
 use MothershipSimpleApi\Service\Processor\CustomFieldProcessor;
@@ -22,6 +24,7 @@ use MothershipSimpleApi\Service\Processor\PropertyGroupProcessor;
 use MothershipSimpleApi\Service\Processor\TranslationProcessor;
 use MothershipSimpleApi\Service\Processor\VariantProcessor;
 use MothershipSimpleApi\Service\Processor\VisibilityProcessor;
+use Shopware\Core\Content\Product\ProductEntity;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
@@ -59,6 +62,8 @@ class SimpleProductCreator
      * @throws InvalidCurrencyCodeException
      * @throws InvalidSalesChannelNameException
      * @throws InvalidTaxValueException
+     * @throws ProductNotFoundException
+     * @throws PropertyGroupOptionNotFoundException
      */
     public function createEntity(array $definition, Context $context): void
     {
@@ -77,6 +82,8 @@ class SimpleProductCreator
      * @throws InvalidCurrencyCodeException
      * @throws InvalidTaxValueException
      * @throws InvalidSalesChannelNameException
+     * @throws ProductNotFoundException
+     * @throws PropertyGroupOptionNotFoundException
      */
     protected function createProductByDefinition(Context $context): void
     {
@@ -99,7 +106,7 @@ class SimpleProductCreator
      */
     protected function upsertProduct(Product $product, Context $context): void
     {
-        $productUuid = Uuid::fromStringToHex($product->getSku());
+        $productUuid = $this->getProductUuid($product->getSku(), $context);
         $data = [
             'id'            => $productUuid,
             'price'         => $this->setPrice($product->getPrice(), $product->getTax(), $context),
@@ -154,7 +161,7 @@ class SimpleProductCreator
 
         $taxId = $this->taxRepository->searchIds($criteria, $context)->firstId();
         if (null === $taxId) {
-            throw new InvalidTaxValueException('There is no tax with a value of [' . $taxRate . '] in the table tax');
+            throw new InvalidTaxValueException("There is no tax with a value of [$taxRate] in the table tax");
         }
         return $taxId;
     }
@@ -211,8 +218,45 @@ class SimpleProductCreator
 
         $currencyId = $this->currencyRepository->searchIds($criteria, $context)->firstId();
         if (null === $currencyId) {
-            throw new InvalidCurrencyCodeException('There is no currency [' . $currencyIsoCode . '] in the table currency');
+            throw new InvalidCurrencyCodeException("There is no currency [$currencyIsoCode] in the table currency");
         }
         return $currencyId;
+    }
+
+    /**
+     * Generiert eine nachvollziehbare UUID.
+     * Dann wird geprüft, ob es bereits ein Produkt mit dieser UUID in der Datenbank gibt.
+     * Falls das nicht der Fall ist, wird noch geprüft, ob es ein Produkt mit der SKU in der Datenbank gibt.
+     * Wenn es ein Produkt mit der SKU in der Datenbank gibt, wird dessen UUID verwendet.
+     */
+    protected function getProductUuid(string $sku, Context $context): string
+    {
+        // Standardverhalten, generiert eine nachvollziehbare UUID.
+        $productUuid = Uuid::fromStringToHex($sku);
+        // Wir testen, ob es das Product mit der nachvollziehbaren UUID bereits gibt.
+        $product = $this->getProductById($productUuid, $context);
+        // dd($product);
+        // Fallback: Wir versuchen das Product noch über die SKU zu laden.
+        if (null === $product) {
+            $product = $this->getProductBySku($sku, $context);
+            if (null !== $product) {
+                $productUuid = $product->getId();
+            }
+        }
+        return $productUuid;
+    }
+
+    protected function getProductById(string $productUuid, Context $context): ProductEntity|null
+    {
+        $criteria = new Criteria();
+        $criteria->addFilter(new EqualsFilter('id', $productUuid));
+        return $this->productRepository->search($criteria, $context)->first();
+    }
+
+    protected function getProductBySku(string $sku, Context $context): ProductEntity|null
+    {
+        $criteria = new Criteria();
+        $criteria->addFilter(new EqualsFilter('productNumber', $sku));
+        return $this->productRepository->search($criteria, $context)->first();
     }
 }

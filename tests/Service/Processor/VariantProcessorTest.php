@@ -136,12 +136,12 @@ class VariantProcessorTest extends AbstractProcessorTest
                 // sales channel auch?
 
                 'properties' => [
-                    'size' => ['S'],
+                    'size' => ['s'],
                 ],
 
                 // Eine Variante muss eine Farbe gesetzt haben
                 'axis'       => [
-                    'size' => ['S'],
+                    'size' => ['s'],
                 ],
             ],
             [
@@ -158,12 +158,12 @@ class VariantProcessorTest extends AbstractProcessorTest
                 // sales channel auch?
 
                 'properties' => [
-                    'size' => ['L'],
+                    'size' => ['l'],
                 ],
 
                 // Eine Variante muss eine Farbe gesetzt haben
                 'axis'       => [
-                    'size' => ['L'],
+                    'size' => ['l'],
                 ],
             ],
         ];
@@ -207,13 +207,13 @@ class VariantProcessorTest extends AbstractProcessorTest
                 // sales channel auch?
 
                 'properties' => [
-                    'size'  => ['S'],
+                    'size'  => ['s'],
                     'color' => ['red'],
                 ],
 
                 // Eine Variante muss eine Farbe gesetzt haben
                 'axis'       => [
-                    'size'  => ['S'],
+                    'size'  => ['s'],
                     'color' => ['red'],
                 ],
             ],
@@ -256,12 +256,12 @@ class VariantProcessorTest extends AbstractProcessorTest
                 'tax'        => 19,
                 'stock'      => 1,
                 'properties' => [
-                    'size' => ['S'],
+                    'size' => ['s'],
                 ],
 
                 // Eine Variante muss eine Farbe gesetzt haben
                 'axis'       => [
-                    'size' => ['S'],
+                    'size' => ['s'],
                 ],
             ],
             [
@@ -276,12 +276,12 @@ class VariantProcessorTest extends AbstractProcessorTest
                 'tax'        => 19,
                 'stock'      => 1,
                 'properties' => [
-                    'size' => ['L'],
+                    'size' => ['l'],
                 ],
 
                 // Eine Variante muss eine Farbe gesetzt haben
                 'axis'       => [
-                    'size' => ['L'],
+                    'size' => ['l'],
                 ],
             ],
         ];
@@ -304,12 +304,12 @@ class VariantProcessorTest extends AbstractProcessorTest
                 'tax'        => 19,
                 'stock'      => 1,
                 'properties' => [
-                    'size' => ['S'],
+                    'size' => ['s'],
                 ],
 
                 // Eine Variante muss eine Farbe gesetzt haben
                 'axis'       => [
-                    'size' => ['S'],
+                    'size' => ['s'],
                 ],
             ],
         ];

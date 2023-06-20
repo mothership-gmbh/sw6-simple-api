@@ -24,10 +24,10 @@ abstract class AbstractTestCase extends TestCase
     use KernelTestBehaviour;
     use FilesystemBehaviour;
 
-    protected function cleanMedia(): void
+    protected function clearRepository(string $repository): void
     {
         /* @var EntityRepository $mediaRepository */
-        $mediaRepository = $this->getContainer()->get('media.repository');
+        $mediaRepository = $this->getContainer()->get($repository);
 
         $criteria = new Criteria();
         foreach ($mediaRepository->search($criteria, $this->getContext())->getElements() as $element) {
@@ -43,68 +43,6 @@ abstract class AbstractTestCase extends TestCase
     protected function getContext(): Context
     {
         return Context::createDefaultContext();
-    }
-
-    protected function cleanProduct(): void
-    {
-        /* @var EntityRepository $mediaRepository */
-        $productRepository = $this->getContainer()->get('product.repository');
-
-        $criteria = new Criteria();
-        foreach ($productRepository?->search($criteria, $this->getContext())->getElements() as $element) {
-            /** @var ProductEntity $element */
-            try {
-                $productRepository?->delete([['id' => $element->getId()]], $this->getContext());
-            } catch (Exception) {
-                // Es soll einfach versucht werden, alles zu löschen.
-            }
-        }
-    }
-
-    protected function cleanProperties(): void
-    {
-        /* @var EntityRepository $mediaRepository */
-        $propertyGroupRepository = $this->getContainer()->get('property_group.repository');
-
-        $criteria = new Criteria();
-        foreach ($propertyGroupRepository?->search($criteria, $this->getContext())->getElements() as $element) {
-            try {
-                $propertyGroupRepository?->delete([['id' => $element->getId()]], $this->getContext());
-            } catch (Exception) {
-                // Es soll einfach versucht werden, alles zu löschen.
-            }
-        }
-    }
-
-    protected function cleanCustomFields(): void
-    {
-        /* @var EntityRepository $mediaRepository */
-        $customFieldRepository = $this->getContainer()->get('custom_field.repository');
-
-        $criteria = new Criteria();
-        foreach ($customFieldRepository?->search($criteria, $this->getContext())->getElements() as $element) {
-            try {
-                $customFieldRepository?->delete([['id' => $element->getId()]], $this->getContext());
-            } catch (Exception) {
-                // Es soll einfach versucht werden, alles zu löschen.
-            }
-        }
-    }
-
-    protected function cleanCategories(): void
-    {
-        /* @var EntityRepository $categoryRepository */
-        $categoryRepository = $this->getContainer()->get('category.repository');
-
-        $criteria = new Criteria();
-        foreach ($categoryRepository->search($criteria, $this->getContext())->getElements() as $element) {
-            /** @var CategoryEntity $element */
-            try {
-                $categoryRepository->delete([['id' => $element->getId()]], $this->getContext());
-            } catch (Exception) {
-                // Es soll einfach versucht werden, alles zu löschen.
-            }
-        }
     }
 
     /**

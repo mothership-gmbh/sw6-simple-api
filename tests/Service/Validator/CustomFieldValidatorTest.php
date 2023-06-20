@@ -6,6 +6,7 @@ use MothershipSimpleApi\Service\Validator\Exception\CustomField\InvalidDefinitio
 use MothershipSimpleApi\Service\Validator\Exception\CustomField\InvalidIsoCodeException;
 use MothershipSimpleApi\Service\Validator\Exception\CustomField\MissingTypeDefinitionException;
 use MothershipSimpleApi\Service\Validator\Exception\CustomField\MissingValuesException;
+use MothershipSimpleApi\Service\Validator\Exception\Trait\InvalidCodeFormatException;
 
 class CustomFieldValidatorTest extends AbstractValidatorTest
 {
@@ -130,6 +131,62 @@ class CustomFieldValidatorTest extends AbstractValidatorTest
             ],
         ];
         $this->expectException(InvalidIsoCodeException::class);
+        $this->request->init($definition);
+    }
+
+    /**
+     * Der Code muss entweder in camelCase oder snake_case sein.
+     * Code in kebab-case wirft Exception.
+     *
+     * @test
+     *
+     * @group SimpleApi
+     * @group SimpleApi_Product
+     * @group SimpleApi_Product_Validator
+     * @group SimpleApi_Product_Validator_CustomField
+     * @group SimpleApi_Product_Validator_CustomField_6
+     *
+     */
+    public function invalidCodeFormatException_KebabCase(): void
+    {
+        $definition = $this->getMinimalDefinition();
+        $definition['custom_fields'] = [
+            'ms-boolean' => [
+                'type'   => 'boolean',
+                'values' => [
+                    'de-DE' => 1,
+                ],
+            ],
+        ];
+        $this->expectException(InvalidCodeFormatException::class);
+        $this->request->init($definition);
+    }
+
+    /**
+     * Der Code muss entweder in camelCase oder snake_case sein.
+     * Code in PascalCase wirft Exception.
+     *
+     * @test
+     *
+     * @group SimpleApi
+     * @group SimpleApi_Product
+     * @group SimpleApi_Product_Validator
+     * @group SimpleApi_Product_Validator_CustomField
+     * @group SimpleApi_Product_Validator_CustomField_7
+     *
+     */
+    public function invalidCodeFormatException_PascalCase(): void
+    {
+        $definition = $this->getMinimalDefinition();
+        $definition['custom_fields'] = [
+            'MsBoolean' => [
+                'type'   => 'boolean',
+                'values' => [
+                    'de-DE' => 1,
+                ],
+            ],
+        ];
+        $this->expectException(InvalidCodeFormatException::class);
         $this->request->init($definition);
     }
 }

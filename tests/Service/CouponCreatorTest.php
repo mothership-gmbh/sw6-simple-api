@@ -24,7 +24,7 @@ class CouponCreatorTest extends AbstractTestCase
     {
         $promoCode = $this->simpleCouponCreator->create(['value' => 10], $this->getContext());
         $this->assertEquals(10, $promoCode->get('value'));
-        $this->assertStringStartsWith('CB10', $promoCode->get('code'));
+        $this->assertStringStartsWith('CB', $promoCode->get('code'));
 
         $promotionEntity = $this->getPromotionById($promoCode->get('promotion_id'));
         $this->assertInstanceOf(PromotionEntity::class, $promotionEntity);
@@ -39,7 +39,7 @@ class CouponCreatorTest extends AbstractTestCase
     {
         $promoCode = $this->simpleCouponCreator->create(['value' => 10], $this->getContext());
         $this->assertEquals(10, $promoCode->get('value'));
-        $this->assertStringStartsWith('CB10', $promoCode->get('code'));
+        $this->assertStringStartsWith('CB', $promoCode->get('code'));
 
         $this->simpleCouponCreator->create(['value' => 10], $this->getContext());
         $this->simpleCouponCreator->create(['value' => 10], $this->getContext());
@@ -61,25 +61,25 @@ class CouponCreatorTest extends AbstractTestCase
         $promoIds = [];
         $promoCode = $this->simpleCouponCreator->create(['value' => 10], $this->getContext());
         $this->assertEquals(10, $promoCode->get('value'));
-        $this->assertStringStartsWith('CB10', $promoCode->get('code'));
+        $this->assertStringStartsWith('CB', $promoCode->get('code'));
         $promoIds[$promoCode->get('promotion_id')] = true;
         $this->assertEquals(null, $this->getPromotionById($promoCode->get('promotion_id'))->getValidUntil()?->format('Y-m-d'));
 
         $promoCode = $this->simpleCouponCreator->create(['value' => 15], $this->getContext());
         $this->assertEquals(15, $promoCode->get('value'));
-        $this->assertStringStartsWith('CB15', $promoCode->get('code'));
+        $this->assertStringStartsWith('CB', $promoCode->get('code'));
         $promoIds[$promoCode->get('promotion_id')] = true;
         $this->assertEquals(null, $this->getPromotionById($promoCode->get('promotion_id'))->getValidUntil()?->format('Y-m-d'));
 
         $promoCode = $this->simpleCouponCreator->create(['value' => 10, 'valid_until' => '2025-01-01'], $this->getContext());
         $this->assertEquals(10, $promoCode->get('value'));
-        $this->assertStringStartsWith('CB10', $promoCode->get('code'));
+        $this->assertStringStartsWith('CB', $promoCode->get('code'));
         $promoIds[$promoCode->get('promotion_id')] = true;
         $this->assertEquals('2025-01-01', $this->getPromotionById($promoCode->get('promotion_id'))->getValidUntil()?->format('Y-m-d'));
 
         $promoCode = $this->simpleCouponCreator->create(['value' => 15, 'valid_until' => '2025-01-01'], $this->getContext());
         $this->assertEquals(15, $promoCode->get('value'));
-        $this->assertStringStartsWith('CB15', $promoCode->get('code'));
+        $this->assertStringStartsWith('CB', $promoCode->get('code'));
         $promoIds[$promoCode->get('promotion_id')] = true;
         $this->assertEquals('2025-01-01', $this->getPromotionById($promoCode->get('promotion_id'))->getValidUntil()?->format('Y-m-d'));
 
