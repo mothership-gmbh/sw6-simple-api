@@ -11,7 +11,7 @@ use Shopware\Core\Content\Media\File\MediaFile;
 use Shopware\Core\Content\Media\MediaEntity;
 use Shopware\Core\Content\Media\MediaService;
 use Shopware\Core\Framework\Context;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
+use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\Framework\Uuid\Uuid;
@@ -30,16 +30,11 @@ class ImageImport
     protected ?string $mediaFolderId = null;
 
     public function __construct(
-        protected EntityRepositoryInterface $mediaRepository,
-        protected EntityRepositoryInterface $mediaFolderRepository,
+        protected EntityRepository $mediaRepository,
+        protected EntityRepository $mediaFolderRepository,
         protected MediaService $mediaService,
         protected FileSaver $fileSaver
     ) {
-        $this->mediaRepository = $mediaRepository;
-        $this->mediaFolderRepository = $mediaFolderRepository;
-
-        $this->mediaService = $mediaService;
-        $this->fileSaver = $fileSaver;
     }
 
     /**
