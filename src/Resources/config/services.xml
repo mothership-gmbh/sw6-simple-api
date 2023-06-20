@@ -4,23 +4,16 @@
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://symfony.com/schema/dic/services https://symfony.com/schema/dic/services/services-1.0.xsd">
 
+    <imports>
+        <import resource="services/media.xml"/>
+        <import resource="services/order.xml"/>
+    </imports>
+
     <services>
         <!--
         Basiert auf den Eintrag für Shopware\Core\Framework\Api\Controller\ApiController in
         www/vendor/shopware/core/Framework/DependencyInjection/api.xml
         -->
-        <service id="MothershipSimpleApi\Api\OrderActionController" public="true">
-            <argument type="service" id="Shopware\Core\Framework\DataAbstractionLayer\DefinitionInstanceRegistry"/>
-            <argument type="service" id="serializer"/>
-            <argument type="service" id="api.request_criteria_builder"/>
-            <argument type="service" id="Shopware\Core\Framework\DataAbstractionLayer\Search\CompositeEntitySearcher"/>
-            <argument type="service" id="Shopware\Core\Framework\Api\Converter\ApiVersionConverter"/>
-            <argument type="service" id="Shopware\Core\Framework\DataAbstractionLayer\EntityProtection\EntityProtectionValidator"/>
-            <argument type="service" id="Shopware\Core\Framework\Api\Acl\AclCriteriaValidator"/>
-            <call method="setContainer">
-                <argument type="service" id="service_container"/>
-            </call>
-        </service>
 
         <service id="MothershipSimpleApi\Api\ProductActionController" public="true">
             <argument type="service" id="MothershipSimpleApi\Service\SimpleProductCreator"/>
@@ -119,6 +112,8 @@
 
         <service id="MothershipSimpleApi\Service\Processor\CustomFieldProcessor" public="true">
             <argument type="service" id="custom_field.repository"/>
+            <argument type="service" id="custom_field_set.repository"/>
+            <argument type="service" id="custom_field_set_relation.repository"/>
         </service>
 
         <service id="MothershipSimpleApi\Service\Processor\VariantProcessor" public="true">

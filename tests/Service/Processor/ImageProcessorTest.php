@@ -6,11 +6,10 @@ use MothershipSimpleApi\Service\Exception\InvalidCurrencyCodeException;
 use MothershipSimpleApi\Service\Exception\InvalidSalesChannelNameException;
 use MothershipSimpleApi\Service\Exception\InvalidTaxValueException;
 use MothershipSimpleApi\Service\SimpleProductCreator;
-use MothershipSimpleApiTests\Service\AbstractTestCase;
 use Shopware\Core\Content\Product\Aggregate\ProductMedia\ProductMediaEntity;
 use Shopware\Core\Content\Product\ProductEntity;
 
-class ImageProcessorTest extends AbstractTestCase
+class ImageProcessorTest extends AbstractProcessorTest
 {
     public const POS_COVER_IMAGE = 0;
 
@@ -357,6 +356,8 @@ class ImageProcessorTest extends AbstractTestCase
         self::assertEquals(3, $this->getMediaByFileName($createdProduct, '52x52')->getPosition());
     }
 
+
+
     protected function getMediaByFileName(ProductEntity $productEntity, string $filename)
     {
         foreach ($productEntity->getMedia() as $media) {
@@ -364,12 +365,5 @@ class ImageProcessorTest extends AbstractTestCase
                 return $media;
             }
         }
-    }
-
-    protected function setUp(): void
-    {
-        $this->simpleProductCreator = $this->getContainer()->get(SimpleProductCreator::class);
-        $this->cleanMedia();
-        $this->cleanProduct();
     }
 }
