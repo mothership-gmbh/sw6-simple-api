@@ -109,7 +109,7 @@ Zum Setzen des Release Date muss ein String in einem kompatiblen Datumsformat ü
 ```
    "ean": "1234567891011",
    "release_date": "2038-01-19 00:00:00",
-   "manufacturerNumber": "123-Test-ABC" 
+   "manufacturer_number": "123-Test-ABC" 
 ```
 
 ### Translations
