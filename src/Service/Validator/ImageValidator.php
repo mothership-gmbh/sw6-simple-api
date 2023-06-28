@@ -8,6 +8,7 @@ use MothershipSimpleApi\Service\Definition\Product;
 use MothershipSimpleApi\Service\Validator\Exception\Image\DuplicatedCoverAssignmentException;
 use MothershipSimpleApi\Service\Validator\Exception\Image\DuplicatedUrlException;
 use MothershipSimpleApi\Service\Validator\Exception\Image\InvalidDataTypeException;
+use MothershipSimpleApi\Service\Validator\Exception\Image\InvalidFileExtensionException;
 use MothershipSimpleApi\Service\Validator\Exception\Image\MissingUrlKeyException;
 
 class ImageValidator implements IValidator
@@ -44,6 +45,17 @@ class ImageValidator implements IValidator
                     $coverImageSet = true;
                 }
                 $urls[] = $image['url'];
+
+                $this->customFileNameIsValid($image);
+            }
+        }
+    }
+
+    protected function customFileNameIsValid(array $image): void
+    {
+        if (array_key_exists('file_name', $image)) {
+            if (!preg_match('/\.(jpe?g|png|gif|tiff|bmp|webp)$/i', $image['file_name'])) {
+                throw new InvalidFileExtensionException('The file name [' . $image['file_name'] . '] has no valid extension. Use jpg, jpeg, png, gif, tiff, bmp or webp.');
             }
         }
     }

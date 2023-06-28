@@ -218,6 +218,7 @@ Die Simple-API macht das Handling deutlich einfacher, indem es folgende Annahmen
 - Bei Bilder, die nicht im Payload vorhanden sind, werden falls bereits einem Produkt zugeordnet, die Bild-Zuordnungen zum Produkt entfernt.
 - Es werden keine Bilder physisch entfernt!
 - Die Cover-ID kann optional als Argument hinzugefügt werden. Es kann dabei immer nur ein Produkt eine Cover-ID besitzen.
+- Der Dateiname für das Bild wird automatisch aus der URL übernommen, kann aber auch explizit als Argument übergeben werden. 
 
 ```
     "images": [
@@ -227,7 +228,8 @@ Die Simple-API macht das Handling deutlich einfacher, indem es folgende Annahmen
         },
            {
             "url": "https://via.placeholder.com/57x57.png",
-                      "isCover": true
+            "isCover": true,
+            "file_name": "placeholder_57x57.png"
         }
     ]
 ```

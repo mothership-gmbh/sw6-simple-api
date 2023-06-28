@@ -356,6 +356,40 @@ class ImageProcessorTest extends AbstractProcessorTest
         self::assertEquals(3, $this->getMediaByFileName($createdProduct, '52x52')->getPosition());
     }
 
+    /**
+     * Die Simple-API bietet die Möglichkeit einen Dateinamen für das Bild explizit zu übergeben.
+     *
+     * @test
+     *
+     * @group SimpleApi
+     * @group SimpleApi_Product
+     * @group SimpleApi_Product_Processor
+     * @group SimpleApi_Product_Processor_Image
+     * @group SimpleApi_Product_Processor_Image_8
+     *
+     * @throws InvalidCurrencyCodeException
+     * @throws InvalidSalesChannelNameException
+     * @throws InvalidTaxValueException
+     */
+    public function imageWithCustomFileName(): void
+    {
+        $productDefinition = $this->getMinimalDefinition();
+        $productDefinition['images'] = [
+            [
+                'url'     => 'https://via.placeholder.com/58x58.png',
+                'file_name' => 'test_name.png',
+            ],
+        ];
+
+        $this->simpleProductCreator->createEntity($productDefinition, $this->getContext());
+        $createdProduct = $this->getProductBySku($productDefinition['sku']);
+
+        $this->assertEquals('test_name', $createdProduct->getMedia()->getAt(self::POS_COVER_IMAGE)->getMedia()->getFileName());
+        $this->assertEquals('png', $createdProduct->getMedia()->getAt(self::POS_COVER_IMAGE)->getMedia()->getFileExtension());
+        // Es gibt auch nur ein Bild
+        $this->assertEquals(1, $createdProduct->getMedia()->count());
+    }
+
 
 
     protected function getMediaByFileName(ProductEntity $productEntity, string $filename)

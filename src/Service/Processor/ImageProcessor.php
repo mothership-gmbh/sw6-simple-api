@@ -43,7 +43,9 @@ class ImageProcessor
         }
         foreach ($request->getImages() as $image) {
             $url = $image['url'];
-            $mediaUuid = $this->imageImport->addImageToMediaFromResource($url, $context);
+            $fileName = $image['file_name'] ?? null;
+
+            $mediaUuid = $this->imageImport->addImageToMediaFromResource($url, $context, $fileName);
 
             /*
              * Das erste Bild soll immer das Cover-Bild sein. Dies kann nachträglich überschrieben
