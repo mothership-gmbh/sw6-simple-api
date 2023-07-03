@@ -5,6 +5,8 @@ namespace MothershipSimpleApiTests\Service\Processor;
 use MothershipSimpleApi\Service\Exception\InvalidCurrencyCodeException;
 use MothershipSimpleApi\Service\Exception\InvalidSalesChannelNameException;
 use MothershipSimpleApi\Service\Exception\InvalidTaxValueException;
+use MothershipSimpleApi\Service\Exception\ProductNotFoundException;
+use MothershipSimpleApi\Service\Exception\PropertyGroupOptionNotFoundException;
 use MothershipSimpleApi\Service\SimpleProductCreator;
 use Shopware\Core\Content\Product\Aggregate\ProductMedia\ProductMediaEntity;
 use Shopware\Core\Content\Product\ProductEntity;
@@ -370,14 +372,17 @@ class ImageProcessorTest extends AbstractProcessorTest
      * @throws InvalidCurrencyCodeException
      * @throws InvalidSalesChannelNameException
      * @throws InvalidTaxValueException
+     * @throws ProductNotFoundException
+     * @throws PropertyGroupOptionNotFoundException
      */
     public function imageWithCustomFileName(): void
     {
         $productDefinition = $this->getMinimalDefinition();
         $productDefinition['images'] = [
             [
-                'url'     => 'https://via.placeholder.com/58x58.png',
+                'url'     => 'https://via.placeholder.com/50x50.png',
                 'file_name' => 'test_name.png',
+                'isCover' => true
             ],
         ];
 
