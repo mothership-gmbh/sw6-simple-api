@@ -5,6 +5,8 @@ namespace MothershipSimpleApiTests\Service\Processor;
 use MothershipSimpleApi\Service\Exception\InvalidCurrencyCodeException;
 use MothershipSimpleApi\Service\Exception\InvalidSalesChannelNameException;
 use MothershipSimpleApi\Service\Exception\InvalidTaxValueException;
+use MothershipSimpleApi\Service\Exception\ProductNotFoundException;
+use MothershipSimpleApi\Service\Exception\PropertyGroupOptionNotFoundException;
 use MothershipSimpleApi\Service\Helper\BitwiseOperations;
 use MothershipSimpleApi\Service\Processor\PropertyGroupProcessor;
 use Shopware\Core\Content\Product\ProductEntity;
@@ -26,6 +28,8 @@ class VariantProcessorTest extends AbstractProcessorTest
      * @throws InvalidCurrencyCodeException
      * @throws InvalidSalesChannelNameException
      * @throws InvalidTaxValueException
+     * @throws ProductNotFoundException
+     * @throws PropertyGroupOptionNotFoundException
      */
     public function productWithOneVariantAndOption(): void
     {
@@ -117,6 +121,8 @@ class VariantProcessorTest extends AbstractProcessorTest
      * @throws InvalidCurrencyCodeException
      * @throws InvalidSalesChannelNameException
      * @throws InvalidTaxValueException
+     * @throws ProductNotFoundException
+     * @throws PropertyGroupOptionNotFoundException
      */
     public function productWithTwoVariants(): void
     {
@@ -188,8 +194,10 @@ class VariantProcessorTest extends AbstractProcessorTest
      * @throws InvalidCurrencyCodeException
      * @throws InvalidSalesChannelNameException
      * @throws InvalidTaxValueException
+     * @throws ProductNotFoundException
+     * @throws PropertyGroupOptionNotFoundException
      */
-    public function productWitOneVariantAndMultipleOptions(): void
+    public function productWithOneVariantAndMultipleOptions(): void
     {
         $productDefinition = $this->getMinimalDefinition();
         $productDefinition['variants'] = [
@@ -239,6 +247,8 @@ class VariantProcessorTest extends AbstractProcessorTest
      * @throws InvalidCurrencyCodeException
      * @throws InvalidSalesChannelNameException
      * @throws InvalidTaxValueException
+     * @throws ProductNotFoundException
+     * @throws PropertyGroupOptionNotFoundException
      */
     public function productWithTwoVariantsAndOneWillBeDeleted(): void
     {
@@ -317,5 +327,85 @@ class VariantProcessorTest extends AbstractProcessorTest
         $this->simpleProductCreator->createEntity($productDefinition, $this->getContext());
         $createdProduct = $this->getProductBySku($productDefinition['sku']);
         $this->assertProductHasVariants($productDefinition, $createdProduct);
+    }
+
+    /**
+     * Die SimpleAPI bietet die Möglichkeit die Variantenachsen eines Variantenprodukts zu überschreiben.
+     *
+     * @test
+     *
+     * @group SimpleApi
+     * @group SimpleApi_Product
+     * @group SimpleApi_Product_Processor
+     * @group SimpleApi_Product_Processor_Variant
+     * @group SimpleApi_Product_Processor_Variant_5
+     *
+     * @throws InvalidCurrencyCodeException
+     * @throws InvalidSalesChannelNameException
+     * @throws InvalidTaxValueException
+     * @throws ProductNotFoundException
+     * @throws PropertyGroupOptionNotFoundException
+     */
+    public function variantWithTwoAxisPropertiesWillBeOverwrittenWithOne(): void
+    {
+        $productDefinition = $this->getMinimalDefinition();
+        $productDefinition['variants'] = [
+            [
+                'sku'        => 'ms-123-S-M',
+                'name'       => [
+                    'en-GB' => 'T-Shirt S-M',
+                ],
+                'price'      => [
+                    // Wert in EUR
+                    'EUR' => ['regular' => 20],
+                ],
+                'tax'        => 19,
+                'stock'      => 1,
+                'properties' => [
+                    'size' => ['s', 'm'],
+                ],
+
+                // Eine Variante muss eine Farbe gesetzt haben
+                'axis'       => [
+                    'size' => ['s', 'm'],
+                ],
+            ]
+        ];
+
+        $this->simpleProductCreator->createEntity($productDefinition, $this->getContext());
+        $createdProductParent = $this->getProductBySku($productDefinition['sku']);
+        $createdProductVariant = $this->getProductBySku($productDefinition['variants'][0]['sku']);
+        self::assertCount(2, $createdProductParent->getConfiguratorSettings()->getOptionIds());
+        self::assertCount(2, $createdProductVariant->getOptionIds());
+        $this->assertProductHasVariants($productDefinition, $createdProductParent);
+
+        // Die Variante soll nur noch einen Property-Wert als Variantenachse haben.
+        $productDefinition['variants'] = [
+            [
+                'sku'        => 'ms-123-S-M',
+                'name'       => [
+                    'en-GB' => 'T-Shirt S-M',
+                ],
+                'price'      => [
+                    // Wert in EUR
+                    'EUR' => ['regular' => 20],
+                ],
+                'tax'        => 19,
+                'stock'      => 1,
+                'properties' => [
+                    'size' => ['s'],
+                ],
+                'axis'       => [
+                    'size' => ['s'],
+                ],
+            ],
+        ];
+
+        $this->simpleProductCreator->createEntity($productDefinition, $this->getContext());
+        $createdProductParent = $this->getProductBySku($productDefinition['sku']);
+        $createdProductVariant = $this->getProductBySku($productDefinition['variants'][0]['sku']);
+        self::assertCount(1, $createdProductParent->getConfiguratorSettings()->getOptionIds());
+        self::assertCount(1, $createdProductVariant->getOptionIds());
+        $this->assertProductHasVariants($productDefinition, $createdProductParent);
     }
 }

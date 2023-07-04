@@ -5,6 +5,7 @@ namespace MothershipSimpleApiTests\Service\Validator;
 use MothershipSimpleApi\Service\Validator\Exception\Image\DuplicatedCoverAssignmentException;
 use MothershipSimpleApi\Service\Validator\Exception\Image\DuplicatedUrlException;
 use MothershipSimpleApi\Service\Validator\Exception\Image\InvalidDataTypeException;
+use MothershipSimpleApi\Service\Validator\Exception\Image\InvalidFileExtensionException;
 use MothershipSimpleApi\Service\Validator\Exception\Image\MissingUrlKeyException;
 
 class ImageValidatorTest extends AbstractValidatorTest
@@ -109,6 +110,32 @@ class ImageValidatorTest extends AbstractValidatorTest
         ];
 
         $this->expectException(DuplicatedCoverAssignmentException::class);
+        $this->request->init($definition);
+    }
+
+    /**
+     * Man kann custom Dateinamen für Bilder übergeben.
+     * Diese müssen aber eine valide Dateiendung haben.
+     *
+     * @test
+     *
+     * @group SimpleApi
+     * @group SimpleApi_Product
+     * @group SimpleApi_Product_Validator
+     * @group SimpleApi_Product_Validator_Image
+     * @group SimpleApi_Product_Validator_Image_5
+     */
+    public function invalidFileExtension(): void
+    {
+        $definition = $this->getMinimalDefinition();
+        $definition['images'] = [
+            [
+                'url'     => 'https://via.placeholder.com/50x50.png',
+                'file_name' => 'test_name',
+            ]
+        ];
+
+        $this->expectException(InvalidFileExtensionException::class);
         $this->request->init($definition);
     }
 }

@@ -42,11 +42,12 @@ class ImageImport
      *
      * @param string      $resource
      * @param Context     $context
-     * @param string|null $mediaFolderId
+     * @param string|null $customFileName     Der Dateiname kann im Payload explizit übergeben werden.
+     * @param string|null $mediaFolderName
      *
      * @return string
      */
-    public function addImageToMediaFromResource(string $resource, Context $context, string $mediaFolderName = null): string
+    public function addImageToMediaFromResource(string $resource, Context $context, string $mediaFolderName = null, string|null $customFileName = null): string
     {
         if (null === $mediaFolderName) {
             $this->mediaFolderId = $this->getMediaDefaultFolderId(self::MEDIA_FOLDER, $context);
@@ -56,13 +57,17 @@ class ImageImport
 
         $mediaId = null;
 
-        //parse the URL
-        $filePathParts = explode('/', $resource);
-        $fileNameParts = explode('.', array_pop($filePathParts));
-
         //get the file name and extension
+        if ($customFileName) {
+            $fileNameParts = explode('.', $customFileName);
+        } else {
+            //parse the URL
+            $filePathParts = explode('/', $resource);
+            $fileNameParts = explode('.', array_pop($filePathParts));
+        }
         $fileName = $fileNameParts[0];
         $fileExtension = end($fileNameParts);
+
 
         if ($fileName && $fileExtension) {
             //copy the file from the URL to the newly created local temporary file
@@ -84,7 +89,7 @@ class ImageImport
         $defaultFolder = $this->mediaFolderRepository->search($criteria, $context);
         $defaultFolderId = null;
         if ($defaultFolder->count() === 1) {
-            $defaultFolderId = $defaultFolder->first()->getId();
+            $defaultFolderId = $defaultFolder->first()?->getId();
         }
 
         return $defaultFolderId;
@@ -108,7 +113,7 @@ class ImageImport
         $defaultFolder = $this->mediaFolderRepository->search($criteria, $context);
         $defaultFolderId = null;
         if ($defaultFolder->count() === 1) {
-            $defaultFolderId = $defaultFolder->first()->getId();
+            $defaultFolderId = $defaultFolder->first()?->getId();
         }
 
         return $defaultFolderId;
