@@ -42,12 +42,12 @@ class ImageImport
      *
      * @param string      $resource
      * @param Context     $context
-     * @param string|null $fileName     Der Dateiname kann explizit übergeben werden.
+     * @param string|null $customFileName     Der Dateiname kann im Payload explizit übergeben werden.
      * @param string|null $mediaFolderName
      *
      * @return string
      */
-    public function addImageToMediaFromResource(string $resource, Context $context, string|null $fileNameWithExtension, string $mediaFolderName = null): string
+    public function addImageToMediaFromResource(string $resource, Context $context, string $mediaFolderName = null, string|null $customFileName = null): string
     {
         if (null === $mediaFolderName) {
             $this->mediaFolderId = $this->getMediaDefaultFolderId(self::MEDIA_FOLDER, $context);
@@ -58,8 +58,8 @@ class ImageImport
         $mediaId = null;
 
         //get the file name and extension
-        if ($fileNameWithExtension) {
-            $fileNameParts = explode('.', $fileNameWithExtension);
+        if ($customFileName) {
+            $fileNameParts = explode('.', $customFileName);
         } else {
             //parse the URL
             $filePathParts = explode('/', $resource);

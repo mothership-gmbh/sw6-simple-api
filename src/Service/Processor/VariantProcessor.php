@@ -8,7 +8,6 @@ use MothershipSimpleApi\Service\Definition\Product\Request;
 use MothershipSimpleApi\Service\Exception\ProductNotFoundException;
 use MothershipSimpleApi\Service\Exception\PropertyGroupOptionNotFoundException;
 use MothershipSimpleApi\Service\Helper\BitwiseOperations;
-use Shopware\Core\Content\Product\ProductCollection;
 use Shopware\Core\Content\Product\ProductEntity;
 use Shopware\Core\Content\Property\Aggregate\PropertyGroupOption\PropertyGroupOptionEntity;
 use Shopware\Core\Content\Property\PropertyGroupEntity;
@@ -42,9 +41,7 @@ class VariantProcessor
 
         foreach ($request->getVariants() as $variantProduct) {
             $variantUuid = $this->getProductUuid($variantProduct->getSku(), $context);
-            $this->loadEntityById($variantUuid, $context);
 
-            $this->loadProductConfiguratorSettingsByProductId($parentUuid, $context);
             $dataConfiguratorSettings = [
                 'id'                   => $parentUuid,
                 'configuratorSettings' => [],
@@ -90,7 +87,7 @@ class VariantProcessor
             $expectedVariantsSku[$expectedVariant->getSku()] = $expectedVariant->getAxis();
         }
 
-        $assignedVariantsOptions = $this->transformOptionsToSimpleApiFormat($assignedVariants, $context);
+        $assignedVariantsOptions = $this->transformShopwareOptionsToSimpleApiAxisFormat($assignedVariants?->getElements(), $context);
 
         foreach ($assignedVariants as $assignedVariant) {
             $sku = $assignedVariant->getProductNumber();
@@ -124,14 +121,6 @@ class VariantProcessor
         $criteria->addAssociations(['configuratorSettings', 'children']);
         $criteria->addFilter(new EqualsFilter('id', $productUuid));
         return $this->productRepository->search($criteria, $context)?->first();
-    }
-
-    protected function loadProductConfiguratorSettingsByProductId(string $productUuid, Context $context): array
-    {
-        $criteria = new Criteria();
-        $criteria->addAssociations(['configuratorSettings']);
-        $criteria->addFilter(new EqualsFilter('productId', $productUuid));
-        return $this->productConfiguratorRepository->search($criteria, $context)->getElements();
     }
 
     /**
@@ -215,11 +204,16 @@ class VariantProcessor
         return $this->propertyGroupOptionRepository->search($criteria, $context)->first();
     }
 
-    protected function transformOptionsToSimpleApiFormat(ProductCollection|null $assignedVariants, Context $context): array
+    /**
+     * In Shopware gibt es konfigurierbare (Parent-)Produkte und einfache Produkte die jeweils Optionen/Varianten darstellen.
+     * Die Informationen über die Optionen eines konf. Produktes werden in Shopware als UUIDs dargestellt und sind daher schwer verständlich.
+     * Im Payload der SimpleAPI sind die Variantenachsen-Informationen hingegen maximal verständlich gehalten.
+     * Daher transformieren wir die Informationen aus Shopware in das Format der SimpleAPI.
+     */
+    protected function transformShopwareOptionsToSimpleApiAxisFormat(array $assignedVariants, Context $context): array
     {
         $transformedVariants = [];
-        $assignedVariantsArr = $assignedVariants?->getElements();
-        foreach ($assignedVariantsArr as $assignedVariant) {
+        foreach ($assignedVariants as $assignedVariant) {
             $optionIds = $assignedVariant->getOptionIds();
             $sku = $assignedVariant->getProductNumber();
             $transformedVariants[$sku] = [];

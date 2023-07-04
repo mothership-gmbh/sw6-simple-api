@@ -330,7 +330,7 @@ class VariantProcessorTest extends AbstractProcessorTest
     }
 
     /**
-     * Ein Produkt mit zwei Varianten, aber eine Variante wird nachträglich gelöscht
+     * Die SimpleAPI bietet die Möglichkeit die Variantenachsen eines Variantenprodukts zu überschreiben.
      *
      * @test
      *
