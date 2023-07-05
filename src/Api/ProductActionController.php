@@ -8,6 +8,8 @@ use JsonException;
 use MothershipSimpleApi\Service\Exception\InvalidCurrencyCodeException;
 use MothershipSimpleApi\Service\Exception\InvalidSalesChannelNameException;
 use MothershipSimpleApi\Service\Exception\InvalidTaxValueException;
+use MothershipSimpleApi\Service\Exception\ProductNotFoundException;
+use MothershipSimpleApi\Service\Exception\PropertyGroupOptionNotFoundException;
 use MothershipSimpleApi\Service\SimpleProductCreator;
 use MothershipSimpleApi\Service\SimpleProductSender;
 use Shopware\Core\Framework\Context;
@@ -55,6 +57,8 @@ class ProductActionController extends AbstractController
      * @throws JsonException
      * @throws InvalidCurrencyCodeException
      * @throws InvalidSalesChannelNameException
+     * @throws ProductNotFoundException
+     * @throws PropertyGroupOptionNotFoundException
      * @link www/vendor/shopware/core/System/CustomEntity/Api/CustomEntityApiController.php
      */
     public function createProduct(Request $request, Context $context): JsonResponse
@@ -79,10 +83,7 @@ class ProductActionController extends AbstractController
      * @param Context $context
      *
      * @return JsonResponse
-     * @throws InvalidTaxValueException
      * @throws JsonException
-     * @throws InvalidCurrencyCodeException
-     * @throws InvalidSalesChannelNameException
      * @link www/vendor/shopware/core/System/CustomEntity/Api/CustomEntityApiController.php
      */
     public function syncProduct(Request $request, Context $context): JsonResponse
@@ -102,6 +103,6 @@ class ProductActionController extends AbstractController
             $this->simpleProductSender->sendMessage($payload, $keys[0]);
         }
 
-        return new JsonResponse([count($payloads) . ' Payload(s) wurde(n) zur Queue hinzugefügt']);
+        return new JsonResponse([count($payloads) . ' payload(s) successfully added to the queue']);
     }
 }
