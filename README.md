@@ -218,6 +218,7 @@ Die Simple-API macht das Handling deutlich einfacher, indem es folgende Annahmen
 - Bei Bilder, die nicht im Payload vorhanden sind, werden falls bereits einem Produkt zugeordnet, die Bild-Zuordnungen zum Produkt entfernt.
 - Es werden keine Bilder physisch entfernt!
 - Die Cover-ID kann optional als Argument hinzugefügt werden. Es kann dabei immer nur ein Produkt eine Cover-ID besitzen.
+- Der Dateiname für das Bild wird automatisch aus der URL übernommen, kann aber auch explizit als Argument übergeben werden. 
 
 ```
     "images": [
@@ -227,7 +228,8 @@ Die Simple-API macht das Handling deutlich einfacher, indem es folgende Annahmen
         },
            {
             "url": "https://via.placeholder.com/57x57.png",
-                      "isCover": true
+            "isCover": true,
+            "file_name": "placeholder_57x57.png"
         }
     ]
 ```
@@ -352,6 +354,15 @@ Wege unten beschrieben.
 Wichtig ist zunächst nicht nur im Hauptverzeichnis die Abhängigkeiten zu installieren, sondern auch im Plugin-Verzeichnis 
 `custom/plugins/sw6` ein `composer install` auszuführen.
 
+Folgende Befehle in der Reihenfolge ausführen, damit die Tests laufen:
+
+```
+bin/console plugin:refresh
+bin/console plugin:install MothershipSimpleApi -a
+bin/console cache:clear 
+
+./custom/plugins/sw6/vendor/phpunit/phpunit/phpunit -c ./custom/plugins/sw6/phpunit.xml
+```
 
 ### Ausführung innerhalb PHPStorm
 
@@ -371,11 +382,6 @@ Falls es nach diesen Schritten noch nicht funktionieren sollte, prüfe zusätzli
 9. In den Einstellungen für den Command Line Interpreter, wähle "connect to existing Container" anstelle von "always start a new Container"
 10. Falls es immer noch nicht funktionieren sollte, lösche die Testsuite und führe Schritt 5 anstelle von Schritt 3 aus und gehe die Schritte erneut durch
 
-### Manuelle Ausführung
-
-```
-docker exec shop bash -c './custom/plugins/sw6/vendor/phpunit/phpunit/phpunit -c ./custom/plugins/sw6/phpunit.xml'
-```
 
 ### Troubleshooting
 Falls die Klassen der SimpleApi nicht gefunden werden, kann die Ursache sein, dass das SimpleApi-Plugin in der Shopware-Test-Instanz nicht installiert ist.
@@ -391,3 +397,4 @@ bin/console plugin:refresh
 bin/console plugin:install MothershipSimpleApi -a
 bin/console cache:clear 
 ```
+

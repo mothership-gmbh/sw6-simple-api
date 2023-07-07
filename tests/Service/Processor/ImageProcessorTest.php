@@ -5,6 +5,8 @@ namespace MothershipSimpleApiTests\Service\Processor;
 use MothershipSimpleApi\Service\Exception\InvalidCurrencyCodeException;
 use MothershipSimpleApi\Service\Exception\InvalidSalesChannelNameException;
 use MothershipSimpleApi\Service\Exception\InvalidTaxValueException;
+use MothershipSimpleApi\Service\Exception\ProductNotFoundException;
+use MothershipSimpleApi\Service\Exception\PropertyGroupOptionNotFoundException;
 use MothershipSimpleApi\Service\SimpleProductCreator;
 use Shopware\Core\Content\Product\Aggregate\ProductMedia\ProductMediaEntity;
 use Shopware\Core\Content\Product\ProductEntity;
@@ -354,6 +356,43 @@ class ImageProcessorTest extends AbstractProcessorTest
         // Hier hat sich die Reihenfolge der Bilder geändert.
         self::assertEquals(1, $this->getMediaByFileName($createdProduct, '51x51')->getPosition());
         self::assertEquals(3, $this->getMediaByFileName($createdProduct, '52x52')->getPosition());
+    }
+
+    /**
+     * Die Simple-API bietet die Möglichkeit einen Dateinamen für das Bild explizit zu übergeben.
+     *
+     * @test
+     *
+     * @group SimpleApi
+     * @group SimpleApi_Product
+     * @group SimpleApi_Product_Processor
+     * @group SimpleApi_Product_Processor_Image
+     * @group SimpleApi_Product_Processor_Image_8
+     *
+     * @throws InvalidCurrencyCodeException
+     * @throws InvalidSalesChannelNameException
+     * @throws InvalidTaxValueException
+     * @throws ProductNotFoundException
+     * @throws PropertyGroupOptionNotFoundException
+     */
+    public function imageWithCustomFileName(): void
+    {
+        $productDefinition = $this->getMinimalDefinition();
+        $productDefinition['images'] = [
+            [
+                'url'     => 'https://via.placeholder.com/50x50.png',
+                'file_name' => 'test_name.png',
+                'isCover' => true
+            ],
+        ];
+
+        $this->simpleProductCreator->createEntity($productDefinition, $this->getContext());
+        $createdProduct = $this->getProductBySku($productDefinition['sku']);
+
+        $this->assertEquals('test_name', $createdProduct->getMedia()->getAt(self::POS_COVER_IMAGE)->getMedia()->getFileName());
+        $this->assertEquals('png', $createdProduct->getMedia()->getAt(self::POS_COVER_IMAGE)->getMedia()->getFileExtension());
+        // Es gibt auch nur ein Bild
+        $this->assertEquals(1, $createdProduct->getMedia()->count());
     }
 
 

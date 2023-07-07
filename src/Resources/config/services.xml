@@ -136,6 +136,8 @@
             <argument type="service" id="product.repository"/>
             <argument type="service" id="product_configurator_setting.repository"/>
             <argument type="service" id="property_group_option.repository"/>
+            <argument type="service" id="property_group.repository"/>
+            <argument type="service" id="product_option.repository"/>
         </service>
 
         <!-- Validator -->
