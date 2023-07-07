@@ -1,0 +1,606 @@
+{
+	"info": {
+		"_postman_id": "e5cdd98a-d748-4671-8c98-b6f50a085681",
+		"name": "Simple API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "9708911",
+		"_collection_link": "https://mothership.postman.co/workspace/f0059c9f-ba0e-4a3c-afe7-17516025fcb9/collection/9708911-e5cdd98a-d748-4671-8c98-b6f50a085681?action=share&creator=9708911&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "Products",
+			"item": [
+				{
+					"name": "SimpleProduct",
+					"item": [
+						{
+							"name": "General",
+							"item": [
+								{
+									"name": "Simple Payload",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"sku\": \"ms-test-123\",\n    \"name\": {\n        \"de-DE\": \"T-Shirt\",\n        \"en-GB\": \"T-Shirt\"\n    },\n    \"price\": {\n        \"EUR\": {\"regular\" : 20}\n    },\n    \"tax\": 19,\n    \"sales_channel\": {\n        \"Storefront\": \"all\"\n    },\n    \"stock\": 1\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{endpoint}}/api/_action/mothership/product",
+											"host": [
+												"{{endpoint}}"
+											],
+											"path": [
+												"api",
+												"_action",
+												"mothership",
+												"product"
+											]
+										},
+										"description": "A payload must contain at least these keys to be valid."
+									},
+									"response": []
+								},
+								{
+									"name": "De-Activate Product",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"sku\": \"ms-general-active\",\n    \"name\": {\n        \"de-DE\": \"Mothership Name\",\n        \"en-GB\": \"Mothership Name\"\n    },\n    \"description\": {\n        \"de-DE\": \"Mothership Description\",\n        \"en-GB\": \"Mothership Description\"\n    },\n    \"price\": {\n        \"EUR\": {\"regular\": 20.00},\n        \"CHF\": {\"regular\": 25.00}\n    },\n    \"tax\": 19.00,\n    \"sales_channel\": {\n        \"Storefront\": \"all\",\n        \"Headless\": \"all\"\n    },\n    \"stock\": 1,\n    \"active\": false\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{endpoint}}/api/_action/mothership/product",
+											"host": [
+												"{{endpoint}}"
+											],
+											"path": [
+												"api",
+												"_action",
+												"mothership",
+												"product"
+											]
+										},
+										"description": "If the payload does not contain the \"**active**\"-key, the product will be **inactive** by **default**."
+									},
+									"response": []
+								},
+								{
+									"name": "Name & Description",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"sku\": \"ms-translation-name\",\n    \"name\": {\n        \"de-DE\": \"Mothership Name\",\n        \"en-GB\": \"Mothership Name\"\n    },\n    \"description\": {\n        \"de-DE\": \"Mothership Description\",\n        \"en-GB\": \"Mothership Description\"\n    },\n    \"price\": {\n        \"EUR\": {\"regular\": 20.00},\n        \"CHF\": {\"regular\": 25.00}\n    },\n    \"tax\": 19.00,\n    \"sales_channel\": {\n        \"Storefront\": \"all\",\n        \"Headless\": \"all\"\n    },\n    \"stock\": 1\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{endpoint}}/api/_action/mothership/product",
+											"host": [
+												"{{endpoint}}"
+											],
+											"path": [
+												"api",
+												"_action",
+												"mothership",
+												"product"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Properties",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"sku\": \"ms-test-123\",\n    \"name\": {\n        \"de-DE\": \"T-Shirt\",\n        \"en-GB\": \"T-Shirt\"\n    },\n    \"price\": {\n        \"EUR\": {\"regular\" : 20}\n    },\n    \"tax\": 19,\n    \"sales_channel\": {\n        \"Storefront\": \"all\"\n    },\n    \"stock\": 1,\n    \"properties\": {\n        \"color\": [\n            \"grey\"\n        ]\n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{endpoint}}/api/_action/mothership/product",
+											"host": [
+												"{{endpoint}}"
+											],
+											"path": [
+												"api",
+												"_action",
+												"mothership",
+												"product"
+											]
+										},
+										"description": "The Simple API Plugin searches for a **property_group** that contains a **custom_field** named **code** with the given valuie.\n\nIf there is no matching property_group, a new one will be created. The new property_group will be created with the code-custom_field. Its display name will also correspond to the given value.\n\nThe same logic applies to the **property_group_option**(s) given in the array."
+									},
+									"response": []
+								},
+								{
+									"name": "Custom Fields",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"sku\": \"ms-123-custom-field-bool\",\n    \"name\": {\n        \"de-DE\": \"Mothership - Product with custom field of type bool\",\n        \"en-GB\": \"Mothership - Product with custom field of type bool\"\n    },\n    \"description\": {\n        \"de-DE\": \"Boolean Custom Field\",\n        \"en-GB\": \"Boolean Custom Field\"\n    },\n    \"price\": {\n        \"EUR\": {\"regular\": 20.00},\n        \"CHF\": {\"regular\": 25.00}\n    },\n    \"tax\": 19.00,\n    \"sales_channel\": {\n        \"Storefront\": \"all\",\n        \"Headless\": \"all\"\n    },\n    \"custom_fields\": {\n        \"ms_boolean\": {\n            \"type\": \"bool\",\n            \"values\": {\n                \"de-DE\": true\n            }\n        }\n    },\n    \"stock\": 1\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{endpoint}}/api/_action/mothership/product",
+											"host": [
+												"{{endpoint}}"
+											],
+											"path": [
+												"api",
+												"_action",
+												"mothership",
+												"product"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Sale Price",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"sku\": \"ms-test-123\",\n    \"name\": {\n        \"de-DE\": \"T-Shirt\",\n        \"en-GB\": \"T-Shirt\"\n    },\n    \"price\": {\n        \"EUR\": {\n            \"regular\": 20,\n            \"sale\": 19.99\n        }\n    },\n    \"tax\": 19,\n    \"sales_channel\": {\n        \"Storefront\": \"all\"\n    },\n    \"stock\": 1\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{endpoint}}/api/_action/mothership/product",
+											"host": [
+												"{{endpoint}}"
+											],
+											"path": [
+												"api",
+												"_action",
+												"mothership",
+												"product"
+											]
+										},
+										"description": "A payload must contain at least these keys to be valid."
+									},
+									"response": []
+								},
+								{
+									"name": "SEO Attributes",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"sku\": \"ms-translation-keywords\",\n    \"name\": {\n        \"de-DE\": \"Mothership Name\",\n        \"en-GB\": \"Mothership Name\"\n    },\n    \"description\": {\n        \"de-DE\": \"Mothership Description\",\n        \"en-GB\": \"Mothership Description\"\n    },\n    \"meta_title\": {\n        \"de-DE\": \"meta_title\",\n        \"en-GB\": \"meta_title\"\n    },\n    \"meta_description\": {\n        \"de-DE\": \"meta_description\",\n        \"en-GB\": \"meta_description\"\n    },\n    \"keywords\": {\n        \"de-DE\": \"keywords\",\n        \"en-GB\": \"keywords\"\n    },\n    \"price\": {\n        \"EUR\": {\"regular\": 20.00}\n    },\n    \"tax\": 19.00,\n    \"sales_channel\": {\n        \"Storefront\": \"all\",\n        \"Headless\": \"all\"\n    },\n    \"stock\": 1\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{endpoint}}/api/_action/mothership/product",
+											"host": [
+												"{{endpoint}}"
+											],
+											"path": [
+												"api",
+												"_action",
+												"mothership",
+												"product"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Layout",
+							"item": [
+								{
+									"name": "CMS Page ID",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"sku\": \"ms-layout-cms-page-id\",\n    \"name\": {\n        \"de-DE\": \"Mothership Produkt mit CMS Page Id\",\n        \"en-GB\": \"Mothership product with cms page id\"\n    },\n    \"description\": {\n        \"de-DE\": \"Fügt eine CMS-Page-ID dem Produkt hinzu\",\n        \"en-GB\": \"Will add a cms page id to the product\"\n    },\n    \"price\": {\n        \"EUR\": {\"regular\": 20.00},\n        \"CHF\": {\"regular\": 25.00}\n    },\n    \"tax\": 19.00,\n    \"sales_channel\": {\n        \"Storefront\": \"all\",\n        \"Headless\": \"all\"\n    },\n    \"stock\": 1,\n    \"cms_page_id\" : \"7a6d253a67204037966f42b0119704d5\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{endpoint}}/api/_action/mothership/product",
+											"host": [
+												"{{endpoint}}"
+											],
+											"path": [
+												"api",
+												"_action",
+												"mothership",
+												"product"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "CMS Page ID Remove",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"sku\": \"ms-layout-cms-page-id\",\n    \"name\": {\n        \"de-DE\": \"Mothership Produkt mit CMS Page Id\",\n        \"en-GB\": \"Mothership product with cms page id\"\n    },\n    \"description\": {\n        \"de-DE\": \"Fügt eine CMS-Page-ID dem Produkt hinzu\",\n        \"en-GB\": \"Will add a cms page id to the product\"\n    },\n    \"price\": {\n        \"EUR\": {\"regular\": 20.00}\n    },\n    \"tax\": 19.00,\n    \"sales_channel\": {\n        \"Storefront\": \"all\",\n        \"Headless\": \"all\"\n    },\n    \"stock\": 1\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{endpoint}}/api/_action/mothership/product",
+											"host": [
+												"{{endpoint}}"
+											],
+											"path": [
+												"api",
+												"_action",
+												"mothership",
+												"product"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Variants",
+							"item": [
+								{
+									"name": "Product with one variant and one axis",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"sku\": \"ms-variants-example-1\",\n    \"active\": true,\n    \"name\": {\n        \"de-DE\": \"Produkt mit einer Variante und einer Achse\",\n        \"en-GB\": \"product with one variant and one axis\"\n    },\n    \"description\": {\n        \"de-DE\": \"T-shirt\",\n        \"en-GB\": \"T-Shirt\"\n    },\n    \"price\": {\n        \"EUR\": {\"regular\": 20.00},\n        \"CHF\": {\"regular\": 25.00}\n    },\n    \"tax\": 19.00,\n    \"sales_channel\": {\n        \"Storefront\": \"all\",\n        \"Headless\": \"all\"\n    },\n    \"properties\": {\n        \"season\": [\n            \"hf\"\n        ],\n        \"color\": [\n            \"black\"\n        ],\n        \"sex\": [\n            \"trans\"\n        ]\n    },\n    \"custom_fields\": {\n        \"ms_boolean\": {\n            \"type\": \"boolean\",\n            \"values\": {\n                \"de-DE\": true\n            }\n        },\n        \"ms_integer\": {\n            \"type\": \"int\",\n            \"values\": {\n                \"de-DE\": 1\n            }\n        },\n        \"ms_float\": {\n            \"type\": \"float\",\n            \"values\": {\n                \"de-DE\": \"2\"\n            }\n        },\n        \"ms_text\": {\n            \"type\": \"text\",\n            \"values\": {\n                \"de-DE\": \"test\"\n            }\n        },\n        \"ms_textarea\": {\n            \"type\": \"text_area\",\n            \"values\": {\n                \"de-DE\": \"test\"\n            }\n        }\n    },\n    \"stock\": 1,\n    \"images\": [\n        {\n            \"url\": \"https://via.placeholder.com/50x50.png\"\n        },\n        {\n            \"url\": \"https://via.placeholder.com/57x57.png\",\n            \"isCover\": true\n        }\n    ],\n    \"variants\": [\n        {\n            \"sku\": \"ms-variants-example-1.2\",\n            \"active\": false,\n            \"name\": {\n                \"de-DE\": \"T-shirt 1\",\n                \"en-GB\": \"T-shirt 1\"\n            },\n            \"description\": {\n                \"de-DE\": \"T-shirt 1\",\n                \"en-GB\": \"Super-Shirt 1\"\n            },\n            \"price\": {\n                \"EUR\": {\"regular\": 20.00}\n            },\n            \"tax\": 19.00,\n            \"stock\": 20,\n            \"properties\": {\n                \"color\": [\n                    \"red\"\n                ]\n            },\n            \"axis\": {\n                \"color\": [\n                    \"red\"\n                ]\n            }\n        }\n    ]\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{endpoint}}/api/_action/mothership/product",
+											"host": [
+												"{{endpoint}}"
+											],
+											"path": [
+												"api",
+												"_action",
+												"mothership",
+												"product"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Product with several variants and axis",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"sku\": \"ms-variants-example\",\n    \"active\": true,\n    \"name\": {\n        \"de-DE\": \"T-shirt\",\n        \"en-GB\": \"T-shirt\"\n    },\n    \"description\": {\n        \"de-DE\": \"Super-Shirt\",\n        \"en-GB\": \"Super shirt\"\n    },\n    \"price\": {\n        \"EUR\": {\"regular\": 20.00},\n        \"CHF\": {\"regular\": 25.00}\n    },\n    \"tax\": 19.00,\n    \"sales_channel\": {\n        \"Storefront\": \"all\",\n        \"Headless\": \"all\"\n    },\n    \"properties\": {\n        \"season\": [\n            \"h1\"\n        ],\n        \"color\": [\n            \"black\"\n        ]\n    },\n    \"custom_fields\": {\n        \"ms_boolean\": {\n            \"type\": \"boolean\",\n            \"values\": {\n                \"de-DE\": true\n            }\n        },\n        \"ms_integer\": {\n            \"type\": \"int\",\n            \"values\": {\n                \"de-DE\": 1\n            }\n        },\n        \"ms_float\": {\n            \"type\": \"float\",\n            \"values\": {\n                \"de-DE\": \"2\"\n            }\n        },\n        \"ms_text\": {\n            \"type\": \"text\",\n            \"values\": {\n                \"de-DE\": \"test\"\n            }\n        },\n        \"ms_textarea\": {\n            \"type\": \"text_area\",\n            \"values\": {\n                \"de-DE\": \"test\"\n            }\n        }\n    },\n    \"stock\": 1,\n    \"images\": [\n        {\n            \"url\": \"https://via.placeholder.com/50x50.png\"\n        },\n        {\n            \"url\": \"https://via.placeholder.com/57x57.png\",\n            \"isCover\": true\n        }\n    ],\n    \"variants\": [\n        {\n            \"sku\": \"ms-variants.1\",\n            \"name\": {\n                \"de-DE\": \"T-shirt\",\n                \"en-GB\": \"T-shirt\"\n            },\n            \"description\": {\n                \"de-DE\": \"Super-Shirt\",\n                \"en-GB\": \"Super shirt\"\n            },\n            \"price\": {\n                \"EUR\": {\"regular\": 20.00}\n            },\n            \"tax\": 19.00,\n            \"stock\": 20,\n            \"properties\": {\n                \"color\": [\n                    \"red\"\n                ]\n            },\n            \"axis\": {\n                \"color\": [\n                    \"red\"\n                ]\n            }\n        },\n        {\n            \"sku\": \"ms-variants.2\",\n            \"name\": {\n                \"de-DE\": \"T-shirt\",\n                \"en-GB\": \"T-shirt\"\n            },\n            \"description\": {\n                \"de-DE\": \"T-shirt\",\n                \"en-GB\": \"Super-Shirt\"\n            },\n            \"price\": {\n                \"EUR\": {\"regular\": 20.00}\n            },\n            \"tax\": 19.00,\n            \"stock\": 20,\n            \"properties\": {\n                \"color\": [\n                    \"green\"\n                ],\n                \"size\": [\n                    \"l\"\n                ]\n            },\n            \"axis\": {\n                \"color\": [\n                    \"green\"\n                ],\n                \"size\": [\n                    \"l\"\n                ]\n            }\n        },\n        {\n            \"sku\": \"ms-variants.3\",\n            \"name\": {\n                \"de-DE\": \"T-shirt\",\n                \"en-GB\": \"T-shirt\"\n            },\n            \"description\": {\n                \"de-DE\": \"Super-Shirt\",\n                \"en-GB\": \"Super shirt\"\n            },\n            \"price\": {\n                \"EUR\": {\"regular\": 20.00}\n            },\n            \"tax\": 19.00,\n            \"stock\": 20,\n            \"properties\": {\n                \"color\": [\n                    \"blue\"\n                ]\n            },\n            \"axis\": {\n                \"color\": [\n                    \"blue\"\n                ]\n            }\n        }\n    ]\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{endpoint}}/api/_action/mothership/product",
+											"host": [
+												"{{endpoint}}"
+											],
+											"path": [
+												"api",
+												"_action",
+												"mothership",
+												"product"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Categories",
+							"item": [
+								{
+									"name": "Product with one category",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"sku\": \"test-123\",\n    \"name\": {\n        \"de-DE\": \"T-Shirt\",\n        \"en-GB\": \"T-Shirt\"\n    },\n    \"price\": {\n        \"EUR\": {\n            \"regular\": 20.00\n        }\n    },\n    \"tax\": 19.00,\n    \"sales_channel\": {\n        \"Storefront\": \"all\"\n    },\n    \"stock\": 1,\n    \"categories\": [\n        \"clothing\",\n        \"clothing_women\",\n        \"clothing_men\"\n    ]\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{endpoint}}/api/_action/mothership/product",
+											"host": [
+												"{{endpoint}}"
+											],
+											"path": [
+												"api",
+												"_action",
+												"mothership",
+												"product"
+											]
+										},
+										"description": "Requires, that the categories contain a **custom_field** named **code**.\n\nThe Simple API Plugin searches for the categories, that contain the given strings as value in their code-custom_field."
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Sync",
+							"item": [
+								{
+									"name": "Simple Payload",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "[\n    {\n        \"sku\": \"ms-test-123\",\n        \"name\": {\n            \"de-DE\": \"T-Shirt\",\n            \"en-GB\": \"T-Shirt\"\n        },\n        \"price\": {\n            \"EUR\": {\n                \"regular\": 20\n            }\n        },\n        \"tax\": 19,\n        \"sales_channel\": {\n            \"Storefront\": \"all\"\n        },\n        \"stock\": 1\n    }\n]",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{endpoint}}/api/_action/mothership/product-sync",
+											"host": [
+												"{{endpoint}}"
+											],
+											"path": [
+												"api",
+												"_action",
+												"mothership",
+												"product-sync"
+											]
+										},
+										"description": "Adds the transferred payloads to the **enqueue** table so that they can be processed asynchronously.\n\n[https://developer.shopware.com/docs/guides/hosting/infrastructure/message-queue](https://developer.shopware.com/docs/guides/hosting/infrastructure/message-queue)"
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "0. Authentification",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"API-Daten checken\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    postman.setEnvironmentVariable(\"token\", jsonData.access_token);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"client_id\": \"{{shopware_key}}\",\n    \"client_secret\": \"{{shopware_secret}}\",\n    \"grant_type\": \"client_credentials\",\n    \"scopes\": \"write\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{endpoint}}/api/oauth/token",
+							"host": [
+								"{{endpoint}}"
+							],
+							"path": [
+								"api",
+								"oauth",
+								"token"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
