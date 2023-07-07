@@ -51,6 +51,8 @@ Dann wird die Bestellung direkt transformiert zurückgegeben.
 
 ## Product
 
+Beispiel-Payloads sind auch in der [Postman Collection](examples/Simple_API.postman_collection.json) zu finden.
+
 Inspiriert durch https://shopify.dev/api/admin-rest/2022-10/resources/product
 
 Features:
@@ -77,7 +79,7 @@ Features:
 Um ein Produkt anzulegen, muss ein POST-Request an folgenden Endpoint gesendet werden.
 
 ```
-{{endpoint}}/api/mothership/product
+{{endpoint}}/api/_action/mothership/product
 ```
 
 Die Pflichtfelder sind wie folgt:
@@ -95,8 +97,8 @@ Die Pflichtfelder sind wie folgt:
     },
     "tax": 19.00,
     "sales_channel": {
-        "Aignermunich": "all",
-        "Aigner-Club": "all"
+        "Storefront": "all",
+        "Headless": "all"
     },
     "stock": 1
 }
@@ -223,8 +225,7 @@ Die Simple-API macht das Handling deutlich einfacher, indem es folgende Annahmen
 ```
     "images": [
         {
-            "url": "https://aignerimage.de/etienne-aigner-ag-res.cloudinary.com/image/fetch/w_1920,h_822,f_auto,q_auto:eco,d_ph.gif/https://backend.aignermunich.de/media/g0/66/59/1676453576/Website_Startseite_Header_Mobil_02-23_1920x822_DE.jpg"
-  
+            "url": "https://via.placeholder.com/50x50.png"
         },
            {
             "url": "https://via.placeholder.com/57x57.png",
@@ -280,7 +281,7 @@ Im Folgenden ein Ausschnitt von einem Payload eines konfigurierbaren Produkts.
 "stock": 1,
 "images": [
     {
-        "url": "https://aignerimage.de/etienne-aigner-ag-res.cloudinary.com/image/fetch/w_1920,h_822,f_auto,q_auto:eco,d_ph.gif/https://backend.aignermunich.de/media/g0/66/59/1676453576/Website_Startseite_Header_Mobil_02-23_1920x822_DE.jpg"
+        "url": "https://via.placeholder.com/50x50.png"
     },
     {
         "url": "https://via.placeholder.com/57x57.png",
@@ -344,7 +345,33 @@ Produkt ist also ein vollständiger Payload notwendig.
 
 
 ### Asynchrone Abarbeitung
-
+Über folgenden Endpoint können Payloads zur Warteschlange hinzugefügt werden:
+```
+{{endpoint}}/api/_action/mothership/product-sync
+```
+Die Payloads müssen dabei in einem Array übergeben werden:
+```
+[
+   {
+       "sku": "ms-general-product-number",
+       "name": {
+           "de-DE": "Mothership Name",
+           "en-GB": "Mothership Name"
+       },
+       "price": {
+           "EUR": {"regular": 20.00},
+           "CHF": {"regular": 25.00}
+       },
+       "tax": 19.00,
+       "sales_channel": {
+           "Storefront": "all",
+           "Headless": "all"
+       },
+       "stock": 1
+   },
+   ...
+]
+```
 
 
 ## Tests
@@ -391,7 +418,8 @@ Lösung: In der tests/bootstrap.php den Methodenaufruf `->setForceInstallPlugins
 Dadurch wird das Plugin auch in der Test-Instanz installiert.
 Nachdem das Plugin nun in der Test-Instanz installiert und die Tests erfolgreich aufgerufen werden konnten, sollte man
 den Methodenaufruf wieder aus der tests/bootstrap.php entfernen damit die Test-Performance besser ist.
-Das MothershipSimpleApi-Plugin muss danach wahrscheinlich noch installiert und aktiviert werden.
+
+Das MothershipSimpleApi-Plugin muss gegebenenfalls noch installiert und aktiviert werden.
 ```
 bin/console plugin:refresh
 bin/console plugin:install MothershipSimpleApi -a
